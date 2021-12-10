@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO.Ports;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
@@ -31,6 +32,8 @@ namespace SkyTerm
 
         async void button1_Click(object sender, RoutedEventArgs e)
         {
+            string[] ports = SerialPort.GetPortNames();
+
             vw = new WebView2()
             {
                 Height = 200, Width = 200
