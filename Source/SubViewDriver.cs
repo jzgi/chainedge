@@ -1,6 +1,6 @@
 ﻿namespace SkyTerm
 {
-    public class ShowPaneDriver : Driver, IDisplay
+    public class SubViewDriver : Driver, ISubView
     {
         public override void Test()
         {

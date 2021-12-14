@@ -7,7 +7,7 @@ namespace SkyTerm
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class BillPrinterDriver : Driver, IReceipt
+    public class BillPrinterDriver : Driver, INotePrt
     {
         public override void Test()
         {
@@ -37,6 +37,16 @@ namespace SkyTerm
             serialport = new SerialPort("", 9600);
 
             serialport.DataReceived += mySerialPort_DataRecieved;
+        }
+
+        public void printBuyReceipt()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void printShipList()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void mySerialPort_DataRecieved(object sender, SerialDataReceivedEventArgs e)
