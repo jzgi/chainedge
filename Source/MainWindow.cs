@@ -12,6 +12,8 @@ namespace SkyTerm
     public class MainWindow : Window
     {
         WebView2 vw;
+        
+        
 
         private Grid grid;
 

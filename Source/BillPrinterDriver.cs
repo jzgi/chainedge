@@ -7,8 +7,13 @@ namespace SkyTerm
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class Serial
+    public class BillPrinterDriver : Driver, IReceipt
     {
+        public override void Test()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string Func(string param)
         {
             return "Example: " + param;
@@ -29,12 +34,12 @@ namespace SkyTerm
 
         void init()
         {
-            serialport = new SerialPort("",9600);
+            serialport = new SerialPort("", 9600);
 
             serialport.DataReceived += mySerialPort_DataRecieved;
         }
-        
-        public  void mySerialPort_DataRecieved(object sender, SerialDataReceivedEventArgs e)
+
+        public void mySerialPort_DataRecieved(object sender, SerialDataReceivedEventArgs e)
         {
             //whatever logic and read procedure we want
         }

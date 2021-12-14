@@ -13,7 +13,7 @@ namespace SkyTerm
         public string description;
     }
 
-    public class DeviceInfo
+    public class DriverInfo
     {
         private const string vidPattern = @"VID_([0-9A-F]{4})";
         private const string pidPattern = @"PID_([0-9A-F]{4})";
