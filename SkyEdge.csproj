@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <PackageReference Include="DirectShowLib.Standard" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
       <PackageReference Include="Microsoft.ML" Version="1.7.0" />
       <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1083-prerelease" />
       <PackageReference Include="System.IO.Ports" Version="6.0.0" />

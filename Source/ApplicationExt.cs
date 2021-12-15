@@ -7,11 +7,28 @@ namespace SkyEdge
     /// <summary>
     /// The application implementation.
     /// </summary>
-    public class FrameworkApp : Application
+    public class ApplicationExt : Application
     {
         static readonly Dictionary<Type, Driver> map = new Dictionary<Type, Driver>();
 
         static readonly Dictionary<string, DriverCollection> features = new Dictionary<string, DriverCollection>();
+
+        static readonly ApplicationLogger logger;
+
+        // logging level
+        static int logging;
+
+
+        static ApplicationExt()
+        {
+            // file-based logger
+            logging = 3;
+            var logfile = DateTime.Now.ToString("yyyyMM") + ".log";
+            logger = new ApplicationLogger(logfile)
+            {
+                Level = logging
+            };
+        }
 
         public static void MakeDriver<I, D>(string name) where I : IFeature where D : Driver, I, new()
         {
@@ -43,10 +60,10 @@ namespace SkyEdge
             var mainwin = new MainWindow()
             {
                 Title = "SkyEdge",
-                WindowStyle = WindowStyle.None,
+                WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowState = WindowState.Maximized
             };
-            var app = new FrameworkApp()
+            var app = new ApplicationExt()
             {
                 MainWindow = mainwin,
                 ShutdownMode = ShutdownMode.OnMainWindowClose,

@@ -39,7 +39,8 @@ namespace SkyEdge
 
             webvw = new WebView2()
             {
-                Height = 200, Width = 200
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
             };
 
             grid.Children.Add(webvw);
@@ -52,6 +53,13 @@ namespace SkyEdge
                 await webvw.EnsureCoreWebView2Async(env);
             }
             webvw.CoreWebView2.Navigate("https://www.baidu.com");
+
+            // suppress new window being opened
+            webvw.CoreWebView2.NewWindowRequested += (obj, args) =>
+            {
+                args.NewWindow = (CoreWebView2) obj;
+                args.Handled = true;
+            };
 
 
             // vw.CoreWebView2.AddHostObjectToScript();
