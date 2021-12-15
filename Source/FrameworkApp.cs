@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     /// <summary>
     /// The application implementation.
@@ -42,7 +42,7 @@ namespace SkyTerm
         {
             var mainwin = new MainWindow()
             {
-                Title = "SkyTerm",
+                Title = "SkyEdge",
                 WindowStyle = WindowStyle.None,
                 WindowState = WindowState.Maximized
             };

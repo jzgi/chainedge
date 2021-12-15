@@ -1,4 +1,4 @@
-﻿namespace SkyTerm
+﻿namespace SkyEdge
 {
     public class SubWindowDisplayDriver : Driver, IDisplay
     {

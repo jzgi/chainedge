@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     /// <summary>
     /// The secondary window of the main window.

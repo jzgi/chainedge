@@ -1,4 +1,4 @@
-﻿namespace SkyTerm
+﻿namespace SkyEdge
 {
     /// <summary>
     /// A functional module.

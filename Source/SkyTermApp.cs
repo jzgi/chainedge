@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     /// <summary>
     /// the entry point for the application.

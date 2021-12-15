@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     public class DriverCollection : List<Driver>
     {

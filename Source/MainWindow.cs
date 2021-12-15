@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     /// <summary>
     /// The main window for the application.

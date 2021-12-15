@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     public class LabelPrinterDriver : Driver, ILabelPrint
     {

@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SkyTerm
+namespace SkyEdge
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
