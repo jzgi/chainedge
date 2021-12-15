@@ -1,7 +1,9 @@
 ﻿namespace SkyTerm
 {
-    public class SubViewDriver : Driver, ISubView
+    public class SubWindowDisplayDriver : Driver, IDisplay
     {
+        SubWindow subwin;
+
         public override void Test()
         {
         }

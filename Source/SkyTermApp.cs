@@ -3,7 +3,7 @@
 namespace SkyTerm
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// the entry point for the application.
     /// </summary>
     public class SkyTermApp : FrameworkApp
     {
@@ -16,7 +16,11 @@ namespace SkyTerm
 
             MakeDriver<ILabelPrt, LabelPrinterDriver>("labelprt");
 
-            MakeDriver<ISubView, SubViewDriver>("subview");
+            MakeDriver<IRecognit, CameraRecognitDriver>("recognit");
+
+            MakeDriver<IDisplay, SubWindowDisplayDriver>("display");
+
+            MakeDriver<ICatalog, MemoryCatalogDriver>("catalog");
 
             Start();
         }

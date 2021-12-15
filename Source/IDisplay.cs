@@ -3,7 +3,7 @@
     /// <summary>
     /// A secondary display to the host terminal.
     /// </summary>
-    public interface ISubView : IFeature
+    public interface IDisplay : IFeature
     {
         void open(string uri);
     }
