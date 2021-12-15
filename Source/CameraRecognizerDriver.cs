@@ -2,7 +2,7 @@
 
 namespace SkyTerm
 {
-    public class CameraRecognitDriver : Driver, IRecognit
+    public class CameraRecognizerDriver : Driver, IRecognition
     {
         public override void Test()
         {

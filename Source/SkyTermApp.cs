@@ -12,15 +12,17 @@ namespace SkyTerm
         {
             MakeDriver<IScale, AcpiScaleDriver>("scale");
 
-            MakeDriver<INotePrt, BillPrinterDriver, DocPrinterDriver>("noteprt");
+            MakeDriver<INotePrint, BillPrinterDriver, DocPrinterDriver>("noteprt");
 
-            MakeDriver<ILabelPrt, LabelPrinterDriver>("labelprt");
+            MakeDriver<ILabelPrint, LabelPrinterDriver>("labelprt");
 
-            MakeDriver<IRecognit, CameraRecognitDriver>("recognit");
+            MakeDriver<IRecognition, CameraRecognizerDriver>("recog");
 
             MakeDriver<IDisplay, SubWindowDisplayDriver>("display");
 
             MakeDriver<ICatalog, MemoryCatalogDriver>("catalog");
+
+            MakeDriver<IHistory, FileHistoryDriver>("history");
 
             Start();
         }

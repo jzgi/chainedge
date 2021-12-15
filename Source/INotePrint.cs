@@ -1,6 +1,6 @@
 ﻿namespace SkyTerm
 {
-    public interface INotePrt : IFeature
+    public interface INotePrint : IFeature
     {
         void printBuyReceipt();
 

@@ -1,6 +1,6 @@
 ﻿namespace SkyTerm
 {
-    public interface ILabelPrt : IFeature
+    public interface ILabelPrint : IFeature
     {
         void printBizlabel();
     }

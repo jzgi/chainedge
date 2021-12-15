@@ -2,7 +2,7 @@
 
 namespace SkyTerm
 {
-    public class DocPrinterDriver : Driver, ILabelPrt, INotePrt
+    public class DocPrinterDriver : Driver, ILabelPrint, INotePrint
     {
         public override void Test()
         {

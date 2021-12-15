@@ -7,7 +7,7 @@ namespace SkyTerm
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class BillPrinterDriver : Driver, INotePrt
+    public class BillPrinterDriver : Driver, INotePrint
     {
         public override void Test()
         {

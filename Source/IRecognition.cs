@@ -1,6 +1,6 @@
 ﻿namespace SkyTerm
 {
-    public interface IRecognit : IFeature
+    public interface IRecognition : IFeature
     {
         // private MediaCapture d;
 
