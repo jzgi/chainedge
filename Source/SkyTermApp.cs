@@ -1,9 +1,10 @@
 ﻿using System;
+using SkyEdge.Driver;
 
 namespace SkyEdge
 {
     /// <summary>
-    /// the entry point for the application.
+    /// The entry point for the application.
     /// </summary>
     public class SkyTermApp : ApplicationExt
     {
@@ -22,7 +23,7 @@ namespace SkyEdge
 
             MakeDriver<ICatalog, MemoryCatalogDriver>("catalog");
 
-            MakeDriver<IHistory, FileHistoryDriver>("history");
+            MakeDriver<IJournal, FileJournalDriver>("journal");
 
             Start();
         }

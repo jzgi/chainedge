@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SkyEdge
+namespace SkyEdge.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class FileHistoryDriver : Driver, IHistory
+    public class MemoryCatalogDriver : _Driver, ICatalog
     {
         public override void Test()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public int Count { get; }
@@ -21,12 +20,12 @@ namespace SkyEdge
         }
 
         [IndexerName("Items")]
-        public Opn this[int idx]
+        public Item this[int idx]
         {
             get => dict[idx];
             set => dict[idx] = value;
         }
 
-        private Dictionary<int, Opn> dict = new Dictionary<int, Opn>();
+        private Dictionary<int, Item> dict = new Dictionary<int, Item>();
     }
 }

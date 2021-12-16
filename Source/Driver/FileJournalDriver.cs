@@ -1,31 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SkyEdge
+namespace SkyEdge.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class MemoryCatalogDriver : Driver, ICatalog
+    public class FileJournalDriver : _Driver, IJournal
     {
         public override void Test()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public int Count { get; }
 
         public void add(int id, string name, decimal price)
         {
+            lst.Add(new Buy {id = id, name = name, price = price});
         }
 
         [IndexerName("Items")]
-        public Item this[int idx]
+        public Buy this[int idx]
         {
-            get => dict[idx];
-            set => dict[idx] = value;
+            get => lst[idx];
+            set => lst[idx] = value;
         }
 
-        private Dictionary<int, Item> dict = new Dictionary<int, Item>();
+        private List<Buy> lst = new List<Buy>();
     }
 }

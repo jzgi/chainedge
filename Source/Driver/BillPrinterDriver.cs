@@ -1,17 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SkyEdge
+namespace SkyEdge.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class BillPrinterDriver : Driver, INotePrint
+    public class BillPrinterDriver : _Driver, INotePrint
     {
+        private SerialPort port = new SerialPort();
+        
+        
+        
         public override void Test()
         {
-            throw new System.NotImplementedException();
+            var names = SerialPort.GetPortNames();
+            foreach (var name in names)
+            {
+                port.PortName = name;
+                try
+                {
+                    port.Open();
+                    
+                    port.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
 
         public string Func(string param)

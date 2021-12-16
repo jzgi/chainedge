@@ -1,6 +1,6 @@
-﻿namespace SkyEdge
+﻿namespace SkyEdge.Driver
 {
-    public class SubWindowDisplayDriver : Driver, IDisplay
+    public class SubWindowDisplayDriver : _Driver, IDisplay
     {
         SubWindow subwin;
 

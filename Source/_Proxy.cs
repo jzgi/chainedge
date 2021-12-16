@@ -2,10 +2,12 @@
 
 namespace SkyEdge
 {
-    public class DriverCollection : List<Driver>
+    public class _Proxy : List<_Driver>
     {
         private int active;
 
         public int Active => active;
+
+        public _Driver GetActive() => this[active];
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SkyEdge
+namespace SkyEdge.Driver
 {
-    public class DocPrinterDriver : Driver, ILabelPrint, INotePrint
+    public class DocPrinterDriver : _Driver, ILabelPrint, INotePrint
     {
         public override void Test()
         {

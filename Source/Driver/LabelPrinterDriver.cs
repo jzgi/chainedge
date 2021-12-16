@@ -1,30 +1,25 @@
 ﻿using System;
 
-namespace SkyEdge
+namespace SkyEdge.Driver
 {
-    public class CameraRecognizerDriver : Driver, IRecognition
+    public class LabelPrinterDriver : _Driver, ILabelPrint
     {
         public override void Test()
         {
             throw new NotImplementedException();
         }
 
-        public double Loss(float output, float label)
+        public void printBizlabel()
         {
             throw new NotImplementedException();
         }
 
-        public float Derivative(float output, float label)
+        public void printBuyReceipt()
         {
             throw new NotImplementedException();
         }
 
-        public int getItemIdByScan()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int getNumberByScan()
+        public void printShipList()
         {
             throw new NotImplementedException();
         }

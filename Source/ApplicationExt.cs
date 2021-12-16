@@ -9,9 +9,9 @@ namespace SkyEdge
     /// </summary>
     public class ApplicationExt : Application
     {
-        static readonly Dictionary<Type, Driver> map = new Dictionary<Type, Driver>();
+        static readonly Dictionary<Type, _Driver> map = new Dictionary<Type, _Driver>();
 
-        static readonly Dictionary<string, DriverCollection> features = new Dictionary<string, DriverCollection>();
+        internal static readonly Dictionary<string, _Proxy> features = new Dictionary<string, _Proxy>();
 
         static readonly ApplicationLogger logger;
 
@@ -30,7 +30,7 @@ namespace SkyEdge
             };
         }
 
-        public static void MakeDriver<I, D>(string name) where I : IFeature where D : Driver, I, new()
+        public static void MakeDriver<I, D>(string name) where I : IFeature where D : _Driver, I, new()
         {
             var typ = typeof(D);
             if (!map.TryGetValue(typ, out var drv))
@@ -40,7 +40,7 @@ namespace SkyEdge
             }
             if (!features.TryGetValue(name, out var lst))
             {
-                lst = new DriverCollection {drv};
+                lst = new _Proxy {drv};
                 features.Add(name, lst);
             }
             else
@@ -49,7 +49,7 @@ namespace SkyEdge
             }
         }
 
-        public static void MakeDriver<I, D1, D2>(string name) where I : IFeature where D1 : Driver, I, new() where D2 : Driver, I, new()
+        public static void MakeDriver<I, D1, D2>(string name) where I : IFeature where D1 : _Driver, I, new() where D2 : _Driver, I, new()
         {
             MakeDriver<I, D1>(name);
             MakeDriver<I, D2>(name);
