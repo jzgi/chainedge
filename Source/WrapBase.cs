@@ -1,8 +1,10 @@
 ﻿namespace SkyEdge
 {
-    public class WrapBase
+    public abstract class WrapBase
     {
         public bool IsAvailable => true;
+
+        public abstract object GetActiveObject();
     }
 
     public class WrapBase<T> : WrapBase where T : IFeature
@@ -30,6 +32,8 @@
         }
 
         public int Active => active;
+
+        public override object GetActiveObject() => elements[active];
 
         public T GetActive() => elements[active];
     }

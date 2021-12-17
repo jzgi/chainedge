@@ -4,7 +4,8 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <UseWPF>true</UseWPF>
-        <RootNamespace>SkyTerm</RootNamespace>
+        <PackageVersion>1.0</PackageVersion>
+        <AssemblyVersion>1.0</AssemblyVersion>
     </PropertyGroup>
 
     <ItemGroup>

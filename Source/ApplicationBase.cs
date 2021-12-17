@@ -7,7 +7,7 @@ namespace SkyEdge
     /// <summary>
     /// The application implementation.
     /// </summary>
-    public class ApplicationExt : Application
+    public class ApplicationBase : Application
     {
         static readonly Dictionary<Type, DriverBase> map = new Dictionary<Type, DriverBase>();
 
@@ -19,7 +19,7 @@ namespace SkyEdge
         static int logging;
 
 
-        static ApplicationExt()
+        static ApplicationBase()
         {
             // file-based logger
             logging = 3;
@@ -75,18 +75,18 @@ namespace SkyEdge
 
         protected static void Start()
         {
-            var mainwin = new MainWindow()
+            var win = new MainWindow()
             {
                 Title = "SkyEdge",
                 WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowState = WindowState.Maximized
             };
-            var app = new ApplicationExt()
+            var app = new ApplicationBase()
             {
-                MainWindow = mainwin,
+                MainWindow = win,
                 ShutdownMode = ShutdownMode.OnMainWindowClose,
             };
-            mainwin.Show();
+            win.Show();
             app.Run();
         }
     }

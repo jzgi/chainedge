@@ -29,7 +29,10 @@ namespace SkyEdge
 
             var btn = new Button
             {
-                Height = 200, Width = 200
+                Height = 200,
+                Width = 200,
+                Content = "开始",
+                FontSize = 24
             };
             btn.Click += button1_Click;
 
@@ -42,7 +45,6 @@ namespace SkyEdge
 
             webvw = new WebView2()
             {
-                
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
             };
@@ -66,9 +68,10 @@ namespace SkyEdge
                 args.Handled = true;
             };
 
-            foreach (var o in ApplicationExt.features)
+            foreach (var o in ApplicationBase.features)
             {
-                // webvw.CoreWebView2.AddHostObjectToScript(o.Key, o.Value.GetActive());
+                var obj = o.Value.GetActiveObject();
+                webvw.CoreWebView2.AddHostObjectToScript(o.Key, obj);
             }
 
             // vw.CoreWebView2.AddHostObjectToScript();

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace SkyEdge.Wrap
 {
+    [ClassInterface(ClassInterfaceType.AutoDual)]
+    [ComVisible(true)]
     public class JournalWrap : WrapBase<IJournal>, IJournal
     {
         public int Count { get; }
