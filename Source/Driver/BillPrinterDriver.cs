@@ -8,7 +8,7 @@ namespace SkyEdge.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class BillPrinterDriver : _Driver, INotePrint
+    public class BillPrinterDriver : DriverBase, INotePrint
     {
         private SerialPort port = new SerialPort();
         

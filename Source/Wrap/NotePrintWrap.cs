@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SkyEdge.Proxy
+namespace SkyEdge.Wrap
 {
-    public class NotePrintProxy : _Proxy, INotePrint
+    public class NotePrintWrap : WrapBase<INotePrint>, INotePrint
     {
         public void printBuyReceipt()
         {

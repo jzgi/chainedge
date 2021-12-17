@@ -2,7 +2,7 @@
 
 namespace SkyEdge.Driver
 {
-    public class LabelPrinterDriver : _Driver, ILabelPrint
+    public class LabelPrinterDriver : DriverBase, ILabelPrint
     {
         public override void Test()
         {

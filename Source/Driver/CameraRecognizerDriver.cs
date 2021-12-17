@@ -2,7 +2,7 @@
 
 namespace SkyEdge.Driver
 {
-    public class CameraRecognizerDriver : _Driver, IRecognition
+    public class CameraRecognizerDriver : DriverBase, IRecognize
     {
         public override void Test()
         {

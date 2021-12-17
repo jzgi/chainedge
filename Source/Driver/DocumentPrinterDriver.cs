@@ -2,7 +2,7 @@
 
 namespace SkyEdge.Driver
 {
-    public class DocPrinterDriver : _Driver, ILabelPrint, INotePrint
+    public class DocumentPrinterDriver : DriverBase, ILabelPrint, INotePrint
     {
         public override void Test()
         {

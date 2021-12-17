@@ -13,7 +13,7 @@ namespace SkyEdge
     {
         WebView2 webvw;
 
-        SubWindow subwin;
+        SideWindow subwin;
 
 
         private Grid grid;
@@ -64,7 +64,7 @@ namespace SkyEdge
 
             foreach (var o in ApplicationExt.features)
             {
-                webvw.CoreWebView2.AddHostObjectToScript(o.Key, o.Value.GetActive());
+                // webvw.CoreWebView2.AddHostObjectToScript(o.Key, o.Value.GetActive());
             }
 
             // vw.CoreWebView2.AddHostObjectToScript();

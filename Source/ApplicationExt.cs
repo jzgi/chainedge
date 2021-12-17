@@ -9,9 +9,9 @@ namespace SkyEdge
     /// </summary>
     public class ApplicationExt : Application
     {
-        static readonly Dictionary<Type, _Driver> map = new Dictionary<Type, _Driver>();
+        static readonly Dictionary<Type, DriverBase> map = new Dictionary<Type, DriverBase>();
 
-        internal static readonly Dictionary<string, _Proxy> features = new Dictionary<string, _Proxy>();
+        internal static readonly Dictionary<string, WrapBase> features = new Dictionary<string, WrapBase>();
 
         static readonly ApplicationLogger logger;
 
@@ -30,7 +30,7 @@ namespace SkyEdge
             };
         }
 
-        public static void MakeDriver<I, D>(string name) where I : IFeature where D : _Driver, I, new()
+        public static void MakeDriver<F, W, D>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D : DriverBase, F, new()
         {
             var typ = typeof(D);
             if (!map.TryGetValue(typ, out var drv))
@@ -38,21 +38,22 @@ namespace SkyEdge
                 drv = new D();
                 map.Add(typ, drv);
             }
-            if (!features.TryGetValue(name, out var lst))
+            if (!features.TryGetValue(name, out var wrap))
             {
-                lst = new _Proxy {drv};
-                features.Add(name, lst);
+                wrap = new W();
+                ((WrapBase<F>) wrap).Add((D) drv);
+                features.Add(name, wrap);
             }
             else
             {
-                lst.Add(drv);
+                ((WrapBase<F>) wrap).Add((D) drv);
             }
         }
 
-        public static void MakeDriver<I, D1, D2>(string name) where I : IFeature where D1 : _Driver, I, new() where D2 : _Driver, I, new()
+        public static void MakeDriver<F, W, D1, D2>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new()
         {
-            MakeDriver<I, D1>(name);
-            MakeDriver<I, D2>(name);
+            MakeDriver<F, W, D1>(name);
+            MakeDriver<F, W, D2>(name);
         }
 
         protected static void Start()

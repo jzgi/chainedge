@@ -1,6 +1,6 @@
 ﻿namespace SkyEdge
 {
-    public abstract class _Driver
+    public abstract class DriverBase
     {
         public abstract void Test();
 

@@ -7,7 +7,7 @@ namespace SkyEdge.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class FileJournalDriver : _Driver, IJournal
+    public class FileJournalDriver : DriverBase, IJournal
     {
         public override void Test()
         {

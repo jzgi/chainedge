@@ -6,7 +6,7 @@ namespace SkyEdge.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class MemoryCatalogDriver : _Driver, ICatalog
+    public class MemoryCatalogDriver : DriverBase, ICatalog
     {
         public override void Test()
         {

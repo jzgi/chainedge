@@ -1,6 +1,6 @@
 ﻿namespace SkyEdge
 {
-    public interface IRecognition : IFeature
+    public interface IRecognize : IFeature
     {
         // private MediaCapture d;
 

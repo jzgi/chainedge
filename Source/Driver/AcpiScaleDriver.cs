@@ -1,6 +1,6 @@
 ﻿namespace SkyEdge.Driver
 {
-    public class AcpiScaleDriver : _ScaleDriver
+    public class AcpiScaleDriver : ScaleDriver
     {
         public override void Test()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using SkyEdge.Driver;
+using SkyEdge.Wrap;
 
 namespace SkyEdge
 {
@@ -11,19 +12,19 @@ namespace SkyEdge
         [STAThread]
         public static void Main()
         {
-            MakeDriver<IScale, AcpiScaleDriver>("scale");
+            MakeDriver<IScale, ScaleWrap, AcpiScaleDriver>("scale");
 
-            MakeDriver<INotePrint, BillPrinterDriver, DocPrinterDriver>("noteprt");
+            MakeDriver<INotePrint, NotePrintWrap, BillPrinterDriver, DocumentPrinterDriver>("noteprt");
 
-            MakeDriver<ILabelPrint, LabelPrinterDriver>("labelprt");
+            MakeDriver<ILabelPrint, LabelPrintWrap, LabelPrinterDriver>("labelprt");
 
-            MakeDriver<IRecognition, CameraRecognizerDriver>("recog");
+            MakeDriver<IRecognize, RecognizeWrap, CameraRecognizerDriver>("recognize");
 
-            MakeDriver<IDisplay, SubWindowDisplayDriver>("display");
+            MakeDriver<IDisplay, DisplayWrap, SideWindowDisplayDriver>("display");
 
-            MakeDriver<ICatalog, MemoryCatalogDriver>("catalog");
+            MakeDriver<ICatalog, CatalogWrap, MemoryCatalogDriver>("catalog");
 
-            MakeDriver<IJournal, FileJournalDriver>("journal");
+            MakeDriver<IJournal, JournalWrap, FileJournalDriver>("journal");
 
             Start();
         }
