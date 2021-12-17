@@ -33,11 +33,13 @@ namespace SkyEdge
         public static void MakeDriver<F, W, D>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D : DriverBase, F, new()
         {
             var typ = typeof(D);
+
             if (!map.TryGetValue(typ, out var drv))
             {
                 drv = new D();
                 map.Add(typ, drv);
             }
+
             if (!features.TryGetValue(name, out var wrap))
             {
                 wrap = new W();
@@ -54,6 +56,21 @@ namespace SkyEdge
         {
             MakeDriver<F, W, D1>(name);
             MakeDriver<F, W, D2>(name);
+        }
+
+        public static void MakeDriver<F, W, D1, D2, D3>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new() where D3 : DriverBase, F, new()
+        {
+            MakeDriver<F, W, D1>(name);
+            MakeDriver<F, W, D2>(name);
+            MakeDriver<F, W, D3>(name);
+        }
+
+        public static void MakeDriver<F, W, D1, D2, D3, D4>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new() where D3 : DriverBase, F, new() where D4 : DriverBase, F, new()
+        {
+            MakeDriver<F, W, D1>(name);
+            MakeDriver<F, W, D2>(name);
+            MakeDriver<F, W, D3>(name);
+            MakeDriver<F, W, D4>(name);
         }
 
         protected static void Start()

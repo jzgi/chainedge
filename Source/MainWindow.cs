@@ -1,6 +1,8 @@
-﻿using System.IO.Ports;
+﻿using System;
+using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
@@ -20,6 +22,7 @@ namespace SkyEdge
 
         public MainWindow()
         {
+            Icon = BitmapFrame.Create(new Uri("./logo.png", UriKind.Relative));
             grid = new Grid();
 
             Content = grid;
@@ -39,6 +42,7 @@ namespace SkyEdge
 
             webvw = new WebView2()
             {
+                
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
             };

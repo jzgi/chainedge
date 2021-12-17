@@ -7,7 +7,7 @@ namespace SkyEdge
     /// <summary>
     /// The entry point for the application.
     /// </summary>
-    public class SkyTermApp : ApplicationExt
+    public class SkyEdgeApp : ApplicationExt
     {
         [STAThread]
         public static void Main()

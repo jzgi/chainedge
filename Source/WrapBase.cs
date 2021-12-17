@@ -2,6 +2,7 @@
 {
     public class WrapBase
     {
+        public bool IsAvailable => true;
     }
 
     public class WrapBase<T> : WrapBase where T : IFeature
