@@ -13,7 +13,7 @@ namespace SkyEdge.Driver
             throw new System.NotImplementedException();
         }
 
-        public int Count { get; }
+        public int GetCount { get; }
 
         public void add(int id, string name, decimal price)
         {

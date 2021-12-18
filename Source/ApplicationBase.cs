@@ -30,7 +30,7 @@ namespace SkyEdge
             };
         }
 
-        public static void MakeDriver<F, W, D>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D : DriverBase, F, new()
+        public static void MakeDriver<F, W, D>(string name) where F : IFeature where W : WrapBase, F, new() where D : DriverBase, F, new()
         {
             var typ = typeof(D);
 
@@ -43,29 +43,29 @@ namespace SkyEdge
             if (!features.TryGetValue(name, out var wrap))
             {
                 wrap = new W();
-                ((WrapBase<F>) wrap).Add((D) drv);
+                wrap.Add((D) drv);
                 features.Add(name, wrap);
             }
             else
             {
-                ((WrapBase<F>) wrap).Add((D) drv);
+                wrap.Add((D) drv);
             }
         }
 
-        public static void MakeDriver<F, W, D1, D2>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new()
+        public static void MakeDriver<F, W, D1, D2>(string name) where F : IFeature where W : WrapBase, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new()
         {
             MakeDriver<F, W, D1>(name);
             MakeDriver<F, W, D2>(name);
         }
 
-        public static void MakeDriver<F, W, D1, D2, D3>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new() where D3 : DriverBase, F, new()
+        public static void MakeDriver<F, W, D1, D2, D3>(string name) where F : IFeature where W : WrapBase, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new() where D3 : DriverBase, F, new()
         {
             MakeDriver<F, W, D1>(name);
             MakeDriver<F, W, D2>(name);
             MakeDriver<F, W, D3>(name);
         }
 
-        public static void MakeDriver<F, W, D1, D2, D3, D4>(string name) where F : IFeature where W : WrapBase<F>, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new() where D3 : DriverBase, F, new() where D4 : DriverBase, F, new()
+        public static void MakeDriver<F, W, D1, D2, D3, D4>(string name) where F : IFeature where W : WrapBase, F, new() where D1 : DriverBase, F, new() where D2 : DriverBase, F, new() where D3 : DriverBase, F, new() where D4 : DriverBase, F, new()
         {
             MakeDriver<F, W, D1>(name);
             MakeDriver<F, W, D2>(name);

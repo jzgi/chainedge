@@ -2,7 +2,7 @@
 {
     public interface ICatalog : IFeature
     {
-        int Count { get; }
+        int GetCount { get; }
         
         Item this[int idx] { get; }
     }

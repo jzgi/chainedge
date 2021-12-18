@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SkyEdge.Wrap
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class CatalogWrap : WrapBase<ICatalog>, ICatalog
+    public class CatalogWrap : WrapBase, ICatalog
     {
-        public int Count { get; set; } = 12;
+        protected override object GetActiveObject()
+        {
+            throw new NotImplementedException();
+        }
 
-        public string Title { get; set; } = "Tested OK";
+        public int GetCount { get; set; } = 12;
 
+        public string DisplayName { get; set; } = "Tested OK";
 
-        public Item this[int idx] => throw new NotImplementedException();
+        [IndexerName("Items")] public Item this[int idx] => throw new NotImplementedException();
     }
 }

@@ -5,8 +5,13 @@ namespace SkyEdge.Wrap
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class JournalWrap : WrapBase<IJournal>, IJournal
+    public class JournalWrap : WrapBase, IJournal
     {
+        protected override object GetActiveObject()
+        {
+            throw new NotImplementedException();
+        }
+
         public int Count { get; }
 
         public Buy this[int idx] => throw new NotImplementedException();

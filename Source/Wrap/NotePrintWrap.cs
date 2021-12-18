@@ -5,8 +5,13 @@ namespace SkyEdge.Wrap
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class NotePrintWrap : WrapBase<INotePrint>, INotePrint
+    public class NotePrintWrap : WrapBase, INotePrint
     {
+        protected override object GetActiveObject()
+        {
+            throw new NotImplementedException();
+        }
+
         public void printBuyReceipt()
         {
             throw new NotImplementedException();

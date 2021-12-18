@@ -58,7 +58,7 @@ namespace SkyEdge
 
                 await webvw.EnsureCoreWebView2Async(env);
             }
-            webvw.CoreWebView2.Navigate("https://www.baidu.com");
+            webvw.CoreWebView2.Navigate("file://D:/skyedge/Test.html");
             webvw.CoreWebView2.OpenDevToolsWindow();
 
             // suppress new window being opened
@@ -68,13 +68,16 @@ namespace SkyEdge
                 args.Handled = true;
             };
 
-            foreach (var o in ApplicationBase.features)
-            {
-                var obj = o.Value.GetActiveObject();
-                webvw.CoreWebView2.AddHostObjectToScript(o.Key, obj);
-            }
+            // webvw.CoreWebView2.AddHostObjectToScript("catalog", new CatalogWrap());
 
-            // vw.CoreWebView2.AddHostObjectToScript();
+            // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
+
+            foreach (var feat in ApplicationBase.features)
+            {
+                var obj = feat.Value;
+
+                webvw.CoreWebView2.AddHostObjectToScript(feat.Key, obj);
+            }
         }
     }
 }
