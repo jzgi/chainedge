@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SkyEdge.Wrap
 {
-    [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
     public class CatalogWrap : WrapBase, ICatalog
     {
@@ -17,6 +15,6 @@ namespace SkyEdge.Wrap
 
         public string DisplayName { get; set; } = "Tested OK";
 
-        [IndexerName("Items")] public Item this[int idx] => throw new NotImplementedException();
+        public Post this[int idx] => new Post();
     }
 }

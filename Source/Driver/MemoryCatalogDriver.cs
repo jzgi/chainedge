@@ -20,12 +20,12 @@ namespace SkyEdge.Driver
         }
 
         [IndexerName("Items")]
-        public Item this[int idx]
+        public Post this[int idx]
         {
             get => dict[idx];
             set => dict[idx] = value;
         }
 
-        private Dictionary<int, Item> dict = new Dictionary<int, Item>();
+        private Dictionary<int, Post> dict = new Dictionary<int, Post>();
     }
 }

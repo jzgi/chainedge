@@ -3,7 +3,8 @@
 namespace SkyEdge
 {
     [ComVisible(true)]
-    public class Item
+    public class Post
     {
+        public string Name { get; set; } = "Michael";
     }
 }

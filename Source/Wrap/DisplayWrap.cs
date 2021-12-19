@@ -2,7 +2,6 @@
 
 namespace SkyEdge.Wrap
 {
-    [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
     public class DisplayWrap : WrapBase, IDisplay
     {

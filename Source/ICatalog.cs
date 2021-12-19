@@ -4,6 +4,6 @@
     {
         int GetCount { get; }
         
-        Item this[int idx] { get; }
+        Post this[int idx] { get; }
     }
 }
