@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SkyEdge.Driver
+namespace SkyGate.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

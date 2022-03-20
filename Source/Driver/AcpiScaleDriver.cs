@@ -1,4 +1,4 @@
-﻿namespace SkyEdge.Driver
+﻿namespace SkyGate.Driver
 {
     public class AcpiScaleDriver : ScaleDriver
     {

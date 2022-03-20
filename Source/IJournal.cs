@@ -1,4 +1,4 @@
-﻿namespace SkyEdge
+﻿namespace SkyGate
 {
     public interface IJournal : IFeature
     {

@@ -1,6 +1,6 @@
 # intro  
 
-SkyEdge (品端) is a versatile edge program and smart device orchestrator based on Microsoft WebView2
+SkyGate (品关) is a versatile Web terminal program (based on Microsoft WebView2) having full access to the connected devices, as well as a smart IoT gateway.
 
 # pros
 SkyEdge can apply on dedicated smart workstations such as a POS ternimal, as well as PC workstations with flexible configurations:

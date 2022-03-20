@@ -1,4 +1,4 @@
-﻿namespace SkyEdge
+﻿namespace SkyGate
 {
     /// <summary>
     /// A secondary display to the host terminal.

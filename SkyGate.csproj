@@ -6,6 +6,7 @@
         <UseWPF>true</UseWPF>
         <PackageVersion>1.0</PackageVersion>
         <AssemblyVersion>1.0</AssemblyVersion>
+        <RootNamespace>SkyEdge</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,6 +19,11 @@
       <PackageReference Include="Microsoft.ML" Version="1.7.0" />
       <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1083-prerelease" />
       <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+      <PackageReference Include="ZigBeeNet" Version="1.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Source\Connect" />
     </ItemGroup>
 
 </Project>

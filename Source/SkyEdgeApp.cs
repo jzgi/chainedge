@@ -1,8 +1,8 @@
 ﻿using System;
-using SkyEdge.Driver;
-using SkyEdge.Wrap;
+using SkyGate.Driver;
+using SkyGate.Wrap;
 
-namespace SkyEdge
+namespace SkyGate
 {
     /// <summary>
     /// The entry point for the application.

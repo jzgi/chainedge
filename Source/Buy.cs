@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SkyEdge
+namespace SkyGate
 {
     [ComVisible(true)]
     public class Buy

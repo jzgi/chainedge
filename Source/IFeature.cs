@@ -1,4 +1,4 @@
-﻿namespace SkyEdge
+﻿namespace SkyGate
 {
     /// <summary>
     /// A functional module.

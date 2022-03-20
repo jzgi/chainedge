@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SkyEdge.Wrap
+namespace SkyGate.Wrap
 {
     [ComVisible(true)]
     public class DisplayWrap : WrapBase, IDisplay

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace SkyEdge.Driver
+namespace SkyGate.Driver
 {
     public class SideWindowDisplayDriver : DriverBase, IDisplay
     {

@@ -2,7 +2,7 @@
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace SkyEdge
+namespace SkyGate
 {
     /// <summary>
     /// The secondary window for info display.

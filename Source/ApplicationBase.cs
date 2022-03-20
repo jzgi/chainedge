@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace SkyEdge
+namespace SkyGate
 {
     /// <summary>
     /// The application implementation.
@@ -77,7 +77,7 @@ namespace SkyEdge
         {
             var win = new MainWindow()
             {
-                Title = "SkyEdge",
+                Title = "SkyGate",
                 WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowState = WindowState.Maximized
             };

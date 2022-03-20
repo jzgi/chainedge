@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SkyEdge
+namespace SkyGate
 {
     public abstract class WrapBase
     {

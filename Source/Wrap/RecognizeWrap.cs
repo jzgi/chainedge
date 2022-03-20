@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SkyEdge.Wrap
+namespace SkyGate.Wrap
 {
     [ComVisible(true)]
     public class RecognizeWrap : WrapBase, IRecognize

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyEdge.Driver
+namespace SkyGate.Driver
 {
     public class CameraRecognizerDriver : DriverBase, IRecognize
     {

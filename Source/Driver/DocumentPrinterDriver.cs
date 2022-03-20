@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyEdge.Driver
+namespace SkyGate.Driver
 {
     public class DocumentPrinterDriver : DriverBase, ILabelPrint, INotePrint
     {
