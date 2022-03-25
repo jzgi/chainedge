@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class MemoryCatalogDriver : DriverBase, ICatalog
+    public class MemoryCatalogDriver : Driver, ICatalog
     {
         public override void Test()
         {

@@ -1,8 +1,9 @@
 ﻿using System;
+using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
-    public class CameraRecognizerDriver : DriverBase, IRecognize
+    public class CameraRecognizerDriver : Driver, IRecog
     {
         public override void Test()
         {
@@ -19,12 +20,12 @@ namespace SkyGate.Driver
             throw new NotImplementedException();
         }
 
-        public int getItemIdByScan()
+        public int GetItemIdByScan()
         {
             throw new NotImplementedException();
         }
 
-        public int getNumberByScan()
+        public int GetNumberByScan()
         {
             throw new NotImplementedException();
         }

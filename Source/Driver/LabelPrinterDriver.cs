@@ -1,8 +1,9 @@
 ﻿using System;
+using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
-    public class LabelPrinterDriver : DriverBase, ILabelPrint
+    public class LabelPrinterDriver : Driver, ILabelPrint
     {
         public override void Test()
         {

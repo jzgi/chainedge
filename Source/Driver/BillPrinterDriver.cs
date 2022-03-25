@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class BillPrinterDriver : DriverBase, INotePrint
+    public class BillPrinterDriver : Driver, INotePrint
     {
         private SerialPort port = new SerialPort();
         
@@ -59,12 +60,12 @@ namespace SkyGate.Driver
             serialport.DataReceived += mySerialPort_DataRecieved;
         }
 
-        public void printBuyReceipt()
+        public void PrintBuyReceipt()
         {
             throw new System.NotImplementedException();
         }
 
-        public void printShipList()
+        public void PrintShipList()
         {
             throw new System.NotImplementedException();
         }

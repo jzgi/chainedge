@@ -1,9 +1,0 @@
-﻿namespace SkyGate
-{
-    /// <summary>
-    /// A functional module.
-    /// </summary>
-    public interface IFeature
-    {
-    }
-}

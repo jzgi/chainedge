@@ -72,7 +72,7 @@ namespace SkyGate
 
             // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 
-            foreach (var feat in ApplicationBase.features)
+            foreach (var feat in SkyGate.Features)
             {
                 var obj = feat.Value;
 

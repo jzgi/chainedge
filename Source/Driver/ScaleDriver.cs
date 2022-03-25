@@ -1,6 +1,8 @@
-﻿namespace SkyGate.Driver
+﻿using SkyGate.Feature;
+
+namespace SkyGate.Driver
 {
-    public abstract class ScaleDriver : DriverBase, IScale
+    public abstract class ScaleDriver : Driver, IScale
     {
     }
 }

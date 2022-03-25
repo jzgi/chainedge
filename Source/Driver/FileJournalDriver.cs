@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class FileJournalDriver : DriverBase, IJournal
+    public class FileJournalDriver : Driver, IJournal
     {
         public override void Test()
         {

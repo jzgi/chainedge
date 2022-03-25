@@ -1,8 +1,9 @@
 ﻿using System;
+using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
-    public class DocumentPrinterDriver : DriverBase, ILabelPrint, INotePrint
+    public class DocumentPrinterDriver : Driver, ILabelPrint, INotePrint
     {
         public override void Test()
         {
@@ -14,12 +15,12 @@ namespace SkyGate.Driver
             throw new NotImplementedException();
         }
 
-        public void printBuyReceipt()
+        public void PrintBuyReceipt()
         {
             throw new NotImplementedException();
         }
 
-        public void printShipList()
+        public void PrintShipList()
         {
             throw new NotImplementedException();
         }
