@@ -1,10 +1,13 @@
 ﻿using System;
+using DirectShowLib;
 using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
-    public class CameraRecognizerDriver : Driver, IRecog
+    public class RecogCameraDriver : Driver, IRecog
     {
+        private IVideoWindow capture;
+
         public override void Test()
         {
             throw new NotImplementedException();

@@ -3,7 +3,7 @@ using SkyGate.Feature;
 
 namespace SkyGate.Driver
 {
-    public class LargeLedDriver : Driver, ILargeLed
+    public class GiantLedDriver : Driver, IGiantLed
     {
         SideWindow sidewin;
 

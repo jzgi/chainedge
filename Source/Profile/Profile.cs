@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace SkyGate.Profile
 {
     /// <summary>
     /// A set of configurations and processing logics for a given purpose or circumstance.
     /// </summary>
+    /// <remarks>A profile exposes properties and methods to scripting environment</remarks>
     public class Profile : IKeyable<string>
     {
         /// 
@@ -12,8 +14,8 @@ namespace SkyGate.Profile
         /// 
         public static Map<string, Profile> All = new Map<string, Profile>()
         {
-            new WeighProfile(),
-            new WorkstProfile()
+            new PcScaleProfile(),
+            new WorkstationProfile()
         };
 
 
@@ -28,8 +30,8 @@ namespace SkyGate.Profile
         readonly Type[] features;
 
 
-        // tested drivers for actually-running devices
-        private Map<string, Driver> drivers;
+        // tested drivers or driver sets for actually-running devices
+        private Map<string, Driver.Driver> drivers;
 
         public Profile(string name, string tip, Type[] features)
         {

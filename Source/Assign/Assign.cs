@@ -1,15 +1,13 @@
-﻿using SkyGate;
-
-namespace SkyGate.Manner
+﻿namespace SkyGate.Assign
 {
     /// <summary>
-    /// 
+    /// To keep record for resource asslignments.
     /// </summary>
-    public class Manner : IKeyable<short>
+    public class Assign : IKeyable<short>
     {
-        static Map<short, Manner> All = new Map<short, Manner>()
+        static Map<short, Assign> All = new Map<short, Assign>()
         {
-            new Manner(), //
+            new Assign(), //
             // serial port
             // zigbee
             // screen

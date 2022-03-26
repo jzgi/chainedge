@@ -20,9 +20,9 @@ namespace SkyGate
 
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class Bridge : WrapBase, IFeature
+    public class Bridge 
     {
-        protected override object GetActiveObject()
+        protected  object GetActiveObject()
         {
             throw new NotImplementedException();
         }

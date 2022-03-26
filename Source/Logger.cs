@@ -5,12 +5,15 @@ using Microsoft.Extensions.Logging;
 
 namespace SkyGate
 {
-    public class ApplicationLogger : ILoggerProvider, ILogger, ILoggerFactory
+    /// <summary>
+    /// The application logger based on file.
+    /// </summary>
+    public class Logger : ILoggerProvider, ILogger, ILoggerFactory
     {
         // opened writer on the log file
         readonly StreamWriter logWriter;
 
-        internal ApplicationLogger(string file)
+        internal Logger(string file)
         {
             // init the file-based logger
             var stream = new FileStream(file, FileMode.Append, FileAccess.Write);

@@ -72,12 +72,12 @@ namespace SkyGate
 
             // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 
-            foreach (var feat in SkyGate.Features)
-            {
-                var obj = feat.Value;
-
-                webvw.CoreWebView2.AddHostObjectToScript(feat.Key, obj);
-            }
+            // foreach (var feat in SkyGate.Features)
+            // {
+            //     var obj = feat.Value;
+            //
+            //     webvw.CoreWebView2.AddHostObjectToScript(feat.Key, obj);
+            // }
         }
     }
 }
