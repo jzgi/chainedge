@@ -15,7 +15,7 @@ namespace SkyGate
     {
         WebView2 webvw;
 
-        SideWindow subwin;
+        // SideWindow subwin;
 
 
         private Grid grid;
@@ -58,7 +58,7 @@ namespace SkyGate
 
                 await webvw.EnsureCoreWebView2Async(env);
             }
-            webvw.CoreWebView2.Navigate("file://D:/skyedge/Test.html");
+            webvw.CoreWebView2.Navigate("file://D:/skygate/Test.html");
             webvw.CoreWebView2.OpenDevToolsWindow();
 
             // suppress new window being opened
