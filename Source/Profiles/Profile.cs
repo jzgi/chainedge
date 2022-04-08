@@ -1,7 +1,7 @@
 ﻿using System;
-using SkyGate.Drivers;
+using EdgeQ.Drivers;
 
-namespace SkyGate.Profiles
+namespace EdgeQ.Profiles
 {
     /// <summary>
     /// A set of configurations and processing logics for a given purpose or circumstance.

@@ -6,6 +6,7 @@
         <UseWPF>true</UseWPF>
         <PackageVersion>1.0</PackageVersion>
         <AssemblyVersion>1.0</AssemblyVersion>
+        <Company>Jzg Institute for IT Research</Company>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

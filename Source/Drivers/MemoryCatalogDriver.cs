@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using SkyGate.Features;
+using EdgeQ.Features;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     public class MemoryCatalogDriver : Driver, ICatalog
     {

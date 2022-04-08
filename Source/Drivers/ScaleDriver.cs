@@ -1,6 +1,6 @@
-﻿using SkyGate.Features;
+﻿using EdgeQ.Features;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     public abstract class ScaleDriver : Driver, IScale
     {

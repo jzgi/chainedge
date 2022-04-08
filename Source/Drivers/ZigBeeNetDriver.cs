@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     /// <summary>
     /// The driver for a zigbee network connected through a dongle.

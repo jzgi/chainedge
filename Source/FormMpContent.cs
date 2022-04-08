@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// To generate multipart/form-data binary content, with the part Content-Length extension.

@@ -1,4 +1,4 @@
-﻿namespace SkyGate.Features
+﻿namespace EdgeQ.Features
 {
     /// <summary>
     /// A secondary display to the host terminal.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// Represents a provider or input source of dataset, a data object, or some of its data fields.

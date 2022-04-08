@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// The application logger based on file.

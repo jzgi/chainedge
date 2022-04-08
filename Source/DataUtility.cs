@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace SkyGate
+namespace EdgeQ
 {
     public static class DataUtility
     {

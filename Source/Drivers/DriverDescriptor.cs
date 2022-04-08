@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     public class DriverDescriptor : IKeyable<string>
     {

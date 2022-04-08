@@ -1,4 +1,4 @@
-﻿namespace SkyGate.Drivers
+﻿namespace EdgeQ.Drivers
 {
     public class PcScaleDriver : ScaleDriver
     {

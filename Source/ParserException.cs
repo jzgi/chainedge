@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// To indicate that a content parsing-related exception occured.

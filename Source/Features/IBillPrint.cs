@@ -1,4 +1,4 @@
-﻿namespace SkyGate.Features
+﻿namespace EdgeQ.Features
 {
     public interface IBillPrint : IFeature
     {

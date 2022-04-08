@@ -1,6 +1,6 @@
 using System;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// A JSON object model.

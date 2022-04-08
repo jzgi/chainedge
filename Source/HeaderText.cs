@@ -1,4 +1,4 @@
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// To analyze HTTP header.

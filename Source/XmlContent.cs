@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// To generate a UTF-8 encoded XML document. 

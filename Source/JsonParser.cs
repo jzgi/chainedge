@@ -1,4 +1,4 @@
-namespace SkyGate
+namespace EdgeQ
 {
     ///
     /// Parse JSON into object model from either bytes or string.

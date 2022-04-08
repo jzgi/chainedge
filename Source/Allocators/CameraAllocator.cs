@@ -1,4 +1,4 @@
-﻿namespace SkyGate.Allocators
+﻿namespace EdgeQ.Allocators
 {
     public class CameraAllocator : Allocator
     {

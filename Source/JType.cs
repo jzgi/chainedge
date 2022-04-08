@@ -1,4 +1,4 @@
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// The enumeration of JSON member types.

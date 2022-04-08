@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// To generate a urlencoded byte or char string.

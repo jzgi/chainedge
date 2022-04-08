@@ -1,19 +1,25 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
-using SkyGate.Profiles;
+using EdgeQ.Profiles;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// The encapsulation of the application.
     /// </summary>
     public class SkyGateApplication : Application
     {
+        const string APP_JSON = "app.json";
+
+
         // the global logger
         static readonly FileLogger logger;
 
         // the singleton application instance
         static readonly SkyGateApplication app;
+
+        static JObj cfg;
 
         // the present profile 
         static Profile profile;
@@ -33,7 +39,7 @@ namespace SkyGate
             {
                 MainWindow = new MainWindow()
                 {
-                    Title = "SkyGate",
+                    Title = "EdgeQ",
                     WindowStyle = WindowStyle.SingleBorderWindow,
                     WindowState = WindowState.Maximized
                 },
@@ -42,13 +48,26 @@ namespace SkyGate
         }
 
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
+            if (args.Length > 1)
+            {
+                string name = args[1];
+                profile = Profile.All[name];
+            }
+            else // default
+            {
+                profile = Profile.All.ValueAt(0);
+            }
+
+            // load app config
+            var bytes = File.ReadAllBytes(APP_JSON);
+            var parser = new JsonParser(bytes, bytes.Length);
+            cfg = (JObj) parser.Parse();
+
+
             // win.Show();
             app.Run(app.MainWindow);
-
-            // load cfg
-            JObj jo = null;
         }
     }
 }

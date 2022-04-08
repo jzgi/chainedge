@@ -1,4 +1,4 @@
-﻿namespace SkyGate.Allocators
+﻿namespace EdgeQ.Allocators
 {
     /// <summary>
     /// To keep record for resource asslignments.

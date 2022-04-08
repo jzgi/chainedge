@@ -1,9 +1,9 @@
 ﻿using System.Windows;
+using EdgeQ.Features;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
-using SkyGate.Features;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     /// <summary>
     /// To show relevant info during a shopping process.

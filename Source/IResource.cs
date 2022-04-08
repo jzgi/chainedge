@@ -1,4 +1,4 @@
-﻿namespace SkyGate
+﻿namespace EdgeQ
 {
     /// <summary>
     /// A provider that write its contents. 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// A set of commonly-used array operations.

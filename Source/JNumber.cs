@@ -1,4 +1,4 @@
-namespace SkyGate
+namespace EdgeQ
 {
     ///
     /// Used to build a number during a parsing process.

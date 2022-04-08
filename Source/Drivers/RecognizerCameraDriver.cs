@@ -1,8 +1,8 @@
 ﻿using System;
 using DirectShowLib;
-using SkyGate.Features;
+using EdgeQ.Features;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     public class RecognizerCameraDriver : Driver, IRecognizer
     {

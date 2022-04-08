@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Controls;
 using DirectShowLib;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     /// <summary>
     /// Summary description for MainForm.

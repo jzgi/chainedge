@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyGate.Profiles
+namespace EdgeQ.Profiles
 {
     public class PlantProfile : Profile
     {

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using SkyGate.Features;
+using EdgeQ.Features;
 
-namespace SkyGate.Profiles
+namespace EdgeQ.Profiles
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using SkyGate.Features;
+using EdgeQ.Features;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

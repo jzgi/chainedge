@@ -1,7 +1,7 @@
 ﻿using System;
-using SkyGate.Features;
+using EdgeQ.Features;
 
-namespace SkyGate.Drivers
+namespace EdgeQ.Drivers
 {
     public class LabelPrinterDriver : Driver, ILabelPrint
     {

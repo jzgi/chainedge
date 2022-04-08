@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace SkyGate
+namespace EdgeQ
 {
     /// <summary>
     /// A JSON array.

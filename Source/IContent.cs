@@ -1,4 +1,4 @@
-﻿namespace SkyGate
+﻿namespace EdgeQ
 {
     /// <summary>
     /// Represents a binary web content. 
