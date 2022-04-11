@@ -1,4 +1,4 @@
-﻿namespace EdgeQ.Features
+﻿namespace Edgely.Features
 {
     /// <summary>
     /// A secondary display to the host terminal.

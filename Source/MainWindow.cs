@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// The main window for the application.
@@ -72,7 +72,7 @@ namespace EdgeQ
 
             // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 
-            // foreach (var feat in EdgeQ.Features)
+            // foreach (var feat in Edgely.Features)
             // {
             //     var obj = feat.Value;
             //

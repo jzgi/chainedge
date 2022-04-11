@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// To generate a urlencoded byte or char string.

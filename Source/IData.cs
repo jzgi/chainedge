@@ -1,4 +1,4 @@
-﻿namespace EdgeQ
+﻿namespace Edgely
 {
     /// <summary>
     /// A data object that reads from input source and writes to output sink.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// To generate a UTF-8 encoded XML document. 

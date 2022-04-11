@@ -1,4 +1,4 @@
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// To generate a plain/text string or CSV content. 

@@ -1,4 +1,4 @@
-﻿namespace EdgeQ
+﻿namespace Edgely
 {
     /// <summary>
     /// Represents a binary web content. 

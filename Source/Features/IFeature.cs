@@ -1,4 +1,4 @@
-﻿namespace EdgeQ.Features
+﻿namespace Edgely.Features
 {
     /// <summary>
     /// A functional module.

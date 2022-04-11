@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using EdgeQ.Features;
+using Edgely.Features;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace EdgeQ.Drivers
+namespace Edgely.Drivers
 {
     /// <summary>
     /// To show relevant info during a shopping process.

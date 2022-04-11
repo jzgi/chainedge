@@ -1,6 +1,6 @@
 using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     ///
     /// A JSON member that is either a value, or a property if with name.

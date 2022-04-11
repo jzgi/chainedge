@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace EdgeQ
+namespace Edgely
 {
     [ComVisible(true)]
     public class Post

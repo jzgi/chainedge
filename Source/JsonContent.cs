@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EdgeQ
+namespace Edgely
 {
     ///
     /// To generate a UTF-8 encoded JSON document. An extension of putting byte array is supported.

@@ -1,6 +1,6 @@
-﻿using EdgeQ.Features;
+﻿using Edgely.Features;
 
-namespace EdgeQ.Drivers
+namespace Edgely.Drivers
 {
     public abstract class ScaleDriver : Driver, IScale
     {

@@ -1,4 +1,4 @@
-namespace EdgeQ
+namespace Edgely
 {
     ///
     /// Parse JSON into object model from either bytes or string.

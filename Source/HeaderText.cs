@@ -1,4 +1,4 @@
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// To analyze HTTP header.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// A data model for general unit of information.

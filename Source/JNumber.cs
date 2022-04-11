@@ -1,4 +1,4 @@
-namespace EdgeQ
+namespace Edgely
 {
     ///
     /// Used to build a number during a parsing process.

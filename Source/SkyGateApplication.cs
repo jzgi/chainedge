@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using EdgeQ.Profiles;
+using Edgely.Profiles;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// The encapsulation of the application.
@@ -39,7 +39,7 @@ namespace EdgeQ
             {
                 MainWindow = new MainWindow()
                 {
-                    Title = "EdgeQ",
+                    Title = "Edgely",
                     WindowStyle = WindowStyle.SingleBorderWindow,
                     WindowState = WindowState.Maximized
                 },

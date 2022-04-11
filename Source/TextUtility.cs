@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace EdgeQ
+namespace Edgely
 {
     public static class TextUtility
     {

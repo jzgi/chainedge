@@ -1,4 +1,4 @@
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// An object with an key name so that can be a map element.

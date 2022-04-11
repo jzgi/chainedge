@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// A binary static content of certain mime type.

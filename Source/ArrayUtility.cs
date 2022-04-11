@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// A set of commonly-used array operations.

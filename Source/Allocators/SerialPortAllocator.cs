@@ -1,4 +1,4 @@
-﻿namespace EdgeQ.Allocators
+﻿namespace Edgely.Allocators
 {
     public class SerialPortAllocator : Allocator
     {

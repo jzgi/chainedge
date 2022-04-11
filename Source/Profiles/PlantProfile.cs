@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdgeQ.Profiles
+namespace Edgely.Profiles
 {
     public class PlantProfile : Profile
     {

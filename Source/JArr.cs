@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// A JSON array.

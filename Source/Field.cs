@@ -1,6 +1,6 @@
 using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// A field in a form model.

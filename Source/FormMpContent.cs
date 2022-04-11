@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// To generate multipart/form-data binary content, with the part Content-Length extension.

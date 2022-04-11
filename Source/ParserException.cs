@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// To indicate that a content parsing-related exception occured.

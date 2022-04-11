@@ -1,7 +1,7 @@
 ﻿using System;
-using EdgeQ.Features;
+using Edgely.Features;
 
-namespace EdgeQ.Drivers
+namespace Edgely.Drivers
 {
     public class LabelPrinterDriver : Driver, ILabelPrint
     {

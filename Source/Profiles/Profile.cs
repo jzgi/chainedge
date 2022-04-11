@@ -1,7 +1,7 @@
 ﻿using System;
-using EdgeQ.Drivers;
+using Edgely.Drivers;
 
-namespace EdgeQ.Profiles
+namespace Edgely.Profiles
 {
     /// <summary>
     /// A set of configurations and processing logics for a given purpose or circumstance.

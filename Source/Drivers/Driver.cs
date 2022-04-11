@@ -1,4 +1,4 @@
-﻿namespace EdgeQ.Drivers
+﻿namespace Edgely.Drivers
 {
     public abstract class Driver
     {

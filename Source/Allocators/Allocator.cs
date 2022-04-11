@@ -1,4 +1,4 @@
-﻿namespace EdgeQ.Allocators
+﻿namespace Edgely.Allocators
 {
     /// <summary>
     /// To keep record for resource asslignments.

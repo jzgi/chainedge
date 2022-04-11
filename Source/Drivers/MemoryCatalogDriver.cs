@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using EdgeQ.Features;
+using Edgely.Features;
 
-namespace EdgeQ.Drivers
+namespace Edgely.Drivers
 {
     public class MemoryCatalogDriver : Driver, ICatalog
     {

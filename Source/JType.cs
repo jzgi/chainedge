@@ -1,4 +1,4 @@
-namespace EdgeQ
+namespace Edgely
 {
     /// <summary>
     /// The enumeration of JSON member types.

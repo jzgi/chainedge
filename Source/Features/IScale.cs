@@ -1,4 +1,4 @@
-﻿namespace EdgeQ.Features
+﻿namespace Edgely.Features
 {
     public interface IScale : IFeature
     {

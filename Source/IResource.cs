@@ -1,4 +1,4 @@
-﻿namespace EdgeQ
+﻿namespace Edgely
 {
     /// <summary>
     /// A provider that write its contents. 
