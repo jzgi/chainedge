@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     /// <summary>
     /// The driver for a zigbee network connected through a dongle.

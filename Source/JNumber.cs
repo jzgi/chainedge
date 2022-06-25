@@ -1,4 +1,4 @@
-namespace Edgely
+namespace DoEdge
 {
     ///
     /// Used to build a number during a parsing process.

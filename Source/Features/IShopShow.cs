@@ -1,4 +1,4 @@
-﻿namespace Edgely.Features
+﻿namespace DoEdge.Features
 {
     /// <summary>
     /// A secondary display to the host terminal.

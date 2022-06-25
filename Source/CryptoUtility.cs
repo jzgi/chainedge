@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Edgely
+namespace DoEdge
 {
     public static class CryptoUtility
     {

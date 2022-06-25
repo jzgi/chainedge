@@ -1,4 +1,4 @@
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// To analyze HTTP header.

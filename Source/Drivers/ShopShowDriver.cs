@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using Edgely.Features;
+using DoEdge.Features;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     /// <summary>
     /// To show relevant info during a shopping process.

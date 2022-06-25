@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Edgely
+namespace DoEdge
 {
     [ComVisible(true)]
     public class Post

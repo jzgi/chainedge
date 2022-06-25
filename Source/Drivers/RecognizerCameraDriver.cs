@@ -1,8 +1,8 @@
 ﻿using System;
 using DirectShowLib;
-using Edgely.Features;
+using DoEdge.Features;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     public class RecognizerCameraDriver : Driver, IRecognizer
     {

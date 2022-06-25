@@ -1,4 +1,4 @@
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// To parse multipart/form-data content, with the part Content-Length extension.

@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Edgely.Features;
+using DoEdge.Features;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     public class GiantLedDriver : Driver, IGiantLed
     {

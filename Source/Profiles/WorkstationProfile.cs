@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using Edgely.Features;
+using DoEdge.Features;
 
-namespace Edgely.Profiles
+namespace DoEdge.Profiles
 {
     /// <summary>
     /// Workstation profile

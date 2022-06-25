@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// A JSON array.

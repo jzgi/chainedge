@@ -1,7 +1,7 @@
 ﻿using System;
-using Edgely.Drivers;
+using DoEdge.Drivers;
 
-namespace Edgely.Profiles
+namespace DoEdge.Profiles
 {
     /// <summary>
     /// A set of configurations and processing logics for a given purpose or circumstance.

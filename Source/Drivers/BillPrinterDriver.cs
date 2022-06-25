@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Edgely.Features;
+using DoEdge.Features;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

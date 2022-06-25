@@ -1,4 +1,4 @@
-﻿namespace Edgely
+﻿namespace DoEdge
 {
     /// <summary>
     /// A data object that reads from input source and writes to output sink.

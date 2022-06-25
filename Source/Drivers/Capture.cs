@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Controls;
 using DirectShowLib;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     /// <summary>
     /// Summary description for MainForm.

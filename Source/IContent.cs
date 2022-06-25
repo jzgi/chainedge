@@ -1,4 +1,4 @@
-﻿namespace Edgely
+﻿namespace DoEdge
 {
     /// <summary>
     /// Represents a binary web content. 

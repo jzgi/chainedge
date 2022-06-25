@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using Edgely.Profiles;
+using DoEdge.Profiles;
 
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// The encapsulation of the application.
@@ -39,7 +39,7 @@ namespace Edgely
             {
                 MainWindow = new MainWindow()
                 {
-                    Title = "Edgely",
+                    Title = "DoEdge",
                     WindowStyle = WindowStyle.SingleBorderWindow,
                     WindowState = WindowState.Maximized
                 },

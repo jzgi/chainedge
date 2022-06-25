@@ -1,7 +1,7 @@
 ﻿using System;
-using Edgely.Features;
+using DoEdge.Features;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     public class DocPrinterDriver : Driver, ILabelPrint, IBillPrint
     {

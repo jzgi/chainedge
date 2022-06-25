@@ -1,6 +1,6 @@
 using System;
 
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// A field in a form model.

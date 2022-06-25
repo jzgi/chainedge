@@ -1,4 +1,4 @@
-﻿namespace Edgely.Features
+﻿namespace DoEdge.Features
 {
     public interface ILabelPrint : IFeature
     {

@@ -1,4 +1,4 @@
-﻿namespace Edgely
+﻿namespace DoEdge
 {
     /// <summary>
     /// A provider that write its contents. 

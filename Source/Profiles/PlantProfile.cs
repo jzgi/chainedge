@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgely.Profiles
+namespace DoEdge.Profiles
 {
     public class PlantProfile : Profile
     {

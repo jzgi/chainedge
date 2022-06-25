@@ -1,4 +1,4 @@
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// The enumeration of JSON member types.

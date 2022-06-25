@@ -1,7 +1,7 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// A form object model parsed from either x-www-form-urlencoded or multipart/form-data.

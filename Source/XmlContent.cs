@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// To generate a UTF-8 encoded XML document. 

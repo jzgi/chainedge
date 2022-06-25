@@ -1,4 +1,4 @@
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// To generate a plain/text string or CSV content. 

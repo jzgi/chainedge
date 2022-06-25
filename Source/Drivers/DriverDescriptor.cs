@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgely.Drivers
+namespace DoEdge.Drivers
 {
     public class DriverDescriptor : IKeyable<string>
     {

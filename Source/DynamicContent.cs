@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Environment;
 
-namespace Edgely
+namespace DoEdge
 {
     /// <summary>
     /// A dynamically generated content in format of either bytes or chars. It always uses the buffer pool. 
