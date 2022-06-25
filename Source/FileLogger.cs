@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// The application logger based on file.

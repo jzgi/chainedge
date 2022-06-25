@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace DoEdge
+namespace CoEdge
 {
     public static class CryptoUtility
     {

@@ -1,4 +1,4 @@
-﻿namespace DoEdge
+﻿namespace CoEdge
 {
     /// <summary>
     /// Represents a binary web content. 

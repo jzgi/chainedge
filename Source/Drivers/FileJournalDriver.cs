@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using DoEdge.Features;
+using CoEdge.Features;
 
-namespace DoEdge.Drivers
+namespace CoEdge.Drivers
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

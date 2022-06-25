@@ -1,4 +1,4 @@
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// A data structure that is parser for a certain content format.

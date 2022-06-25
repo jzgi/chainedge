@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using DoEdge.Features;
+using CoEdge.Features;
 
-namespace DoEdge.Drivers
+namespace CoEdge.Drivers
 {
     public class GiantLedDriver : Driver, IGiantLed
     {

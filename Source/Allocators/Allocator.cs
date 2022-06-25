@@ -1,4 +1,4 @@
-﻿namespace DoEdge.Allocators
+﻿namespace CoEdge.Allocators
 {
     /// <summary>
     /// To keep record for resource asslignments.

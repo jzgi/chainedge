@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using DoEdge.Features;
+using CoEdge.Features;
 
-namespace DoEdge.Drivers
+namespace CoEdge.Drivers
 {
     public class MemoryCatalogDriver : Driver, ICatalog
     {

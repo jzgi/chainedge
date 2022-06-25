@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// To generate a UTF-8 encoded XML document. 

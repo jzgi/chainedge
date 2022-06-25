@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using DoEdge.Profiles;
+using CoEdge.Profiles;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// The encapsulation of the application.
@@ -39,7 +39,7 @@ namespace DoEdge
             {
                 MainWindow = new MainWindow()
                 {
-                    Title = "DoEdge",
+                    Title = "CoEdge",
                     WindowStyle = WindowStyle.SingleBorderWindow,
                     WindowState = WindowState.Maximized
                 },

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// An XML element.

@@ -1,4 +1,4 @@
-﻿namespace DoEdge.Drivers
+﻿namespace CoEdge.Drivers
 {
     public abstract class Driver
     {

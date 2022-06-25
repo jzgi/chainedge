@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace DoEdge
+namespace CoEdge
 {
     public static class DataUtility
     {

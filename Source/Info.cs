@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// A data model for general unit of information.

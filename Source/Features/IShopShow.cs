@@ -1,4 +1,4 @@
-﻿namespace DoEdge.Features
+﻿namespace CoEdge.Features
 {
     /// <summary>
     /// A secondary display to the host terminal.

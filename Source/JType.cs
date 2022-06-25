@@ -1,4 +1,4 @@
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// The enumeration of JSON member types.

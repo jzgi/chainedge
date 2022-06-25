@@ -1,4 +1,4 @@
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// To analyze HTTP header.

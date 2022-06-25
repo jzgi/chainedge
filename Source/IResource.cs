@@ -1,4 +1,4 @@
-﻿namespace DoEdge
+﻿namespace CoEdge
 {
     /// <summary>
     /// A provider that write its contents. 

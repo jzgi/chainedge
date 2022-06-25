@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// To indicate that a content parsing-related exception occured.

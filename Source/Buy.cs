@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace DoEdge
+namespace CoEdge
 {
     [ComVisible(true)]
     public class Buy

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// A set of commonly-used array operations.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DoEdge.Drivers
+namespace CoEdge.Drivers
 {
     public class DriverDescriptor : IKeyable<string>
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// A field in a form model.

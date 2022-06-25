@@ -1,4 +1,4 @@
-﻿namespace DoEdge.Allocators
+﻿namespace CoEdge.Allocators
 {
     public class CameraAllocator : Allocator
     {

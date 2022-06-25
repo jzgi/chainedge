@@ -1,7 +1,7 @@
 ﻿using System;
-using DoEdge.Drivers;
+using CoEdge.Drivers;
 
-namespace DoEdge.Profiles
+namespace CoEdge.Profiles
 {
     /// <summary>
     /// A set of configurations and processing logics for a given purpose or circumstance.

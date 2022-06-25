@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// To generate a urlencoded byte or char string.

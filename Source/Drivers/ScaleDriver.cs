@@ -1,6 +1,6 @@
-﻿using DoEdge.Features;
+﻿using CoEdge.Features;
 
-namespace DoEdge.Drivers
+namespace CoEdge.Drivers
 {
     public abstract class ScaleDriver : Driver, IScale
     {

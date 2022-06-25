@@ -1,4 +1,4 @@
-namespace DoEdge
+namespace CoEdge
 {
     ///
     /// Used to build a number during a parsing process.

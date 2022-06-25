@@ -1,6 +1,6 @@
 using System;
 
-namespace DoEdge
+namespace CoEdge
 {
     /// <summary>
     /// A text/plain model or comma-separate (text/csv) lines and values (CSV). Also it can be used as a UTF-8 string builder.

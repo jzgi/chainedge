@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using DoEdge.Features;
+using CoEdge.Features;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace DoEdge.Drivers
+namespace CoEdge.Drivers
 {
     /// <summary>
     /// To show relevant info during a shopping process.
