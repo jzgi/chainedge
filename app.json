@@ -1,3 +1,29 @@
-﻿{
-  "uri": "https://www.baidu.com"
+{
+  "logging": 2,
+  "certpasswd": "fVC2ToAq",
+  "secret": "ef748c683274e",
+  "fabric": {
+    "host": "81.69.218.155",
+    "port": 5432,
+    "database": "chainmart",
+    "username": "postgres",
+    "password": "Gs721004",
+    "weburl": "http://localhost:82",
+    "name": "中惠农通",
+    "tip": "智慧农贸及供应链平台",
+    "secret": "ebce206103e439514f3c4748c683274e"
+  },
+  "web-www": {
+    "address": "http://localhost:80",
+    "cache": true,
+    "proxy": "http://localhost:80"
+  },
+  "web-mgt": {
+    "address": "http://localhost:81",
+    "cache": true,
+    "proxy": "http://localhost:81"
+  },
+  "prog": {
+    "url": "http://www.baidu.com"
+  }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-using CoEdge.Features;
+using ChainEdge.Features;
 using DirectShowLib;
 
-namespace CoEdge.Drivers
+namespace ChainEdge.Drivers
 {
     public class RecognizerCameraDriver : Driver, IRecognizer
     {

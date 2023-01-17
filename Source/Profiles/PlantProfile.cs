@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoEdge.Profiles
+namespace ChainEdge.Profiles
 {
     public class PlantProfile : Profile
     {

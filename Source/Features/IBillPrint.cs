@@ -1,4 +1,4 @@
-﻿namespace CoEdge.Features
+﻿namespace ChainEdge.Features
 {
     public interface IBillPrint : IFeature
     {

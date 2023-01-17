@@ -1,7 +1,8 @@
 ﻿using System;
-using CoEdge.Drivers;
+using ChainEdge.Drivers;
+using ChainFx;
 
-namespace CoEdge.Profiles
+namespace ChainEdge.Profiles
 {
     /// <summary>
     /// A set of configurations and processing logics for a given purpose or circumstance.

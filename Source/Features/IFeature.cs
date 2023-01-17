@@ -1,4 +1,4 @@
-﻿namespace CoEdge.Features
+﻿namespace ChainEdge.Features
 {
     /// <summary>
     /// A functional module.

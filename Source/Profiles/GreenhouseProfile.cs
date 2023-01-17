@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using CoEdge.Features;
+using ChainEdge.Features;
 
-namespace CoEdge.Profiles
+namespace ChainEdge.Profiles
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

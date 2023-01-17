@@ -1,4 +1,4 @@
-﻿namespace CoEdge.Allocators
+﻿namespace ChainEdge.Allocators
 {
     public class ScreenAllocator : Allocator
     {

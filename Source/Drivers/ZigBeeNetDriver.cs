@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoEdge.Drivers
+namespace ChainEdge.Drivers
 {
     /// <summary>
     /// The driver for a zigbee network connected through a dongle.

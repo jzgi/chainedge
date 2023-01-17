@@ -1,4 +1,4 @@
-﻿namespace CoEdge.Drivers
+﻿namespace ChainEdge.Drivers
 {
     public class PcScaleDriver : ScaleDriver
     {

@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Controls;
 using DirectShowLib;
 
-namespace CoEdge.Drivers
+namespace ChainEdge.Drivers
 {
     /// <summary>
     /// Summary description for MainForm.

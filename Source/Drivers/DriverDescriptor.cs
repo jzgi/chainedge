@@ -1,6 +1,7 @@
 ﻿using System;
+using ChainFx;
 
-namespace CoEdge.Drivers
+namespace ChainEdge.Drivers
 {
     public class DriverDescriptor : IKeyable<string>
     {
@@ -13,10 +14,10 @@ namespace CoEdge.Drivers
                 1
             ),
             new DriverDescriptor(
-            "pcscale",
-            "智能台秤",
-            typeof(PcScaleDriver),
-            1
+                "pcscale",
+                "智能台秤",
+                typeof(PcScaleDriver),
+                1
             )
         };
 

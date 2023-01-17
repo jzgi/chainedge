@@ -1,7 +1,7 @@
 ﻿using System;
-using CoEdge.Features;
+using ChainEdge.Features;
 
-namespace CoEdge.Drivers
+namespace ChainEdge.Drivers
 {
     public class DocPrinterDriver : Driver, ILabelPrint, IBillPrint
     {

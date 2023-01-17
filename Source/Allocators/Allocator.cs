@@ -1,4 +1,6 @@
-﻿namespace CoEdge.Allocators
+﻿using ChainFx;
+
+namespace ChainEdge.Allocators
 {
     /// <summary>
     /// To keep record for resource asslignments.

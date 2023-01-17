@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CoEdge.Features;
+using ChainEdge.Features;
 
-namespace CoEdge.Drivers
+namespace ChainEdge.Drivers
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]

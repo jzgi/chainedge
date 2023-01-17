@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using CoEdge.Profiles;
+using ChainEdge.Profiles;
+using ChainFx;
+using ChainFx.Web;
+using Application = System.Windows.Application;
 
-namespace CoEdge
+namespace ChainEdge
 {
     /// <summary>
     /// The encapsulation of the application.
@@ -39,7 +42,7 @@ namespace CoEdge
             {
                 MainWindow = new MainWindow()
                 {
-                    Title = "CoEdge",
+                    Title = "ChainEdge",
                     WindowStyle = WindowStyle.SingleBorderWindow,
                     WindowState = WindowState.Maximized
                 },

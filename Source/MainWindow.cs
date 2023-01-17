@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
-namespace CoEdge
+namespace ChainEdge
 {
     /// <summary>
     /// The main window for the application.
@@ -41,7 +41,7 @@ namespace CoEdge
 
         async void button1_Click(object sender, RoutedEventArgs e)
         {
-            string[] ports = SerialPort.GetPortNames();
+            // string[] ports = SerialPort.GetPortNames();
 
             webvw = new WebView2()
             {
@@ -58,7 +58,7 @@ namespace CoEdge
 
                 await webvw.EnsureCoreWebView2Async(env);
             }
-            webvw.CoreWebView2.Navigate("file://D:/skygate/Test.html");
+            webvw.CoreWebView2.Navigate("file://D:/ChainEdge/Test.html");
             webvw.CoreWebView2.OpenDevToolsWindow();
 
             // suppress new window being opened
@@ -72,7 +72,7 @@ namespace CoEdge
 
             // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 
-            // foreach (var feat in CoEdge.Features)
+            // foreach (var feat in ChainEdge.Features)
             // {
             //     var obj = feat.Value;
             //
