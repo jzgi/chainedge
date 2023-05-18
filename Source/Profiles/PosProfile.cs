@@ -10,7 +10,7 @@ namespace ChainEdge.Profiles
         // 
         // resolved features
 
-        IItemRecog _itemRecog;
+        IObjectRecog _itemRecog;
 
         IScale scale;
 

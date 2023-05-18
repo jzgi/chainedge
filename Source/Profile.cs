@@ -17,7 +17,7 @@ namespace ChainEdge
         public static Map<string, Profile> All = new Map<string, Profile>()
         {
             new PosProfile(),
-            new WorkstationProfile()
+            new WarehouseProfile()
         };
 
 

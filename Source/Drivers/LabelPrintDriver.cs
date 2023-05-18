@@ -3,7 +3,7 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class LabelPrinterDriver : Driver, ILabelPrint
+    public class LabelPrintDriver : Driver, ILabelPrint
     {
         public override void Test()
         {

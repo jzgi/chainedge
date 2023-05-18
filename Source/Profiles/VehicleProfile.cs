@@ -3,18 +3,14 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Profiles
 {
-    /// <summary>
-    /// Workstation profile
-    /// </summary>
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class WorkstationProfile : Profile
+    public class VehicleProfile : Profile
     {
-        public WorkstationProfile() : base("workst", "综合工作站",
+        public VehicleProfile() : base("greenh", "种植温室",
             new[]
             {
-                typeof(IGiantLed),
-                typeof(IBillPrint),
+                typeof(ISoil)
             }
         )
         {

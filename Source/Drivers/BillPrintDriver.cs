@@ -9,7 +9,7 @@ namespace ChainEdge.Drivers
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class BillPrinterDriver : Driver, IBillPrint
+    public class BillPrintDriver : Driver, IBillPrint
     {
         private SerialPort port = new SerialPort();
 
