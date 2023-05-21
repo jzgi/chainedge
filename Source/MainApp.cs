@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using ChainFx;
 using ChainFx.Web;
-using Microsoft.UI.Xaml;
-using Microsoft.Windows.ApplicationModel.DynamicDependency;
-using Application = Microsoft.UI.Xaml.Application;
+using Application = System.Windows.Application;
 
 namespace ChainEdge
 {
@@ -20,7 +19,7 @@ namespace ChainEdge
         static readonly FileLogger logger;
 
         // the singleton application instance
-        static MainApp app;
+        static readonly MainApp app;
 
         static JObj cfg;
 
@@ -28,61 +27,49 @@ namespace ChainEdge
         static Profile profile;
 
 
-        private Window m_window;
-
-
         static MainApp()
         {
-            // // file-based logger
-            // var logfile = DateTime.Now.ToString("yyyyMM") + ".log";
-            // logger = new FileLogger(logfile)
-            // {
-            //     Level = 3
-            // };
-            //
-        }
-
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-        {
-            m_window = new MainWindow()
+            // file-based logger
+            var logfile = DateTime.Now.ToString("yyyyMM") + ".log";
+            logger = new FileLogger(logfile)
             {
-                Title = "ChainEdge",
+                Level = 3
             };
-            m_window.Activate();
+
+            // app instance
+            app = new MainApp()
+            {
+                MainWindow = new MainWindow()
+                {
+                    Title = "ChainEdge",
+                    WindowStyle = WindowStyle.SingleBorderWindow,
+                    WindowState = WindowState.Maximized
+                },
+                ShutdownMode = ShutdownMode.OnMainWindowClose,
+            };
         }
 
         [STAThread]
         public static void Main(string[] args)
         {
-            Bootstrap.Initialize(0x00010002);
-            
-            Console.WriteLine("Hello World!");
-
-            Start(_ => new MainApp());
-
             if (args.Length > 1)
             {
                 string name = args[1];
-                // profile = Profile.All[name];
+                profile = Profile.All[name];
             }
             else // default
             {
-                // profile = Profile.All.ValueAt(0);
+                profile = Profile.All.ValueAt(0);
             }
 
-            // // load app config
-            // var bytes = File.ReadAllBytes(APP_JSON);
-            // var parser = new JsonParser(bytes, bytes.Length);
-            // cfg = (JObj)parser.Parse();
-            //
+            // load app config
+            var bytes = File.ReadAllBytes(APP_JSON);
+            var parser = new JsonParser(bytes, bytes.Length);
+            cfg = (JObj)parser.Parse();
+
 
             // win.Show();
-            // Release the DDLM and clean up.
-            Bootstrap.Shutdown();
+            app.Run(app.MainWindow);
         }
     }
 }

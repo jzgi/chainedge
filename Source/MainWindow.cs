@@ -1,7 +1,9 @@
 ﻿using System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
 
 namespace ChainEdge
 {
@@ -51,9 +53,9 @@ namespace ChainEdge
 
             if (webvw != null && webvw.CoreWebView2 == null)
             {
-                var env = await CoreWebView2Environment.CreateAsync();
+                var env = await CoreWebView2Environment.CreateAsync(null, "data");
 
-                await webvw.EnsureCoreWebView2Async();
+                await webvw.EnsureCoreWebView2Async(env);
             }
             webvw.CoreWebView2.Navigate("file://D:/ChainEdge/Test.html");
             webvw.CoreWebView2.OpenDevToolsWindow();
@@ -65,7 +67,7 @@ namespace ChainEdge
                 args.Handled = true;
             };
 
-            // webvw.CoreWebView2.AddHostObjectToScript("catalog", new CatalogWrap());
+            webvw.CoreWebView2.AddHostObjectToScript("feat", new FeatureProxy());
 
             // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 

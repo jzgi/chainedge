@@ -1,7 +1,7 @@
-﻿using ChainEdge.Features;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using System.Windows;
+using ChainEdge.Features;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
 
 namespace ChainEdge.Drivers
 {

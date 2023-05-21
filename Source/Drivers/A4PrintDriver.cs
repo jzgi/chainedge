@@ -15,7 +15,6 @@ namespace ChainEdge.Drivers
             throw new NotImplementedException();
         }
 
-
         public void PrintTitle(string v)
         {
             throw new NotImplementedException();
