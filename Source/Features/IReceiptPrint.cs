@@ -1,6 +1,6 @@
 ﻿namespace ChainEdge.Features
 {
-    public interface ILabelPrint : IFeature
+    public interface IReceiptPrint : IFeature
     {
         void printBizlabel();
     }

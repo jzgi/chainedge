@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
@@ -12,6 +10,8 @@ namespace ChainEdge
     /// </summary>
     public class MainWindow : Window
     {
+        private TabControl tabs;
+        
         WebView2 webvw;
 
         // SideWindow subwin;
@@ -42,7 +42,7 @@ namespace ChainEdge
         {
             // string[] ports = SerialPort.GetPortNames();
 
-            webvw = new WebView2()
+            webvw = new WebView2
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -60,6 +60,7 @@ namespace ChainEdge
             webvw.CoreWebView2.Navigate("file://D:/ChainEdge/Test.html");
             webvw.CoreWebView2.OpenDevToolsWindow();
 
+
             // suppress new window being opened
             webvw.CoreWebView2.NewWindowRequested += (obj, args) =>
             {
@@ -67,16 +68,12 @@ namespace ChainEdge
                 args.Handled = true;
             };
 
-            webvw.CoreWebView2.AddHostObjectToScript("feat", new FeatureProxy());
+            webvw.CoreWebView2.AddHostObjectToScript("queue", MainApp.EdgeQueue);
+        }
 
-            // webvw.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
-
-            // foreach (var feat in ChainEdge.Features)
-            // {
-            //     var obj = feat.Value;
-            //
-            //     webvw.CoreWebView2.AddHostObjectToScript(feat.Key, obj);
-            // }
+        public void PostMessage(string v)
+        {
+            webvw.CoreWebView2.PostWebMessageAsJson(v);
         }
     }
 }

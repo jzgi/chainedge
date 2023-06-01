@@ -2,7 +2,7 @@
 
 namespace ChainEdge.Drivers
 {
-    public abstract class ScaleDriver : Driver, IScale
+    public abstract class CASSerialScaleDriver : Driver, IScale
     {
     }
 }

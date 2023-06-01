@@ -8,7 +8,7 @@ namespace ChainEdge.Drivers
     /// <summary>
     /// To show relevant info during a shopping process.
     /// </summary>
-    public class RecycleDriver : Driver, IRecycle
+    public class RecyclerDriver : Driver, IRecycle
     {
         SideWindow sidewin;
 

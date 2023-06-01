@@ -3,7 +3,7 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class GiantLedDriver : Driver, IGiantLed
+    public class GiantLedDriver : Driver, IDisplay
     {
         MediaPlayWindow sidewin;
 

@@ -3,24 +3,30 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class LabelPrintDriver : Driver, ILabelPrint
+    public class DetectorCameraDriver : Driver, IDetect
     {
+
         public override void Test()
         {
             throw new NotImplementedException();
         }
 
-        public void printBizlabel()
+        public double Loss(float output, float label)
         {
             throw new NotImplementedException();
         }
 
-        public void printBuyReceipt()
+        public float Derivative(float output, float label)
         {
             throw new NotImplementedException();
         }
 
-        public void printShipList()
+        public int GetItemIdByScan()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetNumberByScan()
         {
             throw new NotImplementedException();
         }

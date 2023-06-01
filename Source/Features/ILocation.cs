@@ -1,6 +1,6 @@
 ﻿namespace ChainEdge.Features
 {
-    public interface IBillPrint : IFeature
+    public interface ILocation : IFeature
     {
         void PrintTitle(string v);
 

@@ -29,11 +29,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DirectShowLib.Standard" Version="2.1.0" />
+        <PackageReference Include="FlashCap" Version="1.5.0" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1774.30" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.5.0" />
         <PackageReference Include="Microsoft.ML" Version="3.0.0-preview.23266.6" />
         <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+        <PackageReference Include="System.Speech" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>

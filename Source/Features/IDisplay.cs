@@ -1,9 +1,9 @@
 ﻿namespace ChainEdge.Features
 {
     /// <summary>
-    /// A giant LED display.
+    /// A connected display.
     /// </summary>
-    public interface IGiantLed : IFeature
+    public interface IDisplay : IFeature
     {
         void open(string uri);
     }

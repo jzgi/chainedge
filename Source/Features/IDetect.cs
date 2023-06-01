@@ -1,6 +1,6 @@
 ﻿namespace ChainEdge.Features
 {
-    public interface IObjectRecog : IFeature
+    public interface IDetect : IFeature
     {
         // private MediaCapture d;
 

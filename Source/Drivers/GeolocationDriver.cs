@@ -7,9 +7,7 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    [ClassInterface(ClassInterfaceType.AutoDual)]
-    [ComVisible(true)]
-    public class BillPrintDriver : Driver, IBillPrint
+    public class GeolocationDriver : Driver, ILocation
     {
         private SerialPort port = new SerialPort();
 

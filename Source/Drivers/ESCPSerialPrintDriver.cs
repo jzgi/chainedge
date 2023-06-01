@@ -3,30 +3,29 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class ObjectRecogDriver : Driver, IObjectRecog
+    public class ESCPSerialPrintDriver : Driver, IReceiptPrint
     {
-
         public override void Test()
         {
             throw new NotImplementedException();
         }
 
-        public double Loss(float output, float label)
+        public void printBizlabel()
         {
             throw new NotImplementedException();
         }
 
-        public float Derivative(float output, float label)
+        public void PrintTitle(string v)
         {
             throw new NotImplementedException();
         }
 
-        public int GetItemIdByScan()
+        public void PrintRow(short idx, string name, decimal price, short qty)
         {
             throw new NotImplementedException();
         }
 
-        public int GetNumberByScan()
+        public void PrintBottomLn()
         {
             throw new NotImplementedException();
         }
