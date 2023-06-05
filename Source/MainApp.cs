@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
+using ChainEdge.Drivers;
 using ChainFx;
 using ChainFx.Web;
 using Application = System.Windows.Application;
@@ -47,7 +47,6 @@ namespace ChainEdge
 
         static MainApp()
         {
-         
             // app instance
             try
             {
@@ -76,17 +75,20 @@ namespace ChainEdge
         [STAThread]
         public static void Main(string[] args)
         {
+            var drv = new ObjectDetectorDriver();
+            drv.Test();
+            
             // load app config
             var bytes = File.ReadAllBytes("drivers.json");
             var parser = new JsonParser(bytes, bytes.Length);
             cfg = (JObj)parser.Parse();
 
-            EmbedWebApp.Setup();
-            
+            WebApp.StartAsync();
 
             // win.Show();
             app.Run(app.MainWindow);
 
+            WebApp.StopAsync().RunSynchronously();
         }
     }
 }

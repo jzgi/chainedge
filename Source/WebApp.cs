@@ -1,8 +1,10 @@
-﻿namespace ChainEdge;
+﻿using ChainFx;
 
-public class EmbedWebApp : ChainFx.Application
+namespace ChainEdge;
+
+public class WebApp : Application
 {
-    public static async void Setup()
+    public static async void StartAsync()
     {
         const string STATIC_ROOT = "static";
 
