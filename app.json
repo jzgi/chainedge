@@ -5,7 +5,5 @@
   "service-www": {
     "address": "http://localhost:80",
     "cache": true
-  },
-  "prog": {
   }
 }
