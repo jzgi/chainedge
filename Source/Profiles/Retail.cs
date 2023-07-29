@@ -6,7 +6,7 @@ namespace ChainEdge.Profiles;
 
 public class Retail : Profile
 {
-    public Retail() : base("RETAIL")
+    public Retail(string name) : base(name)
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT-A");
 
@@ -16,7 +16,7 @@ public class Retail : Profile
 
         CreateDriver<CASSerialScaleDriver>("SCALE");
 
-        CreateDriver<MifareOneDriver>("M1");
+        CreateDriver<MifareOneDriver>("MCARD");
 
         CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
 

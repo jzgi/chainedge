@@ -7,8 +7,9 @@ public abstract class Profile : IKeyable<string>
 {
     static Map<string, Profile> all = new()
     {
-        new Retail(),
-        new Workst()
+        new Retail("RETAIL"),
+        new Workstn("WORKSTN"),
+        new Kiosk("KIOSK")
     };
 
     readonly string name;
