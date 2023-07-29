@@ -2,7 +2,7 @@
 
 namespace ChainEdge;
 
-public class WwwService : WebService
+public class EmbedService : WebService
 {
     public void @default(WebContext wc)
     {

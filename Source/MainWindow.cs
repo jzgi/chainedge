@@ -6,12 +6,12 @@ using Microsoft.Web.WebView2.Wpf;
 namespace ChainEdge;
 
 /// <summary>
-/// The main window for the application.
+/// The main window that hosts the WebView2 component..
 /// </summary>
 public class MainWindow : Window
 {
     private TabControl tabs;
-        
+
     WebView2 webvw;
 
     // SideWindow subwin;
@@ -68,7 +68,7 @@ public class MainWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("queue", MainApp.EdgeCore);
+        webvw.CoreWebView2.AddHostObjectToScript("queue", MainApp.MainQueue);
     }
 
     public void PostMessage(string v)

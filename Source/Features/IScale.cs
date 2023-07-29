@@ -1,6 +1,5 @@
-﻿namespace ChainEdge.Features
+﻿namespace ChainEdge.Features;
+
+public interface IScale : IFeature
 {
-    public interface IScale : IFeature
-    {
-    }
 }

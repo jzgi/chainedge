@@ -53,7 +53,6 @@ namespace ChainEdge.Drivers
         }
 
         public int GetItemIdByScan()
-
         {
             return 0;
         }

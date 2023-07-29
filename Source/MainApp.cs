@@ -10,17 +10,16 @@ using Application = System.Windows.Application;
 namespace ChainEdge;
 
 /// <summary>
-/// The encapsulation of the application.
+/// The main WPF application.
 /// </summary>
 public class MainApp : Application
 {
     const string APP_JSON = "app.json";
 
-
-    // the global logger
+    // the file-based logger
     static FileLogger logger;
 
-    // the singleton application instance
+    // the main application instance
     static MainApp app;
 
     static JObj cfg;
@@ -28,24 +27,14 @@ public class MainApp : Application
     // the present profile 
 
     // single threaded
-    private static readonly EdgeCore edgeq = new();
+    private static readonly MainQueue edgeq = new();
 
-    public static EdgeCore EdgeCore => edgeq;
-
-
-    private static Map<int, Driver> drivers = new(32)
-    {
-#if LABEL
-            { 1, new LabelPrintDriver() }
-#elif SCALE
-            { 1, new ScaleDriver() }
-#endif
-    };
+    public static MainQueue MainQueue => edgeq;
 
 
     static MainApp()
     {
-        // app instance
+        // instantiate
         try
         {
             app = new MainApp()
@@ -66,20 +55,17 @@ public class MainApp : Application
     }
 
 
-    void RegisterEventType(int typ, string d)
-    {
-    }
-
     [STAThread]
     public static void Main(string[] args)
     {
-            
-        WebApp.StartAsync();
+        EmbedApp.StartAsync();
+
+        app.MainWindow.Title = EmbedApp.Name;
 
         // win.Show();
         app.Run(app.MainWindow);
 
         // ReSharper disable once AccessToStaticMemberViaDerivedType
-        WebApp.StopAsync().RunSynchronously();
+        // EmbedApp.StopAsync().RunSynchronously();
     }
 }

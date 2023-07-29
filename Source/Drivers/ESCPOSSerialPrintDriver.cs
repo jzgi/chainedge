@@ -1,17 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
-using System.Runtime.CompilerServices;
 using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class ESCPOSSerialPrintDriver : Driver, IReceiptPrint, ILocation
+    public class ESCPOSSerialPrintDriver : Driver, IReceiptPrint
     {
-        // tasks
+        readonly SerialPort port = new()
+        {
+            BaudRate = 9600,
+            DataBits = 8,
+            Parity = Parity.None,
+            StopBits = StopBits.One
+        };
 
-        private SerialPort port = new SerialPort();
 
+        public ESCPOSSerialPrintDriver()
+        {
+            foreach (var name in SerialPort.GetPortNames())
+            {
+                port.PortName = name;
+                try
+                {
+                    port.Open();
+
+                    port.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+            }
+        }
 
         public override void Test()
         {
@@ -37,15 +58,6 @@ namespace ChainEdge.Drivers
         {
             return "Example: " + param;
         }
-
-        [IndexerName("Items")]
-        public string this[int index]
-        {
-            get => m_dictionary[index];
-            set => m_dictionary[index] = value;
-        }
-
-        private Dictionary<int, string> m_dictionary = new Dictionary<int, string>();
 
 
         private SerialPort serialport;

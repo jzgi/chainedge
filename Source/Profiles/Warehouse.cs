@@ -1,6 +1,6 @@
 ﻿namespace ChainEdge.Profiles;
 
-public class SmartCtrWorkst : Profile
+public class Warehouse : Profile
 {
     
 }
