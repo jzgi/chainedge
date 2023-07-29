@@ -11,7 +11,7 @@ public class EmbedApp : Application
     {
         const string STATIC_ROOT = "static";
 
-        CreateService<EmbedService>("www", STATIC_ROOT);
+        CreateService<EmbedService>("embed", STATIC_ROOT);
 
         await StartAsync(waiton: false);
     }

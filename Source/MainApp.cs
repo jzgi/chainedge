@@ -60,6 +60,10 @@ public class MainApp : Application
     {
         EmbedApp.StartAsync();
 
+        string profile = EmbedApp.App[nameof(profile)];
+
+        var pf = Profile.GetProfile(profile);
+        
         app.MainWindow.Title = EmbedApp.Name;
 
         // win.Show();

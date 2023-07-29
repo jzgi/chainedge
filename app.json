@@ -1,8 +1,8 @@
 {
   "logging": 2,
   "name": "中惠农通",
-  "certpasswd": "fVC2ToAq",
   "secret": "ef748c683274e",
+  "profile": "RETAIL",
   "service-embed": {
     "address": "http://localhost:80",
     "cache": true

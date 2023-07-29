@@ -57,9 +57,13 @@ public class MainWindow : Window
 
             await webvw.EnsureCoreWebView2Async(env);
         }
-        webvw.CoreWebView2.Navigate("file://D:/ChainEdge/Test.html");
-        webvw.CoreWebView2.OpenDevToolsWindow();
-
+        webvw.CoreWebView2.Navigate("http://mgt.zhnt-x.com/rtlly//");
+        var settings = webvw.CoreWebView2.Settings;
+        settings.AreDevToolsEnabled = false;
+        settings.IsZoomControlEnabled = false;
+        settings.AreDefaultContextMenusEnabled = false;
+        
+        
 
         // suppress new window being opened
         webvw.CoreWebView2.NewWindowRequested += (obj, args) =>

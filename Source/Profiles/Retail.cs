@@ -6,7 +6,7 @@ namespace ChainEdge.Profiles;
 
 public class Retail : Profile
 {
-    public Retail()
+    public Retail() : base("RETAIL")
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT-A");
 
@@ -16,12 +16,16 @@ public class Retail : Profile
 
         CreateDriver<CASSerialScaleDriver>("SCALE");
 
+        CreateDriver<MifareOneDriver>("M1");
+
         CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
+
+        CreateDriver<SpeechDriver>("OBJ-DETECT");
     }
 
     public override int DispatchInput()
     {
-        SynthesizerDriver drv = new SynthesizerDriver();
+        SpeechDriver drv = new SpeechDriver();
         JObj v = new JObj();
 
         var job = new Job<ISpeech>(drv, v, (d, x) => { drv.Speak(""); });

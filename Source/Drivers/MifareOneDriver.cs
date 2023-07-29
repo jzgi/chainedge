@@ -1,22 +1,40 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO.Ports;
 
 namespace ChainEdge
 {
-    public class MifareOneDriver : Driver
+    public class MifareOneDriver : Driver, IFeature
     {
         const int BUFFER = 32;
 
-        readonly SerialPort port;
-
-        public MifareOneDriver(string portname, int baudrate)
+        readonly SerialPort port = new()
         {
-            port = new SerialPort(portname, baudrate, Parity.None, 8, StopBits.One)
+            BaudRate = 9600,
+            DataBits = 8,
+            Parity = Parity.None,
+            StopBits = StopBits.One,
+            ReadTimeout = 100,
+            WriteTimeout = 100
+        };
+
+
+        public MifareOneDriver()
+        {
+            foreach (var name in SerialPort.GetPortNames())
             {
-                // set timeouts according to the spec
-                ReadTimeout = 100,
-                WriteTimeout = 100
-            };
+                port.PortName = name;
+                try
+                {
+                    port.Open();
+
+                    port.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+            }
         }
 
 
