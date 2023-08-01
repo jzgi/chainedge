@@ -1,4 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Windows.Controls;
 using ChainFx;
@@ -8,18 +11,29 @@ namespace ChainEdge;
 /// <summary>
 /// An abstract device driver, for input or output, or both.
 /// </summary>
-public abstract class Driver : StackPanel, IKeyable<string>
+public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<IJob>, INotifyCollectionChanged
 {
+    readonly ConcurrentQueue<IJob> innerq;
+
     // job queue that is normally put by dispatcher
-    readonly BlockingCollection<IJob> jobq = new(new ConcurrentQueue<IJob>());
+    readonly BlockingCollection<IJob> jobq;
 
     // job runner
     private Thread doer;
 
     private int period;
 
+
+    // ui
+    //
+    ListView lstview;
+
+
     protected Driver(int period = 100)
     {
+        jobq = new(innerq = new ConcurrentQueue<IJob>());
+
+
         this.period = period;
 
         if (period > 0)
@@ -48,6 +62,8 @@ public abstract class Driver : StackPanel, IKeyable<string>
     public void Add(IJob job)
     {
         jobq.Add(job);
+
+        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
     }
 
     // UI constructs
@@ -76,5 +92,17 @@ public abstract class Driver : StackPanel, IKeyable<string>
 
     public void OnClose()
     {
+    }
+
+    public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return innerq.GetEnumerator();
+    }
+
+    public IEnumerator<IJob> GetEnumerator()
+    {
+        return innerq.GetEnumerator();
     }
 }

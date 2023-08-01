@@ -3,7 +3,7 @@ using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class GiantLedDriver : Driver, IDisplay
+    public class GiantLedBoardDriver : Driver, IDisplay
     {
         MediaPlayWindow sidewin;
 
@@ -15,11 +15,5 @@ namespace ChainEdge.Drivers
         public void open(string uri)
         {
         }
-    }
-
-
-    public class MediaPlayWindow : Window
-    {
-        // MediaElement webvw;
     }
 }

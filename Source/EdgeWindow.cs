@@ -9,25 +9,20 @@ using Microsoft.Web.WebView2.Wpf;
 namespace ChainEdge;
 
 /// <summary>
-/// The main window that contains the WebView2 component..
+/// The main window that hosts WebView2.
 /// </summary>
-public class MainWindow : Window
+public class EdgeWindow : Window
 {
-    private TabControl tabs;
-
     WebView2 webvw;
 
-    // SideWindow subwin;
+    DockPanel dock;
 
-
-    private Grid grid;
-
-    public MainWindow()
+    public EdgeWindow()
     {
         // Icon = BitmapFrame.Create(new Uri("./logo.png", UriKind.Relative));
-        grid = new Grid();
+        dock = new DockPanel();
 
-        Content = grid;
+        Content = dock;
 
         var btn = new Button
         {
@@ -38,7 +33,8 @@ public class MainWindow : Window
         };
         btn.Click += button1_Click;
 
-        grid.Children.Add(btn);
+
+        dock.Children.Add(btn);
     }
 
     async void button1_Click(object sender, RoutedEventArgs e)
@@ -51,7 +47,7 @@ public class MainWindow : Window
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
 
-        grid.Children.Add(webvw);
+        dock.Children.Add(webvw);
 
 
         if (webvw != null && webvw.CoreWebView2 == null)
@@ -74,7 +70,7 @@ public class MainWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("queue", MainApp.MainQueue);
+        webvw.CoreWebView2.AddHostObjectToScript("queue", EdgeApp.Wrap);
     }
 
     public void PostMessage(string v)
@@ -130,7 +126,7 @@ public class MainWindow : Window
                         if (vkey == 0x44)
                         {
                             // set visiblity of the device manager window
-                            
+
                             MessageBox.Show("");
                         }
                         handled = true;

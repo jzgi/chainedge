@@ -4,7 +4,7 @@ namespace ChainEdge;
 
 [ClassInterface(ClassInterfaceType.AutoDual)]
 [ComVisible(true)]
-public class MainWrap
+public class EdgeWrap
 {
     public string CallGetData(string driverKey, string[] @params)
     {

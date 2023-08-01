@@ -11,7 +11,7 @@
         <UseWPF>true</UseWPF>
         <Company>Jzg Institute for IT Research</Company>
         <LangVersion>11</LangVersion>
-        <StartupObject>ChainEdge.MainApp</StartupObject>
+        <StartupObject>ChainEdge.EdgeApp</StartupObject>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -29,9 +29,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="FlashCap" Version="1.5.0" />
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1774.30" />
-        <PackageReference Include="Microsoft.ML" Version="3.0.0-preview.23266.6" />
+        <PackageReference Include="FlashCap" Version="1.6.0" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1901.177" />
+        <PackageReference Include="Microsoft.ML" Version="2.0.1" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
         <PackageReference Include="System.IO.Ports" Version="7.0.0" />
         <PackageReference Include="System.Speech" Version="7.0.0" />

@@ -4,19 +4,25 @@ using ChainFx;
 
 namespace ChainEdge.Profiles;
 
-public class Retail : Profile
+public class RetailPlus : Profile
 {
-    public Retail(string name) : base(name)
+    public RetailPlus(string name) : base(name)
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT");
 
+        CreateDriver<ESCPSerialPrintDriver>("PRINT");
+
         CreateDriver<CASSerialScaleDriver>("SCALE");
+
+        CreateDriver<MifareOneDriver>("MCARD");
 
         CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
 
         CreateDriver<SpeechDriver>("SPEECH");
 
         CreateDriver<LedBoardDriver>("LEDBRD");
+
+        CreateDriver<GiantLedBoardDriver>("GIANT-LEDBRD");
     }
 
     public override int DispatchInput()

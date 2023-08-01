@@ -7,7 +7,7 @@ namespace ChainEdge;
 
 /// <summary>
 /// </summary>
-public class DriverManagerWindow : Window
+public class DriverTabsWindow : Window
 {
     private TabControl tabs;
 
@@ -18,7 +18,7 @@ public class DriverManagerWindow : Window
 
     private Grid grid;
 
-    public DriverManagerWindow()
+    public DriverTabsWindow()
     {
         // Icon = BitmapFrame.Create(new Uri("./logo.png", UriKind.Relative));
         grid = new Grid();
@@ -70,7 +70,7 @@ public class DriverManagerWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("queue", MainApp.MainQueue);
+        webvw.CoreWebView2.AddHostObjectToScript("queue", EdgeApp.Wrap);
     }
 
     public void PostMessage(string v)
