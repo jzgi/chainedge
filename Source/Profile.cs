@@ -8,8 +8,11 @@ public abstract class Profile : IKeyable<string>
     static Map<string, Profile> all = new()
     {
         new RetailPlus("RETAIL-PLUS"),
+        
         new Retail("RETAIL"),
+        
         new Workstn("WORKSTN"),
+        
         new Kiosk("KIOSK")
     };
 

@@ -71,9 +71,9 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<IJob>, I
 
     public abstract void Test();
 
-    public virtual bool TryGetInput(out JObj v, int timeout)
+    public virtual bool TryGetInput(out (decimal v, JObj ext) result, int milliseconds)
     {
-        v = null;
+        result = default;
         return false;
     }
 

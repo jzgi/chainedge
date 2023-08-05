@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Threading;
 using ChainEdge.Features;
+using ChainFx;
 
 namespace ChainEdge.Drivers
 {
     public class CASSerialScaleDriver : Driver, IScale
     {
+        readonly SemaphoreSlim entrance = new(1);
+
         readonly SerialPort port = new()
         {
             BaudRate = 9600,
@@ -17,12 +21,21 @@ namespace ChainEdge.Drivers
 
         public CASSerialScaleDriver()
         {
+        }
+
+        public override void Test()
+        {
             foreach (var name in SerialPort.GetPortNames())
             {
                 port.PortName = name;
                 try
                 {
                     port.Open();
+
+                    if (TryGetInput(out (decimal v, JObj ext) result, 100))
+                    {
+                        return;
+                    }
 
                     port.Close();
                 }
@@ -34,15 +47,30 @@ namespace ChainEdge.Drivers
         }
 
 
+        public override bool TryGetInput(out (decimal v, JObj ext) result, int milliseconds)
+        {
+            result = default;
+
+            entrance.Wait(milliseconds);
+
+            var ret = TryWeigh(out var v);
+            result = (v, null);
+
+            entrance.Release();
+            return ret;
+        }
+
         static byte[] ENQ = { 0x05 };
 
-        public int Weigh()
+        public bool TryWeigh(out decimal v)
         {
             port.Write(ENQ, 0, 1);
 
             port.ReadByte();
 
-            return 0;
+            v = default;
+
+            return true;
         }
 
         public void Tear()
@@ -53,11 +81,6 @@ namespace ChainEdge.Drivers
         public void Zero()
         {
             port.Write("<ZK>\t");
-        }
-
-        public override void Test()
-        {
-            throw new NotImplementedException();
         }
     }
 }
