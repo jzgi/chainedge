@@ -43,7 +43,7 @@ public class EdgeApp : Application
     public static EdgeWrap Wrap = new();
 
     // connector to the cloud
-    static EdgeConnector WConn;
+    static EdgeConnect Conn;
 
 
     [STAThread]
@@ -53,7 +53,7 @@ public class EdgeApp : Application
         EmbedApp.StartAsync();
 
         string url = AppConf[nameof(url)];
-        WConn = new(url);
+        Conn = new(url);
 
         string profile = AppConf[nameof(profile)];
 
@@ -104,12 +104,12 @@ public class EdgeApp : Application
     }
 
 
-    public static void In(JObj v)
+    public static void QueueAdd(JObj v)
     {
         inq.Add(v);
     }
 
-    public static void TryTake(JObj v)
+    public static void QueueTryTake(JObj v)
     {
         outq.Add(v);
     }
