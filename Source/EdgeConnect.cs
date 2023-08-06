@@ -5,7 +5,7 @@ using ChainFx.Web;
 
 namespace ChainEdge;
 
-public class EdgeConnect : WebConnect
+public class EdgeConnect : WebConnect, IEventPlay
 {
     readonly BlockingCollection<JObj> outq = new(new ConcurrentQueue<JObj>());
 
@@ -26,19 +26,24 @@ public class EdgeConnect : WebConnect
 
                 // send
 
-                var (status, ja) = await PostAsync<JArr>("/event", null);
+                var (status, ja) = await PostAsync<JArr>("/event", null, token: "");
                 if (status == 200)
                 {
                     for (int i = 0; i < ja.Count; i++)
                     {
                         JObj o = ja[i];
 
-                        EdgeApp.Profile.Downstream(o);
+                        EdgeApp.Profile.Downstream(this, o);
                     }
                 }
 
                 // handle response
             }
         });
+    }
+
+    public void Add(Event v)
+    {
+        throw new System.NotImplementedException();
     }
 }

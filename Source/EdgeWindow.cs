@@ -67,7 +67,7 @@ public class EdgeWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.Wrap);
+        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.host);
 
         webvw.NavigationCompleted += AfterNavigation;
     }

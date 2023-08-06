@@ -70,7 +70,7 @@ public class EdgeDriverWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("queue", EdgeApp.Wrap);
+        webvw.CoreWebView2.AddHostObjectToScript("queue", EdgeApp.host);
     }
 
     public void PostMessage(string v)

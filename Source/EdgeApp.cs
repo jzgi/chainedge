@@ -49,7 +49,7 @@ public class EdgeApp : Application
         ShutdownMode = ShutdownMode.OnMainWindowClose,
     };
 
-    public static EdgeWrap Wrap = new();
+    public static EdgeHost host = new();
 
 
     static EdgeApp()

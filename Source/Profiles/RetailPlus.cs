@@ -30,11 +30,16 @@ public class RetailPlus : Profile
         SpeechDriver drv = new SpeechDriver();
         JObj v = new JObj();
 
-        var job = new Job<ISpeech>(drv, v, (d, x) => { drv.Speak(""); });
+        var job = new Event<ISpeech>(drv, v, (d, x) => { drv.Speak(""); });
 
         // assign to device
         drv.Add(job);
 
         return 0;
+    }
+
+    public override int Downstream(IEventPlay from, JObj v)
+    {
+        throw new System.NotImplementedException();
     }
 }

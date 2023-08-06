@@ -40,10 +40,7 @@ public abstract class Profile : IKeyable<string>
         return 0;
     }
 
-    public virtual int Downstream(JObj v)
-    {
-        return 0;
-    }
+    public abstract int Downstream(IEventPlay from, JObj v);
 
 
     public string Key => name;

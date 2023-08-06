@@ -11,12 +11,12 @@ namespace ChainEdge;
 /// <summary>
 /// An abstract device driver, for input or output, or both.
 /// </summary>
-public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<IJob>, INotifyCollectionChanged
+public abstract class Driver : DockPanel, IKeyable<string>, IEventPlay, IEnumerable<Event>, INotifyCollectionChanged
 {
-    readonly ConcurrentQueue<IJob> innerq;
+    readonly ConcurrentQueue<Event> innerq;
 
     // job queue that is normally put by dispatcher
-    readonly BlockingCollection<IJob> jobq;
+    readonly BlockingCollection<Event> jobq;
 
     // job runner
     private Thread doer;
@@ -31,7 +31,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<IJob>, I
 
     protected Driver(int period = 100)
     {
-        jobq = new(innerq = new ConcurrentQueue<IJob>());
+        jobq = new(innerq = new ConcurrentQueue<Event>());
 
 
         this.period = period;
@@ -58,8 +58,12 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<IJob>, I
         }
     }
 
+    public void Add(JObj v)
+    {
+        throw new System.NotImplementedException();
+    }
 
-    public void Add(IJob job)
+    public void Add(Event job)
     {
         jobq.Add(job);
 
@@ -101,7 +105,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<IJob>, I
         return innerq.GetEnumerator();
     }
 
-    public IEnumerator<IJob> GetEnumerator()
+    public IEnumerator<Event> GetEnumerator()
     {
         return innerq.GetEnumerator();
     }

@@ -1,4 +1,5 @@
 ﻿using ChainEdge.Drivers;
+using ChainFx;
 
 namespace ChainEdge.Profiles;
 
@@ -13,5 +14,15 @@ public class Workstn : Profile
         CreateDriver<MifareOneDriver>("MCARD");
 
         CreateDriver<SpeechDriver>("SPEECH");
+    }
+
+    public override int Upstream()
+    {
+        return base.Upstream();
+    }
+
+    public override int Downstream(IEventPlay from, JObj v)
+    {
+        throw new System.NotImplementedException();
     }
 }
