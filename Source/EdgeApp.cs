@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Drawing.Printing;
-using System.Threading;
 using System.Windows;
 using ChainFx;
 using ChainFx.Web;
@@ -37,7 +32,7 @@ public class EdgeApp : Application
     };
 
     // connector to the cloud
-    internal static readonly EdgeConnect Client;
+    internal static readonly EdgeConnect Connect;
 
     internal static readonly Profile Profile;
 
@@ -63,7 +58,7 @@ public class EdgeApp : Application
             Logger.LogError("Please define url in app.json");
             return;
         }
-        Client = new(url);
+        Connect = new(url);
 
         // resolve current profile
         string profile = AppConf[nameof(profile)];

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -69,14 +71,31 @@ public class EdgeWindow : Window
 
         webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.host);
 
-        webvw.NavigationCompleted += AfterNavigation;
+        webvw.NavigationCompleted += OnNavigationCompleted;
     }
 
-    void AfterNavigation(object target, CoreWebView2NavigationCompletedEventArgs e)
+    string token;
+
+    public string Token => token;
+
+    async void OnNavigationCompleted(object target, CoreWebView2NavigationCompletedEventArgs e)
     {
         Title = webvw.CoreWebView2.DocumentTitle;
+
+        var mgr = webvw.CoreWebView2.CookieManager;
+        var cookies = await mgr.GetCookiesAsync(null); // get all cookie
+        var token = cookies.First(x => x.Name == "token");
+
+        this.token = token?.Value;
     }
 
+    public async Task<string> GetTokenAsync()
+    {
+        var mgr = webvw.CoreWebView2.CookieManager;
+        var cookies = await mgr.GetCookiesAsync(null); // get all cookie
+        var token = cookies.First(x => x.Name == "token");
+        return token?.Value;
+    }
 
     public void PostMessage(string v)
     {
