@@ -25,7 +25,7 @@ public class RetailPlus : Profile
         CreateDriver<GiantLedBoardDriver>("GIANT-LEDBRD");
     }
 
-    public override int DispatchInput()
+    public override int Upstream()
     {
         SpeechDriver drv = new SpeechDriver();
         JObj v = new JObj();

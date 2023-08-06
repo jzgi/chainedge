@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
@@ -15,31 +16,20 @@ public class EdgeWindow : Window
 {
     WebView2 webvw;
 
-    DockPanel dock;
+    Grid grid;
 
     public EdgeWindow()
     {
-        // Icon = BitmapFrame.Create(new Uri("./logo.png", UriKind.Relative));
-        dock = new DockPanel();
+        grid = new Grid();
 
-        Content = dock;
+        Content = grid;
 
-        var btn = new Button
-        {
-            Height = 200,
-            Width = 200,
-            Content = "开始",
-            FontSize = 24
-        };
-        btn.Click += button1_Click;
-
-
-        dock.Children.Add(btn);
+        Loaded += OnLoaded;
     }
 
-    async void button1_Click(object sender, RoutedEventArgs e)
+    async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        // string[] ports = SerialPort.GetPortNames();
+        Icon = BitmapFrame.Create(new Uri("./static/logo.webp", UriKind.Relative));
 
         webvw = new WebView2
         {
@@ -47,7 +37,7 @@ public class EdgeWindow : Window
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
 
-        dock.Children.Add(webvw);
+        grid.Children.Add(webvw);
 
 
         if (webvw != null && webvw.CoreWebView2 == null)
@@ -56,12 +46,19 @@ public class EdgeWindow : Window
 
             await webvw.EnsureCoreWebView2Async(env);
         }
-        webvw.CoreWebView2.Navigate("http://mgt.zhnt-x.com/rtlly//");
+        if (webvw.CoreWebView2 == null)
+        {
+            MessageBox.Show("获取 CoreWebView2 失败");
+            return;
+        }
+
         var settings = webvw.CoreWebView2.Settings;
         settings.AreDevToolsEnabled = false;
         settings.IsZoomControlEnabled = false;
         settings.AreDefaultContextMenusEnabled = false;
 
+        string url = EdgeApp.AppConf[nameof(url)];
+        webvw.CoreWebView2.Navigate(url);
 
         // suppress new window being opened
         webvw.CoreWebView2.NewWindowRequested += (obj, args) =>
@@ -70,8 +67,16 @@ public class EdgeWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("queue", EdgeApp.Wrap);
+        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.Wrap);
+
+        webvw.NavigationCompleted += AfterNavigation;
     }
+
+    void AfterNavigation(object target, CoreWebView2NavigationCompletedEventArgs e)
+    {
+        Title = webvw.CoreWebView2.DocumentTitle;
+    }
+
 
     public void PostMessage(string v)
     {

@@ -19,7 +19,7 @@ public class Retail : Profile
         CreateDriver<LedBoardDriver>("LEDBRD");
     }
 
-    public override int DispatchInput()
+    public override int Upstream()
     {
         SpeechDriver drv = new SpeechDriver();
         JObj v = new JObj();

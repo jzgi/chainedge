@@ -32,7 +32,8 @@ public class EdgeConnect : WebConnect
                     for (int i = 0; i < ja.Count; i++)
                     {
                         JObj o = ja[i];
-                        EdgeApp.QueueAdd(o);
+
+                        EdgeApp.Profile.Downstream(o);
                     }
                 }
 

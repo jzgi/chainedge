@@ -8,11 +8,11 @@ public abstract class Profile : IKeyable<string>
     static Map<string, Profile> all = new()
     {
         new RetailPlus("RETAIL-PLUS"),
-        
+
         new Retail("RETAIL"),
-        
+
         new Workstn("WORKSTN"),
-        
+
         new Kiosk("KIOSK")
     };
 
@@ -35,12 +35,12 @@ public abstract class Profile : IKeyable<string>
         drivers.Add(drv);
     }
 
-    public virtual int DispatchInput()
+    public virtual int Upstream()
     {
         return 0;
     }
 
-    public virtual int DispatchOutput()
+    public virtual int Downstream(JObj v)
     {
         return 0;
     }

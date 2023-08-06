@@ -7,7 +7,7 @@ namespace ChainEdge;
 
 /// <summary>
 /// </summary>
-public class DriverTabsWindow : Window
+public class EdgeDriverWindow : Window
 {
     private TabControl tabs;
 
@@ -18,7 +18,7 @@ public class DriverTabsWindow : Window
 
     private Grid grid;
 
-    public DriverTabsWindow()
+    public EdgeDriverWindow()
     {
         // Icon = BitmapFrame.Create(new Uri("./logo.png", UriKind.Relative));
         grid = new Grid();
