@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using ChainFx;
 
 namespace ChainEdge;
 
 [ClassInterface(ClassInterfaceType.AutoDual)]
 [ComVisible(true)]
-public class EdgeHost : IEventPlay
+public class EdgeHost : IGateway
 {
     public string CallGetData(string driverKey, string[] @params)
     {
         return null;
     }
 
-    public void Add(Event v)
+    public void Add(JObj evt)
     {
         throw new NotImplementedException();
     }

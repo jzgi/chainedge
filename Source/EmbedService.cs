@@ -3,11 +3,11 @@ using ChainFx.Web;
 
 namespace ChainEdge;
 
-public class EmbedService : WebService, IEventPlay
+public class EmbedService : WebService, IGateway
 {
     #region IEventPoint
 
-    public void Add(Event v)
+    public void Add(JObj evt)
     {
         throw new System.NotImplementedException();
     }

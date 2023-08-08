@@ -4,7 +4,7 @@ using System.IO.Ports;
 
 namespace ChainEdge
 {
-    public class MifareOneDriver : Driver, IFeature
+    public class MifareOneDriver : Driver
     {
         const int BUFFER = 32;
 
@@ -19,7 +19,8 @@ namespace ChainEdge
         };
 
 
-        public MifareOneDriver()
+
+        public override void Test()
         {
             foreach (var name in SerialPort.GetPortNames())
             {
@@ -35,12 +36,6 @@ namespace ChainEdge
                     Debug.WriteLine(e);
                 }
             }
-        }
-
-
-        public override void Test()
-        {
-            throw new NotImplementedException();
         }
 
         public void Open()

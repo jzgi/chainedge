@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class GeolocationDriver : Driver, ILocation
+    public class GeolocationDriver : Driver
     {
         private SerialPort port = new SerialPort();
 

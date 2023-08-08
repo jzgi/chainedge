@@ -11,18 +11,17 @@ namespace ChainEdge;
 /// <summary>
 /// An abstract device driver, for input or output, or both.
 /// </summary>
-public abstract class Driver : DockPanel, IKeyable<string>, IEventPlay, IEnumerable<Event>, INotifyCollectionChanged
+public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, INotifyCollectionChanged
 {
-    readonly ConcurrentQueue<Event> innerq;
+    readonly ConcurrentQueue<Job> queue;
 
     // job queue that is normally put by dispatcher
-    readonly BlockingCollection<Event> jobq;
+    readonly BlockingCollection<Job> coll;
 
     // job runner
     private Thread doer;
 
     private int period;
-
 
     // ui
     //
@@ -31,8 +30,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEventPlay, IEnumera
 
     protected Driver(int period = 100)
     {
-        jobq = new(innerq = new ConcurrentQueue<Event>());
-
+        coll = new(queue = new ConcurrentQueue<Job>());
 
         this.period = period;
 
@@ -40,35 +38,32 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEventPlay, IEnumera
         {
             doer = new Thread(() =>
             {
-                while (!jobq.IsCompleted)
+                while (!coll.IsCompleted)
                 {
                     // take output job and render
-                    if (jobq.TryTake(out var job, period))
+                    if (coll.TryTake(out var job, period))
                     {
                         job.Do();
                     }
 
-                    // check & do input 
-                    if (TryGetInput(out var ret, period))
-                    {
-                        // Core.Queue
-                    }
+                    // // check & do input 
+                    // if (TryGetInput(out var ret, period))
+                    // {
+                    //     // Core.Queue
+                    // }
                 }
             });
+            doer.Start();
         }
     }
 
-    public void Add(JObj v)
+    public void Add(Job v)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void Add(Event job)
-    {
-        jobq.Add(job);
+        coll.Add(v);
 
         CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
     }
+
 
     // UI constructs
 
@@ -102,11 +97,11 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEventPlay, IEnumera
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return innerq.GetEnumerator();
+        return queue.GetEnumerator();
     }
 
-    public IEnumerator<Event> GetEnumerator()
+    public IEnumerator<Job> GetEnumerator()
     {
-        return innerq.GetEnumerator();
+        return queue.GetEnumerator();
     }
 }

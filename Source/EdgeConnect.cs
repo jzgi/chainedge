@@ -5,22 +5,22 @@ using ChainFx.Web;
 
 namespace ChainEdge;
 
-public class EdgeConnect : WebConnect, IEventPlay
+public class EdgeConnect : WebConnect, IGateway
 {
-    readonly ConcurrentQueue<Event> queue;
+    readonly ConcurrentQueue<JObj> queue;
 
-    readonly BlockingCollection<Event> bcoll;
+    readonly BlockingCollection<JObj> coll;
 
     Thread puller;
 
 
     public EdgeConnect(string baseUri, WebClientHandler handler = null) : base(baseUri, handler)
     {
-        bcoll = new(queue = new());
+        coll = new(queue = new());
 
         puller = new Thread(async () =>
         {
-            while (!bcoll.IsCompleted)
+            while (!coll.IsCompleted)
             {
                 // at an interval
                 Thread.Sleep(1000 * 12);
@@ -31,7 +31,7 @@ public class EdgeConnect : WebConnect, IEventPlay
                 // send
 
                 var token = EdgeApp.Win.Token;
-                var (status, ja) = await PostAsync<JArr>("/event", null, token: token);
+                var (status, ja) = await GetAsync<JArr>("event", token: token);
                 if (status == 200)
                 {
                     for (int i = 0; i < ja.Count; i++)
@@ -48,7 +48,7 @@ public class EdgeConnect : WebConnect, IEventPlay
         puller.Start();
     }
 
-    public void Add(Event v)
+    public void Add(JObj evt)
     {
         throw new System.NotImplementedException();
     }

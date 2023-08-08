@@ -1,9 +1,6 @@
-﻿using System.Windows;
-using ChainEdge.Features;
-
-namespace ChainEdge.Drivers
+﻿namespace ChainEdge.Drivers
 {
-    public class GiantLedBoardDriver : Driver, IDisplay
+    public class GiantLedBoardDriver : Driver
     {
         MediaPlayWindow sidewin;
 
@@ -12,7 +9,7 @@ namespace ChainEdge.Drivers
         {
         }
 
-        public void open(string uri)
+        public void show(string uri)
         {
         }
     }

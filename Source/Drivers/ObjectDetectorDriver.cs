@@ -4,27 +4,29 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using ChainEdge.Features;
 using FlashCap;
 using Image = System.Drawing.Image;
 
 namespace ChainEdge.Drivers
 {
-    public class ObjectDetectorDriver : Driver, IDetect
+    public class ObjectDetectorDriver : Driver
     {
-        
         // UI
-        
+
         // captured image display
         private Image image;
-        
+
         // camera selection
         private ComboBox devices;
-        
-        
+
+
         public override void Test()
         {
             // Capture device enumeration:
+        }
+
+        public double Loss(float output, float label)
+        {
             var devices = new CaptureDevices();
 
             foreach (var descriptor in devices.EnumerateDescriptors())
@@ -40,11 +42,7 @@ namespace ChainEdge.Drivers
                     Console.WriteLine(characteristics);
                 }
             }
-        }
-
-        public double Loss(float output, float label)
-        {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public float Derivative(float output, float label)

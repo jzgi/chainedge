@@ -3,9 +3,9 @@ using ChainFx;
 
 namespace ChainEdge.Profiles;
 
-public class Kiosk : Profile
+public class KioskProfile : Profile
 {
-    public Kiosk(string name) : base(name)
+    public KioskProfile(string name) : base(name)
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT");
 
@@ -19,7 +19,7 @@ public class Kiosk : Profile
         return base.Upstream();
     }
 
-    public override int Downstream(IEventPlay from, JObj v)
+    public override int Downstream(IGateway from, JObj v)
     {
         throw new System.NotImplementedException();
     }

@@ -1,28 +1,21 @@
 ﻿using ChainEdge.Drivers;
-using ChainEdge.Features;
 using ChainFx;
 
 namespace ChainEdge.Profiles;
 
-public class RetailPlus : Profile
+public class RetailProfile : Profile
 {
-    public RetailPlus(string name) : base(name)
+    public RetailProfile(string name) : base(name)
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT");
 
-        CreateDriver<ESCPSerialPrintDriver>("PRINT");
-
         CreateDriver<CASSerialScaleDriver>("SCALE");
-
-        CreateDriver<MifareOneDriver>("MCARD");
 
         CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
 
         CreateDriver<SpeechDriver>("SPEECH");
 
         CreateDriver<LedBoardDriver>("LEDBRD");
-
-        CreateDriver<GiantLedBoardDriver>("GIANT-LEDBRD");
     }
 
     public override int Upstream()
@@ -30,15 +23,15 @@ public class RetailPlus : Profile
         SpeechDriver drv = new SpeechDriver();
         JObj v = new JObj();
 
-        var job = new Event<ISpeech>(drv, v, (d, x) => { drv.Speak(""); });
-
-        // assign to device
-        drv.Add(job);
+        // var job = new Event<ISpeech>(drv, v, (d, x) => { drv.Speak(""); });
+        //
+        // // assign to device
+        // drv.Add(job);
 
         return 0;
     }
 
-    public override int Downstream(IEventPlay from, JObj v)
+    public override int Downstream(IGateway from, JObj v)
     {
         throw new System.NotImplementedException();
     }

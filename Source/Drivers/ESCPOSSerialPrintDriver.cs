@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO.Ports;
-using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class ESCPOSSerialPrintDriver : Driver, IReceiptPrint
+    public class ESCPOSSerialPrintDriver : Driver
     {
         readonly SerialPort port = new()
         {
@@ -15,24 +14,6 @@ namespace ChainEdge.Drivers
             StopBits = StopBits.One
         };
 
-
-        public ESCPOSSerialPrintDriver()
-        {
-            foreach (var name in SerialPort.GetPortNames())
-            {
-                port.PortName = name;
-                try
-                {
-                    port.Open();
-
-                    port.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e);
-                }
-            }
-        }
 
         public override void Test()
         {
@@ -48,8 +29,6 @@ namespace ChainEdge.Drivers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    throw;
                 }
             }
         }
@@ -59,22 +38,6 @@ namespace ChainEdge.Drivers
             return "Example: " + param;
         }
 
-
-        private SerialPort serialport;
-
-
-        void init()
-        {
-            serialport = new SerialPort("", 9600);
-
-            serialport.DataReceived += mySerialPort_DataRecieved;
-        }
-
-
-        public void mySerialPort_DataRecieved(object sender, SerialDataReceivedEventArgs e)
-        {
-            //whatever logic and read procedure we want
-        }
 
         public void printBizlabel()
         {

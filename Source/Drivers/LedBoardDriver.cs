@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class LedBoardDriver : Driver, IDisplay
+    public class LedBoardDriver : Driver
     {
         MediaPlayWindow sidewin;
 
@@ -12,7 +11,7 @@ namespace ChainEdge.Drivers
         {
         }
 
-        public void open(string uri)
+        public void show(string uri)
         {
         }
     }

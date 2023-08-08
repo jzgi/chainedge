@@ -55,7 +55,7 @@ public class EdgeApp : Application
         string url = AppConf[nameof(url)];
         if (url == null)
         {
-            Logger.LogError("Please define url in app.json");
+            Logger.LogError("Wrong url in app.json");
             return;
         }
         Connect = new(url);
@@ -65,7 +65,7 @@ public class EdgeApp : Application
         Profile = Profile.GetProfile(profile);
         if (Profile == null)
         {
-            Logger.LogError("Please define profile in app.json");
+            Logger.LogError("Wrong profile in app.json");
             return;
         }
     }
@@ -76,10 +76,13 @@ public class EdgeApp : Application
         // start the embedded web server
         EmbedApp.StartAsync(waiton: false);
 
+        // initial test for each & every driver
+        Profile.TestEveryDriver();
+
         // win.Show();
         App.Run(Win);
-
-        // ReSharper disable once AccessToStaticMemberViaDerivedType
-        EmbedApp.StopAsync().RunSynchronously();
+        //
+        // // ReSharper disable once AccessToStaticMemberViaDerivedType
+        // EmbedApp.StopAsync().RunSynchronously();
     }
 }

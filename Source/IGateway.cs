@@ -1,11 +1,12 @@
 ﻿using ChainFx;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
 namespace ChainEdge;
 
 /// <summary>
 /// Both source & target for events.
 /// </summary>
-public interface IEventPlay
+public interface IGateway
 {
-    void Add(Event v);
+    void Add(JObj evt);
 }

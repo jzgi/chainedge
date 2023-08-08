@@ -7,13 +7,13 @@ public abstract class Profile : IKeyable<string>
 {
     static Map<string, Profile> all = new()
     {
-        new RetailPlus("RETAIL-PLUS"),
+        new RetailPlusProfile("RETAIL-PLUS"),
 
-        new Retail("RETAIL"),
+        new RetailProfile("RETAIL"),
 
-        new Workstn("WORKSTN"),
+        new WorkstnProfile("WORKSTN"),
 
-        new Kiosk("KIOSK")
+        new KioskProfile("KIOSK")
     };
 
     readonly string name;
@@ -35,12 +35,41 @@ public abstract class Profile : IKeyable<string>
         drivers.Add(drv);
     }
 
+    public void TestEveryDriver()
+    {
+        for (int i = 0; i < drivers.Count; i++)
+        {
+            var drv = drivers.ValueAt(i);
+
+            drv.Test();
+        }
+    }
+
+    public Driver GetDriver(string drvKey)
+    {
+        return drivers[drvKey];
+    }
+
+    public Driver GetDriver<T>(string prefix) where T : Driver
+    {
+        for (int i = 0; i < drivers.Count; i++)
+        {
+            var v = drivers.ValueAt(i);
+
+            if (v is T)
+            {
+                return v;
+            }
+        }
+        return null;
+    }
+
     public virtual int Upstream()
     {
         return 0;
     }
 
-    public abstract int Downstream(IEventPlay from, JObj v);
+    public abstract int Downstream(IGateway from, JObj v);
 
 
     public string Key => name;

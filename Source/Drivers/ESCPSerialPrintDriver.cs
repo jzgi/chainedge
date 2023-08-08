@@ -1,9 +1,8 @@
 ﻿using System;
-using ChainEdge.Features;
 
 namespace ChainEdge.Drivers
 {
-    public class ESCPSerialPrintDriver : Driver, IReceiptPrint
+    public class ESCPSerialPrintDriver : Driver
     {
         public override void Test()
         {

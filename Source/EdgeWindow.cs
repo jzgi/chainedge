@@ -74,7 +74,7 @@ public class EdgeWindow : Window
         webvw.NavigationCompleted += OnNavigationCompleted;
     }
 
-    string token;
+    volatile string token;
 
     public string Token => token;
 
@@ -84,9 +84,9 @@ public class EdgeWindow : Window
 
         var mgr = webvw.CoreWebView2.CookieManager;
         var cookies = await mgr.GetCookiesAsync(null); // get all cookie
-        var token = cookies.First(x => x.Name == "token");
+        var cookie = cookies.First(x => x.Name == "token");
 
-        this.token = token?.Value;
+        token = cookie?.Value;
     }
 
     public async Task<string> GetTokenAsync()
@@ -102,6 +102,9 @@ public class EdgeWindow : Window
         webvw.CoreWebView2.PostWebMessageAsJson(v);
     }
 
+    //
+    // hotkey impl
+    //
 
     [DllImport("user32.dll")]
     private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
@@ -111,16 +114,11 @@ public class EdgeWindow : Window
 
     private const int HOTKEY_ID = 9000;
 
-    //Modifiers:
+    // modifiers:
     private const uint MOD_NONE = 0x0000; //(none)
     private const uint MOD_ALT = 0x0001; //ALT
     private const uint MOD_CONTROL = 0x0002; //CTRL
     private const uint MOD_SHIFT = 0x0004; //SHIFT
-
-    private const uint MOD_WIN = 0x0008; //WINDOWS
-
-    //CAPS LOCK:
-    private const uint VK_CAPITAL = 0x14;
 
 
     private IntPtr _windowHandle;
@@ -132,7 +130,10 @@ public class EdgeWindow : Window
 
         _windowHandle = new WindowInteropHelper(this).Handle;
         _source = HwndSource.FromHwnd(_windowHandle);
-        _source.AddHook(HwndHook);
+        if (_source != null)
+        {
+            _source.AddHook(HwndHook);
+        }
 
         RegisterHotKey(_windowHandle, HOTKEY_ID, MOD_ALT | MOD_CONTROL, 0x44); //CTRL + CAPS_LOCK
     }
