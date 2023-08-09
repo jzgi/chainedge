@@ -17,7 +17,7 @@ namespace ChainEdge.Drivers
             Parity = Parity.None,
             StopBits = StopBits.One,
         };
-        
+
 
         public override void Test()
         {
@@ -42,6 +42,7 @@ namespace ChainEdge.Drivers
             }
         }
 
+        public override string Label => "台秤";
 
         public override bool TryGetInput(out (decimal v, JObj ext) result, int milliseconds)
         {

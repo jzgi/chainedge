@@ -1,15 +1,16 @@
-﻿using ChainFx;
+﻿using System;
+using ChainFx;
 using ChainFx.Web;
 
 namespace ChainEdge;
 
 public class EmbedService : WebService, IGateway
 {
-    #region IEventPoint
+    #region IGateway
 
-    public void Add(JObj evt)
+    public void Enqueue(JObj jo)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     #endregion

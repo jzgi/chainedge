@@ -33,6 +33,8 @@ namespace ChainEdge.Drivers
             }
         }
 
+        public override string Label => "票据打印";
+
         public string Func(string param)
         {
             return "Example: " + param;

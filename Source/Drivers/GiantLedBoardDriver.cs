@@ -9,6 +9,8 @@
         {
         }
 
+        public override string Label => "电子看板";
+
         public void show(string uri)
         {
         }

@@ -6,27 +6,24 @@ namespace ChainEdge.Drivers
     {
         public override void Test()
         {
-            throw new NotImplementedException();
         }
+
+        public override string Label => "行打印";
 
         public void printBizlabel()
         {
-            throw new NotImplementedException();
         }
 
         public void PrintTitle(string v)
         {
-            throw new NotImplementedException();
         }
 
         public void PrintRow(short idx, string name, decimal price, short qty)
         {
-            throw new NotImplementedException();
         }
 
         public void PrintBottomLn()
         {
-            throw new NotImplementedException();
         }
     }
 }

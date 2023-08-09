@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using ChainFx;
 using FlashCap;
 using Image = System.Drawing.Image;
 
@@ -24,6 +25,9 @@ namespace ChainEdge.Drivers
         {
             // Capture device enumeration:
         }
+        
+        public override string Label => "智能识别";
+
 
         public double Loss(float output, float label)
         {
@@ -85,6 +89,13 @@ namespace ChainEdge.Drivers
         public int GetNumberByScan()
         {
             throw new NotImplementedException();
+        }
+
+        public override bool IsCallable => true;
+        
+        public override JObj CallToDo(JObj jo)
+        {
+            return new JObj();
         }
     }
 }

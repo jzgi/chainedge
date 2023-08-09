@@ -1,5 +1,4 @@
 ﻿using ChainFx;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
 namespace ChainEdge;
 
@@ -8,5 +7,5 @@ namespace ChainEdge;
 /// </summary>
 public interface IGateway
 {
-    void Add(JObj evt);
+    void Enqueue(JObj jo);
 }

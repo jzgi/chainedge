@@ -6,24 +6,33 @@ using Microsoft.Web.WebView2.Wpf;
 namespace ChainEdge;
 
 /// <summary>
+/// The management console for dirvers.
 /// </summary>
 public class EdgeDriverWindow : Window
 {
     private TabControl tabs;
 
-    WebView2 webvw;
-
-    // SideWindow subwin;
-
-
     private Grid grid;
 
     public EdgeDriverWindow()
     {
-        // Icon = BitmapFrame.Create(new Uri("./logo.png", UriKind.Relative));
+        tabs = new TabControl();
+    }
+
+    internal void AddChildren()
+    {
+        var map = EdgeApp.CurrentProfile.Drivers;
+
+        for (int i = 0; i < map.Count; i++)
+        {
+            var drv = map.ValueAt(i);
+
+            tabs.Items.Add(drv.Label);
+        }
+
         grid = new Grid();
 
-        Content = grid;
+        Content = tabs;
 
         var btn = new Button
         {
@@ -39,42 +48,5 @@ public class EdgeDriverWindow : Window
 
     async void button1_Click(object sender, RoutedEventArgs e)
     {
-        // string[] ports = SerialPort.GetPortNames();
-
-        webvw = new WebView2
-        {
-            VerticalAlignment = VerticalAlignment.Stretch,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
-
-        grid.Children.Add(webvw);
-
-
-        if (webvw != null && webvw.CoreWebView2 == null)
-        {
-            var env = await CoreWebView2Environment.CreateAsync(null, "data");
-
-            await webvw.EnsureCoreWebView2Async(env);
-        }
-        webvw.CoreWebView2.Navigate("http://mgt.zhnt-x.com/rtlly//");
-        var settings = webvw.CoreWebView2.Settings;
-        settings.AreDevToolsEnabled = false;
-        settings.IsZoomControlEnabled = false;
-        settings.AreDefaultContextMenusEnabled = false;
-
-
-        // suppress new window being opened
-        webvw.CoreWebView2.NewWindowRequested += (obj, args) =>
-        {
-            args.NewWindow = (CoreWebView2)obj;
-            args.Handled = true;
-        };
-
-        webvw.CoreWebView2.AddHostObjectToScript("queue", EdgeApp.host);
-    }
-
-    public void PostMessage(string v)
-    {
-        webvw.CoreWebView2.PostWebMessageAsJson(v);
     }
 }

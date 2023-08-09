@@ -10,6 +10,7 @@ namespace ChainEdge.Drivers
         public override void Test()
         {
         }
+        public override string Label => "微屏";
 
         public void show(string uri)
         {

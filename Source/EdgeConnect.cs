@@ -11,13 +11,15 @@ public class EdgeConnect : WebConnect, IGateway
 
     readonly BlockingCollection<JObj> coll;
 
-    Thread puller;
+    readonly Thread puller;
 
 
     public EdgeConnect(string baseUri, WebClientHandler handler = null) : base(baseUri, handler)
     {
+        // set up queue
         coll = new(queue = new());
 
+        // create thread
         puller = new Thread(async () =>
         {
             while (!coll.IsCompleted)
@@ -25,31 +27,67 @@ public class EdgeConnect : WebConnect, IGateway
                 // at an interval
                 Thread.Sleep(1000 * 12);
 
-                // take
-                // var r = bcoll.Take();
-
-                // send
-
+                // ensure token
+                //
                 var token = EdgeApp.Win.Token;
-                var (status, ja) = await GetAsync<JArr>("event", token: token);
-                if (status == 200)
-                {
-                    for (int i = 0; i < ja.Count; i++)
-                    {
-                        JObj o = ja[i];
+                if (token == null) continue;
 
-                        EdgeApp.Profile.Downstream(this, o);
+                // collect outgoing events
+                //
+                JsonBuilder bdr = null;
+                try
+                {
+                    while (queue.TryDequeue(out var v))
+                    {
+                        if (bdr == null) // lazy init
+                        {
+                            bdr = new JsonBuilder(true, 32 * 1024);
+                            bdr.ARR_();
+                        }
+
+                        bdr.OBJ_();
+                        v.Write(bdr);
+                        bdr._OBJ();
                     }
+                    bdr?._ARR();
+                }
+                finally
+                {
+                    bdr?.Clear();
                 }
 
-                // handle response
+                // send and handle response
+                //
+                (short status, JArr ja) ret;
+                if (bdr != null)
+                {
+                    ret = await PostAsync<JArr>("event", bdr, token: token);
+                }
+                else
+                {
+                    ret = await GetAsync<JArr>("event", token: token);
+                }
+                if (ret.status == 200)
+                {
+                    for (int i = 0; i < ret.ja.Count; i++)
+                    {
+                        JObj jo = ret.ja[i];
+                        EdgeApp.CurrentProfile.Downstream(this, jo);
+                    }
+                }
             }
-        });
+        })
+        {
+            Name = "Edge Connect"
+        };
         puller.Start();
     }
 
-    public void Add(JObj evt)
+    public void Enqueue(JObj jo)
     {
-        throw new System.NotImplementedException();
+        if (jo != null)
+        {
+            coll.Add(jo);
+        }
     }
 }

@@ -38,6 +38,8 @@ namespace ChainEdge
             }
         }
 
+        public override string Label => "智能卡";
+
         public void Open()
         {
             port.Open();

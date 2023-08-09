@@ -52,14 +52,18 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
                     //     // Core.Queue
                     // }
                 }
-            });
+            })
+            {
+                Name = "Driver"
+            };
             doer.Start();
         }
     }
 
-    public void Add(Job v)
+    public void Add<D>(Job<D> v) where D : Driver
     {
         coll.Add(v);
+        v.Driver = (D)this;
 
         CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
     }
@@ -69,6 +73,15 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
 
 
     public abstract void Test();
+
+    public abstract string Label { get; }
+
+    public virtual bool IsCallable => false;
+
+    public virtual JObj CallToDo(JObj jo)
+    {
+        return null;
+    }
 
     public virtual bool TryGetInput(out (decimal v, JObj ext) result, int milliseconds)
     {

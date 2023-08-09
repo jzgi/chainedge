@@ -14,11 +14,9 @@ public abstract class Job
 /// </summary>
 public abstract class Job<D> : Job where D : Driver
 {
-    readonly D driver;
-
     protected internal override void Do()
     {
     }
 
-    public D Driver => driver;
+    public D Driver { get; internal set; }
 }

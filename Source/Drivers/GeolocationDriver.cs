@@ -30,6 +30,8 @@ namespace ChainEdge.Drivers
             }
         }
 
+        public override string Label => "定位";
+
         public string Func(string param)
         {
             return "Example: " + param;

@@ -3,7 +3,7 @@
   "name": "中惠农通",
   "secret": "ef748c683274e",
   "url": "http://mgt.zhnt-x.com/rtlly//",
-  "profile": "RETAIL",
+  "profile": "RETAIL-PLUS",
   "service-embed": {
     "address": "http://localhost:80",
     "cache": true

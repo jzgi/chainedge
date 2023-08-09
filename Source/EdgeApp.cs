@@ -25,16 +25,16 @@ public class EdgeApp : Application
         WindowState = WindowState.Maximized,
     };
 
-    static readonly EdgeDriverWindow DriverWin = new()
+    internal static readonly EdgeDriverWindow DriverWin = new()
     {
-        WindowStyle = WindowStyle.SingleBorderWindow,
+        WindowStyle = WindowStyle.None,
         WindowState = WindowState.Normal,
     };
 
     // connector to the cloud
     internal static readonly EdgeConnect Connect;
 
-    internal static readonly Profile Profile;
+    internal static readonly Profile CurrentProfile;
 
 
     // the main application instance
@@ -62,12 +62,14 @@ public class EdgeApp : Application
 
         // resolve current profile
         string profile = AppConf[nameof(profile)];
-        Profile = Profile.GetProfile(profile);
-        if (Profile == null)
+        CurrentProfile = Profile.GetProfile(profile);
+        if (CurrentProfile == null)
         {
             Logger.LogError("Wrong profile in app.json");
             return;
         }
+        
+        DriverWin.AddChildren();
     }
 
     [STAThread]
@@ -77,7 +79,7 @@ public class EdgeApp : Application
         EmbedApp.StartAsync(waiton: false);
 
         // initial test for each & every driver
-        Profile.TestEveryDriver();
+        CurrentProfile.TestEveryDriver();
 
         // win.Show();
         App.Run(Win);

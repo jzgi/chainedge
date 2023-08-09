@@ -31,7 +31,7 @@ public class EdgeWindow : Window
 
     async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        Icon = BitmapFrame.Create(new Uri("./static/logo.webp", UriKind.Relative));
+        Icon = BitmapFrame.Create(new Uri("./static/logo.jpg", UriKind.Relative));
 
         webvw = new WebView2
         {
@@ -84,7 +84,7 @@ public class EdgeWindow : Window
 
         var mgr = webvw.CoreWebView2.CookieManager;
         var cookies = await mgr.GetCookiesAsync(null); // get all cookie
-        var cookie = cookies.First(x => x.Name == "token");
+        var cookie = cookies.Find(x => x.Name == "token");
 
         token = cookie?.Value;
     }
@@ -152,7 +152,9 @@ public class EdgeWindow : Window
                         {
                             // set visiblity of the device manager window
 
-                            MessageBox.Show("");
+                            var vis = EdgeApp.DriverWin.Visibility;
+                            
+                            EdgeApp.DriverWin.Visibility = vis == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
                         }
                         handled = true;
                         break;

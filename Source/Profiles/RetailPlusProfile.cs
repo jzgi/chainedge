@@ -38,10 +38,10 @@ public class RetailPlusProfile : Profile
         return 0;
     }
 
-    public override int Downstream(IGateway from, JObj v)
+    public override int Downstream(IGateway from, JObj jo)
     {
         string[] news = null;
-        v.Get(nameof(news), ref news);
+        jo.Get(nameof(news), ref news);
 
         if (news != null)
         {
@@ -51,23 +51,29 @@ public class RetailPlusProfile : Profile
             return 0;
         }
 
-        string[] notes = null;
-        v.Get(nameof(notes), ref notes);
-        if (notes != null)
+        string utel = null;
+        jo.Get(nameof(utel), ref utel);
+        if (utel != null)
         {
-            var drv = GetDriver<SpeechDriver>(null);
-            drv?.Add(new TextSpeechJob(notes));
+            var buy = new Buy();
+            buy.Read(jo);
+            var drv = GetDriver<ESCPOSSerialPrintDriver>(null);
+            drv.Add(new BuyPrintJob(buy));
 
             return 0;
         }
 
         // print order
         {
-            var buy = new Buy();
-            buy.Read(v);
+            string name = null;
+            jo.Get(nameof(name), ref name);
+            string tip = null;
+            jo.Get(nameof(tip), ref tip);
+            string oker = null;
+            jo.Get(nameof(oker), ref oker);
 
-            var drv = GetDriver<ESCPOSSerialPrintDriver>(null);
-            drv.Add(new BuyPrintJob(buy));
+            var drv = GetDriver<SpeechDriver>(null);
+            drv?.Add(new TextSpeechJob(name, tip, "播报员：" + oker));
         }
 
         return 1;

@@ -35,6 +35,8 @@ public abstract class Profile : IKeyable<string>
         drivers.Add(drv);
     }
 
+    public Map<string, Driver> Drivers => drivers;
+
     public void TestEveryDriver()
     {
         for (int i = 0; i < drivers.Count; i++)
@@ -50,15 +52,15 @@ public abstract class Profile : IKeyable<string>
         return drivers[drvKey];
     }
 
-    public Driver GetDriver<T>(string prefix) where T : Driver
+    public T GetDriver<T>(string prefix) where T : Driver
     {
         for (int i = 0; i < drivers.Count; i++)
         {
             var v = drivers.ValueAt(i);
 
-            if (v is T)
+            if (v is T drv)
             {
-                return v;
+                return drv;
             }
         }
         return null;
@@ -73,7 +75,6 @@ public abstract class Profile : IKeyable<string>
 
 
     public string Key => name;
-
 
     public static Profile GetProfile(string name) => all[name];
 }

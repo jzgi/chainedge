@@ -13,8 +13,40 @@ public class EdgeHost : IGateway
         return null;
     }
 
-    public void Add(JObj evt)
+    public void Enqueue(JObj jo)
     {
         throw new NotImplementedException();
+    }
+
+    public void AddDownstream(JObj v)
+    {
+        EdgeApp.CurrentProfile.Downstream(this, v);
+    }
+
+
+    public bool IsDriverCallable(string drvKey)
+    {
+        var drv = EdgeApp.CurrentProfile.GetDriver(drvKey);
+        if (drv != null)
+        {
+            return drv.IsCallable;
+        }
+        return false;
+    }
+
+    public string CallDriverToDo(string drvKey, JObj v)
+    {
+        var drv = EdgeApp.CurrentProfile.GetDriver(drvKey);
+        if (drv != null)
+        {
+            var ret = drv.CallToDo(v);
+
+            if (ret != null)
+            {
+                return ret.ToString();
+            }
+        }
+
+        return null;
     }
 }

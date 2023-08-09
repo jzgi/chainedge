@@ -15,6 +15,8 @@ namespace ChainEdge.Drivers
         {
         }
 
+        public override string Label => "垃圾转化";
+
         public void open(string uri)
         {
         }
