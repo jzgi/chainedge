@@ -52,11 +52,13 @@ public abstract class Profile : IKeyable<string>
         return drivers[drvKey];
     }
 
-    public T GetDriver<T>(string prefix) where T : Driver
+    public T GetDriver<T>(string prefix = null) where T : Driver
     {
         for (int i = 0; i < drivers.Count; i++)
         {
             var v = drivers.ValueAt(i);
+
+            if (prefix != null && !v.Key.StartsWith(prefix)) continue;
 
             if (v is T drv)
             {
@@ -66,12 +68,11 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public virtual int Upstream()
+    public virtual void DispatchUp(Driver from, JObj data)
     {
-        return 0;
     }
 
-    public abstract int Downstream(IGateway from, JObj v);
+    public abstract void DispatchDown(IGateway from, JObj data);
 
 
     public string Key => name;

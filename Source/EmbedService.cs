@@ -8,7 +8,7 @@ public class EmbedService : WebService, IGateway
 {
     #region IGateway
 
-    public void Enqueue(JObj jo)
+    public void Submit(JObj v)
     {
         throw new NotImplementedException();
     }

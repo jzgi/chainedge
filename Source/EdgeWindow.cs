@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using ChainFx;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
@@ -69,7 +70,7 @@ public class EdgeWindow : Window
             args.Handled = true;
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.host);
+        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.Wrap);
 
         webvw.NavigationCompleted += OnNavigationCompleted;
     }
@@ -97,9 +98,10 @@ public class EdgeWindow : Window
         return token?.Value;
     }
 
-    public void PostMessage(string v)
+    public void PostMessage(JObj v)
     {
-        webvw.CoreWebView2.PostWebMessageAsJson(v);
+        var str = v.ToString();
+        webvw.CoreWebView2.PostWebMessageAsJson(str);
     }
 
     //
@@ -153,7 +155,7 @@ public class EdgeWindow : Window
                             // set visiblity of the device manager window
 
                             var vis = EdgeApp.DriverWin.Visibility;
-                            
+
                             EdgeApp.DriverWin.Visibility = vis == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
                         }
                         handled = true;

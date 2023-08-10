@@ -2,19 +2,25 @@
 
 namespace ChainEdge.Jobs;
 
-public class BuyPrintJob : Job<ESCPOSSerialPrintDriver>
+public class BuyPrintJob : Job
 {
     private Buy buy;
 
-    public BuyPrintJob(Buy buy)
+    protected internal override void Initialize()
     {
-        this.buy = buy;
+        buy = new Buy();
+        buy.Read(Data);
     }
 
-    protected internal override void Do()
+    protected internal override void Perform()
     {
-        var drv = Driver;
-        
-        
+        if (Driver is ESCPOSSerialPrintDriver drv)
+        {
+            for (int i = 0; i < buy.items?.Length; i++)
+            {
+                var it = buy.items[i];
+                drv.T(it.name).HT().T(it.SubTotal);
+            }
+        }
     }
 }

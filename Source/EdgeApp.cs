@@ -5,6 +5,10 @@ using ChainFx.Web;
 using Microsoft.Extensions.Logging;
 using Application = System.Windows.Application;
 
+#pragma warning disable CS4014
+
+// ReSharper disable AccessToStaticMemberViaDerivedType
+
 namespace ChainEdge;
 
 /// <summary>
@@ -44,7 +48,7 @@ public class EdgeApp : Application
         ShutdownMode = ShutdownMode.OnMainWindowClose,
     };
 
-    public static EdgeHost host = new();
+    public static readonly EdgeWrap Wrap = new();
 
 
     static EdgeApp()
@@ -68,7 +72,7 @@ public class EdgeApp : Application
             Logger.LogError("Wrong profile in app.json");
             return;
         }
-        
+
         DriverWin.AddChildren();
     }
 

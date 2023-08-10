@@ -16,13 +16,11 @@ public class WorkstnProfile : Profile
         CreateDriver<SpeechDriver>("SPEECH");
     }
 
-    public override int Upstream()
+    public override void DispatchUp(Driver from, JObj data)
     {
-        return base.Upstream();
     }
 
-    public override int Downstream(IGateway from, JObj v)
+    public override void DispatchDown(IGateway from, JObj data)
     {
-        throw new System.NotImplementedException();
     }
 }

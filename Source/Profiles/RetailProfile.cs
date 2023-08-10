@@ -1,4 +1,5 @@
 ﻿using ChainEdge.Drivers;
+using ChainEdge.Jobs;
 using ChainFx;
 
 namespace ChainEdge.Profiles;
@@ -13,26 +14,23 @@ public class RetailProfile : Profile
 
         CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
 
-        CreateDriver<SpeechDriver>("SPEECH");
-
         CreateDriver<LedBoardDriver>("LEDBRD");
     }
 
-    public override int Upstream()
+    public override void DispatchUp(Driver from, JObj data)
     {
-        SpeechDriver drv = new SpeechDriver();
-        JObj v = new JObj();
-
-        // var job = new Event<ISpeech>(drv, v, (d, x) => { drv.Speak(""); });
-        //
-        // // assign to device
-        // drv.Add(job);
-
-        return 0;
+        if (from.Key == "SCALE")
+        {
+            EdgeApp.Wrap.Submit(data);
+        }
     }
 
-    public override int Downstream(IGateway from, JObj v)
+    public override void DispatchDown(IGateway from, JObj data)
     {
-        throw new System.NotImplementedException();
+        if (data.Contains("utel"))
+        {
+            var drv = GetDriver<ESCPOSSerialPrintDriver>(null);
+            drv.Add<BuyPrintJob>(data);
+        }
     }
 }

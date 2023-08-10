@@ -43,7 +43,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
                     // take output job and render
                     if (coll.TryTake(out var job, period))
                     {
-                        job.Do();
+                        job.Perform();
                     }
 
                     // // check & do input 
@@ -60,10 +60,20 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
         }
     }
 
-    public void Add<D>(Job<D> v) where D : Driver
+    public void Add<J>(JObj data, int repeats = 1) where J : Job, new()
     {
-        coll.Add(v);
-        v.Driver = (D)this;
+        var job = new J()
+        {
+            Repeats = repeats,
+            Data = data,
+            Driver = this
+        };
+
+        // init
+        job.Initialize();
+
+        // add to queue
+        coll.Add(job);
 
         CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
     }

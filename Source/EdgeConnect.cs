@@ -72,7 +72,7 @@ public class EdgeConnect : WebConnect, IGateway
                     for (int i = 0; i < ret.ja.Count; i++)
                     {
                         JObj jo = ret.ja[i];
-                        EdgeApp.CurrentProfile.Downstream(this, jo);
+                        EdgeApp.CurrentProfile.DispatchDown(this, jo);
                     }
                 }
             }
@@ -83,11 +83,11 @@ public class EdgeConnect : WebConnect, IGateway
         puller.Start();
     }
 
-    public void Enqueue(JObj jo)
+    public void Submit(JObj v)
     {
-        if (jo != null)
+        if (v != null)
         {
-            coll.Add(jo);
+            coll.Add(v);
         }
     }
 }

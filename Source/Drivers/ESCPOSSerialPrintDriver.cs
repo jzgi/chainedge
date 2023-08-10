@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO.Ports;
 
 namespace ChainEdge.Drivers
@@ -15,9 +14,18 @@ namespace ChainEdge.Drivers
         };
 
 
+        const string ESC = "\u001B";
+        const string GS = "\u001D";
+        const string InitializePrinter = ESC + "@";
+        const string BoldOn = ESC + "E" + "\u0001";
+        const string BoldOff = ESC + "E" + "\0";
+        const string DoubleOn = GS + "!" + "\u0011"; 
+        const string DoubleOff = GS + "!" + "\0";
+        static readonly string[] names = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9" };
+
         public override void Test()
         {
-            var names = SerialPort.GetPortNames();
+            // var names = SerialPort.GetPortNames();
             foreach (var name in names)
             {
                 port.PortName = name;
@@ -25,6 +33,11 @@ namespace ChainEdge.Drivers
                 {
                     port.Open();
 
+                    port.Write(InitializePrinter);
+                    port.WriteLine("Here is some normal text.");
+                    port.WriteLine(BoldOn + "Here is some bold text." + BoldOff);
+                    port.WriteLine(DoubleOn + "Here is some large text." + DoubleOff);
+                    
                     port.Close();
                 }
                 catch (Exception e)
@@ -35,41 +48,25 @@ namespace ChainEdge.Drivers
 
         public override string Label => "票据打印";
 
-        public string Func(string param)
+        public ESCPOSSerialPrintDriver HT()
         {
-            return "Example: " + param;
+            port.WriteLine("\t");
+
+            return this;
         }
 
-
-        public void printBizlabel()
+        public ESCPOSSerialPrintDriver T(string v)
         {
-            throw new NotImplementedException();
+            port.WriteLine(v);
+
+            return this;
         }
 
-        public void printBuyReceipt()
+        public ESCPOSSerialPrintDriver T(decimal v)
         {
-            throw new NotImplementedException();
-        }
+            port.WriteLine(v.ToString());
 
-        public void printShipList()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void PrintTitle(string v)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PrintRow(short idx, string name, decimal price, short qty)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PrintBottomLn()
-        {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

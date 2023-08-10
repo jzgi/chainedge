@@ -6,23 +6,18 @@ namespace ChainEdge;
 
 [ClassInterface(ClassInterfaceType.AutoDual)]
 [ComVisible(true)]
-public class EdgeHost : IGateway
+public class EdgeWrap : IGateway
 {
     public string CallGetData(string driverKey, string[] @params)
     {
         return null;
     }
 
-    public void Enqueue(JObj jo)
+    public void Submit(JObj v)
     {
-        throw new NotImplementedException();
+        // post a message to javascript side
+        EdgeApp.Win.PostMessage(v);
     }
-
-    public void AddDownstream(JObj v)
-    {
-        EdgeApp.CurrentProfile.Downstream(this, v);
-    }
-
 
     public bool IsDriverCallable(string drvKey)
     {
