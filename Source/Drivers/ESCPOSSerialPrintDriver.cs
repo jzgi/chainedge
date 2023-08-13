@@ -21,11 +21,11 @@ namespace ChainEdge.Drivers
         const string BoldOff = ESC + "E" + "\0";
         const string DoubleOn = GS + "!" + "\u0011"; 
         const string DoubleOff = GS + "!" + "\0";
-        static readonly string[] names = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9" };
+        // static readonly string[] names = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9" };
 
         public override void Test()
         {
-            // var names = SerialPort.GetPortNames();
+            var names = SerialPort.GetPortNames();
             foreach (var name in names)
             {
                 port.PortName = name;

@@ -6,7 +6,7 @@ public class BuyPrintJob : Job
 {
     private Buy buy;
 
-    protected internal override void Initialize()
+    protected internal override void OnInitialize()
     {
         buy = new Buy();
         buy.Read(Data);

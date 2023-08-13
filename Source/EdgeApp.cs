@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using ChainFx;
 using ChainFx.Web;
+using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Extensions.Logging;
+using NAudio.Midi;
 using Application = System.Windows.Application;
 
 #pragma warning disable CS4014
@@ -21,6 +25,9 @@ public class EdgeApp : Application
 
     // use the embedded configure
     internal static JObj AppConf => EmbedApp.AppConf;
+
+    // use the embedded configure
+    internal static string Name => EmbedApp.Name;
 
 
     internal static readonly EdgeWindow Win = new()
@@ -79,6 +86,12 @@ public class EdgeApp : Application
     [STAThread]
     public static void Main(string[] args)
     {
+        MidiOut midiOut = new MidiOut(0);
+        midiOut.Send(MidiMessage.StartNote(80, 112, 2).RawData);
+        midiOut.Send(MidiMessage.StopNote(60, 127, 1).RawData);
+
+        TaskbarIconUtility.Do();
+
         // start the embedded web server
         EmbedApp.StartAsync(waiton: false);
 

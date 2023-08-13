@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -28,11 +29,12 @@ public class EdgeWindow : Window
         Content = grid;
 
         Loaded += OnLoaded;
+        Closing += OnClosing;
     }
 
     async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        Icon = BitmapFrame.Create(new Uri("./static/logo.jpg", UriKind.Relative));
+        Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
 
         webvw = new WebView2
         {
@@ -166,10 +168,17 @@ public class EdgeWindow : Window
         return IntPtr.Zero;
     }
 
+    protected void OnClosing(object sender, CancelEventArgs  e)
+    {
+        e.Cancel = true;
+        Hide();
+    }
+    
     protected override void OnClosed(EventArgs e)
     {
         _source.RemoveHook(HwndHook);
         UnregisterHotKey(_windowHandle, HOTKEY_ID);
+        
         base.OnClosed(e);
     }
 }

@@ -8,6 +8,7 @@
         <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
         <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
         <AssemblyVersion>1.0</AssemblyVersion>
+        <PublishSingleFile>true</PublishSingleFile>
         <UseWPF>true</UseWPF>
         <Company>Jzg Institute for IT Research</Company>
         <LangVersion>11</LangVersion>
@@ -30,8 +31,10 @@
 
     <ItemGroup>
         <PackageReference Include="FlashCap" Version="1.6.0" />
+        <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1901.177" />
         <PackageReference Include="Microsoft.ML" Version="2.0.1" />
+        <PackageReference Include="NAudio" Version="2.1.0" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
         <PackageReference Include="System.IO.Ports" Version="7.0.0" />
         <PackageReference Include="System.Speech" Version="7.0.0" />

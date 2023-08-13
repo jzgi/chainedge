@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading;
 using ChainFx;
 using ChainFx.Web;
+using Microsoft.Extensions.Logging;
 
 namespace ChainEdge;
 
@@ -56,24 +58,32 @@ public class EdgeConnect : WebConnect, IGateway
                     bdr?.Clear();
                 }
 
-                // send and handle response
-                //
-                (short status, JArr ja) ret;
-                if (bdr != null)
+
+                try
                 {
-                    ret = await PostAsync<JArr>("event", bdr, token: token);
-                }
-                else
-                {
-                    ret = await GetAsync<JArr>("event", token: token);
-                }
-                if (ret.status == 200)
-                {
-                    for (int i = 0; i < ret.ja.Count; i++)
+                    // send and handle response
+                    //
+                    (short status, JArr ja) ret;
+                    if (bdr != null)
                     {
-                        JObj jo = ret.ja[i];
-                        EdgeApp.CurrentProfile.DispatchDown(this, jo);
+                        ret = await PostAsync<JArr>("event", bdr, token: token);
                     }
+                    else
+                    {
+                        ret = await GetAsync<JArr>("event", token: token);
+                    }
+                    if (ret.status == 200)
+                    {
+                        for (int i = 0; i < ret.ja.Count; i++)
+                        {
+                            JObj jo = ret.ja[i];
+                            EdgeApp.CurrentProfile.DispatchDown(this, jo);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    EdgeApp.Logger.LogWarning(e.Message);
                 }
             }
         })

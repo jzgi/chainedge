@@ -25,7 +25,7 @@ public class RetailPlusProfile : RetailProfile
         if (data.Contains("news"))
         {
             var drv = GetDriver<SpeechDriver>();
-            drv?.Add<NewsSpeechJob>(data);
+            drv?.Add<NewsSpeechJob>(data, 3);
         }
 
         // print order

@@ -13,11 +13,11 @@ public abstract class Job
 
     public JObj Data { get; set; }
 
-    public int Repeats { get; set; }
+    public int Repeats { get; set; } = 1;
 
     public Driver Driver { get; internal set; }
 
-    protected internal abstract void Initialize();
+    protected internal abstract void OnInitialize();
 
     protected internal abstract void Perform();
 }

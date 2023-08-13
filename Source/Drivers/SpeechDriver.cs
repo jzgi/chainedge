@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Speech.Synthesis;
+using System.Text;
 
 namespace ChainEdge.Drivers;
 
@@ -22,7 +23,6 @@ public class SpeechDriver : Driver
 
     public override void Test()
     {
-
     }
 
     public override string Label => "语音";

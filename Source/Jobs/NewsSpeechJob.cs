@@ -6,19 +6,39 @@ public class NewsSpeechJob : Job
 {
     string[] news;
 
-    protected internal override void Initialize()
+    protected internal override void OnInitialize()
     {
         Data.Get(nameof(news), ref news);
     }
 
     protected internal override void Perform()
     {
-        if (Driver is SpeechDriver drv)
+        while (Repeats > 0)
         {
-            foreach (var v in news)
+            if (Driver is SpeechDriver drv)
             {
-                drv.Speak(v);
+                if (news.Length >= 2)
+                {
+                    drv.Speak("新单通知：");
+                }
+                foreach (var v in news)
+                {
+                    if (news.Length == 1)
+                    {
+                        drv.Speak(v + "有新单");
+                    }
+                    else
+                    {
+                        drv.Speak(v);
+                    }
+                }
             }
+            Repeats--;
         }
+    }
+
+    public override string ToString()
+    {
+        return news[0];
     }
 }

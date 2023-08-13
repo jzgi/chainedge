@@ -32,6 +32,12 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
     {
         coll = new(queue = new ConcurrentQueue<Job>());
 
+        lstview = new ListView()
+        {
+            
+        };
+        lstview.ItemsSource = this;
+
         this.period = period;
 
         if (period > 0)
@@ -70,12 +76,12 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
         };
 
         // init
-        job.Initialize();
+        job.OnInitialize();
 
         // add to queue
         coll.Add(job);
 
-        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
+        // CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
     }
 
 

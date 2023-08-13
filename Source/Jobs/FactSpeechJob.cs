@@ -10,7 +10,7 @@ public class FactSpeechJob : Job
 
     string oker;
 
-    protected internal override void Initialize()
+    protected internal override void OnInitialize()
     {
         Data.Get(nameof(name), ref name);
 

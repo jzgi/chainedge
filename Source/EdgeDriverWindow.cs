@@ -10,7 +10,7 @@ namespace ChainEdge;
 /// </summary>
 public class EdgeDriverWindow : Window
 {
-    private TabControl tabs;
+    readonly TabControl tabs;
 
     private Grid grid;
 
@@ -21,18 +21,27 @@ public class EdgeDriverWindow : Window
 
     internal void AddChildren()
     {
+        grid = new Grid();
+        Content = grid;
+
+        grid.Children.Add(tabs);
+
         var map = EdgeApp.CurrentProfile.Drivers;
 
         for (int i = 0; i < map.Count; i++)
         {
             var drv = map.ValueAt(i);
 
-            tabs.Items.Add(drv.Label);
+            // tabs.Items.Add(drv.Label);
+
+            tabs.Items.Add(new TabItem()
+            {
+                Header = drv.Label,
+                Content = drv
+                
+            });
+
         }
-
-        grid = new Grid();
-
-        Content = tabs;
 
         var btn = new Button
         {
