@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using ChainFx;
 using ChainFx.Web;
 using Microsoft.Extensions.Logging;
@@ -99,5 +102,31 @@ public class EdgeConnect : WebConnect, IGateway
         {
             coll.Add(v);
         }
+    }
+
+    public async Task<(short, IContent)> GetRawAsync(string uri)
+    {
+        var token = EdgeApp.Win.Token;
+        try
+        {
+            var req = new HttpRequestMessage(HttpMethod.Get, uri);
+            if (token != null)
+            {
+                req.Headers.TryAddWithoutValidation(COOKIE, "token=" + token);
+            }
+            var rsp = await SendAsync(req, HttpCompletionOption.ResponseContentRead);
+            if (rsp.StatusCode == HttpStatusCode.OK)
+            {
+                var bytea = await rsp.Content.ReadAsByteArrayAsync();
+                string ctyp = rsp.Content.Headers.GetValue(CONTENT_TYPE);
+
+                return (200, new WebStaticContent(bytea, ctyp));
+            }
+        }
+        catch (Exception e)
+        {
+            Application.Err(e.Message);
+        }
+        return (404, null);
     }
 }
