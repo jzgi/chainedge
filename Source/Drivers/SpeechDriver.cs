@@ -16,12 +16,7 @@ public class SpeechDriver : Driver
         synth.Volume = 100;
     }
 
-    public override void OnInitialize()
-    {
-        synth.SetOutputToDefaultAudioDevice();
-    }
-
-    public override void Test()
+    public override void Reset()
     {
     }
 

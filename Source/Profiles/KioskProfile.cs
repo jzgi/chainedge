@@ -14,11 +14,11 @@ public class KioskProfile : Profile
         CreateDriver<SpeechDriver>("OBJ-DETECT");
     }
 
-    public override void DispatchUp(Driver from, JObj data)
+    public override void Dispatch(Driver from, JObj data)
     {
     }
 
-    public override void DispatchDown(IGateway from, JObj data)
+    public override void Dispatch(IGateway from, JObj data)
     {
         throw new System.NotImplementedException();
     }

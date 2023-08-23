@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO.Ports;
 using System.Threading;
 using System.Windows.Controls;
 using ChainFx;
@@ -13,6 +15,39 @@ namespace ChainEdge;
 /// </summary>
 public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, INotifyCollectionChanged
 {
+    public const short
+        STU_VOID = 0,
+        STU_ERR = -1,
+        STU_READY = 1,
+        STU_WORKING = 2;
+
+    public static readonly Map<short, string> Statuses = new()
+    {
+        { STU_ERR, "错误" },
+        { STU_VOID, "未知" },
+        { STU_READY, "就绪" },
+        { STU_WORKING, "运行" },
+    };
+
+    static Driver()
+    {
+        // close all pending ports
+        foreach (var name in SerialPort.GetPortNames())
+        {
+            try
+            {
+                var port = new SerialPort()
+                {
+                    PortName = name
+                };
+                port.Close();
+            }
+            catch (Exception e)
+            {
+            }
+        }
+    }
+
     readonly ConcurrentQueue<Job> queue;
 
     // job queue that is normally put by dispatcher
@@ -21,49 +56,25 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
     // job runner
     private Thread doer;
 
-    private int period;
+    protected readonly int period;
+
+    protected short status;
 
     // ui
     //
     ListView lstview;
 
 
-    protected Driver(int period = 100)
+    protected Driver(int period = 500)
     {
         coll = new(queue = new ConcurrentQueue<Job>());
 
         lstview = new ListView()
         {
-            
         };
         lstview.ItemsSource = this;
 
         this.period = period;
-
-        if (period > 0)
-        {
-            doer = new Thread(() =>
-            {
-                while (!coll.IsCompleted)
-                {
-                    // take output job and render
-                    if (coll.TryTake(out var job, period))
-                    {
-                        job.Perform();
-                    }
-
-                    // // check & do input 
-                    // if (TryGetInput(out var ret, period))
-                    // {
-                    //     // Core.Queue
-                    // }
-                }
-            })
-            {
-                Name = "Driver"
-            };
-            doer.Start();
-        }
     }
 
     public void Add<J>(JObj data, int repeats = 1) where J : Job, new()
@@ -87,40 +98,85 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
 
     // UI constructs
 
-
-    public abstract void Test();
-
     public abstract string Label { get; }
 
-    public virtual bool IsCallable => false;
+    public short Status => status;
 
-    public virtual JObj CallToDo(JObj jo)
+    public abstract void Reset();
+
+    public void Start()
+    {
+        if (period <= 0) return;
+
+
+        doer = new Thread(() =>
+        {
+            (decimal a, decimal b) last = default;
+
+            while (!coll.IsCompleted)
+            {
+                // check status
+                while (status < STU_READY)
+                {
+                    // reset and rebind
+                    Reset();
+
+                    Thread.Sleep(period);
+                }
+
+                // check & post input 
+                if (TryGetInput(out var ret, period))
+                {
+                    bool eq = ret == last;
+                    last = ret;
+
+                    if (!eq)
+                    {
+                        var jo = new JObj
+                        {
+                            { "$", Key },
+                            { "a", ret.a },
+                            { "b", ret.b },
+                        };
+                        EdgeApp.Profile.Dispatch(this, jo);
+                    }
+                }
+
+                // take output job and render
+                if (coll.TryTake(out var job, period))
+                {
+                    job.Perform();
+                }
+            }
+        })
+        {
+            Name = Key + " Driver"
+        };
+
+
+        doer.Start();
+    }
+
+    public virtual void Stop()
+    {
+        coll.CompleteAdding();
+    }
+
+    public virtual JObj CallToPerform(JObj jo)
     {
         return null;
     }
 
-    public virtual bool TryGetInput(out (decimal v, JObj ext) result, int milliseconds)
+    public virtual bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
     {
         result = default;
         return false;
-    }
-
-    public bool IsInstalled()
-    {
-        return true;
-    }
-
-    public virtual void OnInitialize()
-    {
     }
 
     public string ClassName => GetType().Name;
 
     public string Key { get; set; }
 
-    public void OnClose()
-    {
-    }
 
     public event NotifyCollectionChangedEventHandler CollectionChanged;
 

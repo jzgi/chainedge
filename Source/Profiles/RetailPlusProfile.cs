@@ -18,9 +18,9 @@ public class RetailPlusProfile : RetailProfile
     }
 
 
-    public override void DispatchDown(IGateway from, JObj data)
+    public override void Dispatch(IGateway from, JObj data)
     {
-        base.DispatchDown(from, data);
+        base.Dispatch(from, data);
 
         if (data.Contains("news"))
         {

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Threading;
 
 namespace ChainEdge
 {
     public class MifareOneDriver : Driver
     {
         const int BUFFER = 32;
+        
+        readonly SemaphoreSlim semaph = new(1);
+
 
         readonly SerialPort port = new()
         {
@@ -20,20 +24,34 @@ namespace ChainEdge
 
 
 
-        public override void Test()
+        public override void Reset()
         {
             foreach (var name in SerialPort.GetPortNames())
             {
-                port.PortName = name;
+                semaph.Wait();
                 try
                 {
+                    port.PortName = name;
                     port.Open();
 
+                }
+                catch (UnauthorizedAccessException e) // used by other process
+                {
+                }
+                catch (InvalidOperationException e) // port is open
+                {
                     port.Close();
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e);
+                    if (port.IsOpen)
+                    {
+                        port.Close();
+                    }
+                }
+                finally
+                {
+                    semaph.Release();
                 }
             }
         }

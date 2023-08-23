@@ -17,15 +17,15 @@ public class RetailProfile : Profile
         CreateDriver<LedBoardDriver>("LEDBRD");
     }
 
-    public override void DispatchUp(Driver from, JObj data)
+    public override void Dispatch(Driver from, JObj data)
     {
         if (from.Key == "SCALE")
         {
-            EdgeApp.Wrap.Submit(data);
+            EdgeApp.Wrap.SubmitData(data);
         }
     }
 
-    public override void DispatchDown(IGateway from, JObj data)
+    public override void Dispatch(IGateway from, JObj data)
     {
         if (data.Contains("utel"))
         {

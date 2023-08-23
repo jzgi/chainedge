@@ -45,7 +45,7 @@ public class EdgeApp : Application
     // connector to the cloud
     internal static readonly EdgeConnect Connect;
 
-    internal static readonly Profile CurrentProfile;
+    internal static readonly Profile Profile;
 
 
     // the main application instance
@@ -73,8 +73,8 @@ public class EdgeApp : Application
 
         // resolve current profile
         string profile = AppConf[nameof(profile)];
-        CurrentProfile = Profile.GetProfile(profile);
-        if (CurrentProfile == null)
+        Profile = Profile.GetProfile(profile);
+        if (Profile == null)
         {
             Logger.LogError("Wrong profile in app.json");
             return;
@@ -96,7 +96,7 @@ public class EdgeApp : Application
         EmbedApp.StartAsync(waiton: false);
 
         // initial test for each & every driver
-        CurrentProfile.TestEveryDriver();
+        Profile.Start();
 
         // win.Show();
         App.Run(Win);

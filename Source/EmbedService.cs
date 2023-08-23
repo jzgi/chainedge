@@ -10,7 +10,7 @@ public class EmbedService : WebService, IGateway
 {
     #region IGateway
 
-    public void Submit(JObj v)
+    public void SubmitData(JObj v)
     {
         throw new NotImplementedException();
     }

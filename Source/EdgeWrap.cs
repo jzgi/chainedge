@@ -13,28 +13,18 @@ public class EdgeWrap : IGateway
         return null;
     }
 
-    public void Submit(JObj v)
+    public void SubmitData(JObj v)
     {
         // post a message to javascript side
         EdgeApp.Win.PostMessage(v);
     }
 
-    public bool IsDriverCallable(string drvKey)
+    public string CallDriverPerform(string drvKey, JObj v)
     {
-        var drv = EdgeApp.CurrentProfile.GetDriver(drvKey);
+        var drv = EdgeApp.Profile.GetDriver(drvKey);
         if (drv != null)
         {
-            return drv.IsCallable;
-        }
-        return false;
-    }
-
-    public string CallDriverToDo(string drvKey, JObj v)
-    {
-        var drv = EdgeApp.CurrentProfile.GetDriver(drvKey);
-        if (drv != null)
-        {
-            var ret = drv.CallToDo(v);
+            var ret = drv.CallToPerform(v);
 
             if (ret != null)
             {

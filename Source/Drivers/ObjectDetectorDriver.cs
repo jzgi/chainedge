@@ -21,11 +21,11 @@ namespace ChainEdge.Drivers
         private ComboBox devices;
 
 
-        public override void Test()
+        public override void Reset()
         {
             // Capture device enumeration:
         }
-        
+
         public override string Label => "智能识别";
 
 
@@ -91,9 +91,8 @@ namespace ChainEdge.Drivers
             throw new NotImplementedException();
         }
 
-        public override bool IsCallable => true;
-        
-        public override JObj CallToDo(JObj jo)
+
+        public override JObj CallToPerform(JObj jo)
         {
             return new JObj();
         }

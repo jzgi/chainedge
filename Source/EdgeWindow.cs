@@ -103,7 +103,7 @@ public class EdgeWindow : Window
     public void PostMessage(JObj v)
     {
         var str = v.ToString();
-        webvw.CoreWebView2.PostWebMessageAsJson(str);
+        Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
     }
 
     //
@@ -168,17 +168,17 @@ public class EdgeWindow : Window
         return IntPtr.Zero;
     }
 
-    protected void OnClosing(object sender, CancelEventArgs  e)
+    protected void OnClosing(object sender, CancelEventArgs e)
     {
         e.Cancel = true;
         Hide();
     }
-    
+
     protected override void OnClosed(EventArgs e)
     {
         _source.RemoveHook(HwndHook);
         UnregisterHotKey(_windowHandle, HOTKEY_ID);
-        
+
         base.OnClosed(e);
     }
 }

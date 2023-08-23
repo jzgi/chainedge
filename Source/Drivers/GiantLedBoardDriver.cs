@@ -5,7 +5,7 @@
         MediaPlayWindow sidewin;
 
 
-        public override void Test()
+        public override void Reset()
         {
         }
 

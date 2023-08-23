@@ -1,14 +1,13 @@
-﻿using System;
-
-namespace ChainEdge.Drivers
+﻿namespace ChainEdge.Drivers
 {
     public class ESCPSerialPrintDriver : Driver
     {
-        public override void Test()
+        public override void Reset()
         {
         }
 
         public override string Label => "行打印";
+
 
         public void printBizlabel()
         {

@@ -26,7 +26,7 @@ public class EdgeDriverWindow : Window
 
         grid.Children.Add(tabs);
 
-        var map = EdgeApp.CurrentProfile.Drivers;
+        var map = EdgeApp.Profile.Drivers;
 
         for (int i = 0; i < map.Count; i++)
         {

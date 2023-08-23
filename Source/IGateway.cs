@@ -11,5 +11,5 @@ public interface IGateway
     /// To submit an event data into the dateway.
     /// </summary>
     /// <param name="v">the event data to submit</param>
-    void Submit(JObj v);
+    void SubmitData(JObj v);
 }

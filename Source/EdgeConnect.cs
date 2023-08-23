@@ -19,7 +19,7 @@ public class EdgeConnect : WebConnect, IGateway
     readonly Thread puller;
 
 
-    public EdgeConnect(string baseUri, WebClientHandler handler = null) : base(baseUri, handler)
+    public EdgeConnect(string baseUri) : base(baseUri)
     {
         // set up queue
         coll = new(queue = new());
@@ -80,7 +80,7 @@ public class EdgeConnect : WebConnect, IGateway
                         for (int i = 0; i < ret.ja.Count; i++)
                         {
                             JObj jo = ret.ja[i];
-                            EdgeApp.CurrentProfile.DispatchDown(this, jo);
+                            EdgeApp.Profile.Dispatch(this, jo);
                         }
                     }
                 }
@@ -96,7 +96,7 @@ public class EdgeConnect : WebConnect, IGateway
         puller.Start();
     }
 
-    public void Submit(JObj v)
+    public void SubmitData(JObj v)
     {
         if (v != null)
         {
@@ -114,7 +114,7 @@ public class EdgeConnect : WebConnect, IGateway
             {
                 req.Headers.TryAddWithoutValidation(COOKIE, "token=" + token);
             }
-            var rsp = await SendAsync(req, HttpCompletionOption.ResponseContentRead);
+            var rsp = await client.SendAsync(req, HttpCompletionOption.ResponseContentRead);
             if (rsp.StatusCode == HttpStatusCode.OK)
             {
                 var bytea = await rsp.Content.ReadAsByteArrayAsync();

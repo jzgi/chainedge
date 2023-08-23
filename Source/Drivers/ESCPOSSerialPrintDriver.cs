@@ -7,9 +7,9 @@ namespace ChainEdge.Drivers
     {
         readonly SerialPort port = new()
         {
-            BaudRate = 9600,
-            DataBits = 8,
+            BaudRate = 19200,
             Parity = Parity.None,
+            DataBits = 8,
             StopBits = StopBits.One
         };
 
@@ -19,11 +19,12 @@ namespace ChainEdge.Drivers
         const string InitializePrinter = ESC + "@";
         const string BoldOn = ESC + "E" + "\u0001";
         const string BoldOff = ESC + "E" + "\0";
-        const string DoubleOn = GS + "!" + "\u0011"; 
+        const string DoubleOn = GS + "!" + "\u0011";
+
         const string DoubleOff = GS + "!" + "\0";
         // static readonly string[] names = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9" };
 
-        public override void Test()
+        public override void Reset()
         {
             var names = SerialPort.GetPortNames();
             foreach (var name in names)
@@ -33,10 +34,12 @@ namespace ChainEdge.Drivers
                 {
                     port.Open();
 
-                    port.Write(InitializePrinter);
-                    port.WriteLine("Here is some normal text.");
-                    port.WriteLine(BoldOn + "Here is some bold text." + BoldOff);
-                    port.WriteLine(DoubleOn + "Here is some large text." + DoubleOff);
+                    // port.Write(InitializePrinter);
+                    // port.WriteLine("Here is some normal text.");
+                    // port.WriteLine(BoldOn + "Here is some bold text." + BoldOff);
+                    // port.WriteLine(DoubleOn + "Here is some large text." + DoubleOff);
+
+                    status = STU_READY;
                     
                     port.Close();
                 }
@@ -47,6 +50,7 @@ namespace ChainEdge.Drivers
         }
 
         public override string Label => "票据打印";
+
 
         public ESCPOSSerialPrintDriver HT()
         {

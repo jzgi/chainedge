@@ -37,13 +37,13 @@ public abstract class Profile : IKeyable<string>
 
     public Map<string, Driver> Drivers => drivers;
 
-    public void TestEveryDriver()
+    public void Start()
     {
         for (int i = 0; i < drivers.Count; i++)
         {
             var drv = drivers.ValueAt(i);
 
-            drv.Test();
+            drv.Start();
         }
     }
 
@@ -68,11 +68,11 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public virtual void DispatchUp(Driver from, JObj data)
+    public virtual void Dispatch(Driver from, JObj data)
     {
     }
 
-    public abstract void DispatchDown(IGateway from, JObj data);
+    public abstract void Dispatch(IGateway from, JObj data);
 
 
     public string Key => name;

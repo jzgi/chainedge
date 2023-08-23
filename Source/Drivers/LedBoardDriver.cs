@@ -7,7 +7,7 @@ namespace ChainEdge.Drivers
         MediaPlayWindow sidewin;
 
 
-        public override void Test()
+        public override void Reset()
         {
         }
         public override string Label => "微屏";
