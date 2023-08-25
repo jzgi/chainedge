@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using ChainEdge.Drivers;
+using ChainEdge.Jobs;
 using ChainFx;
 using ChainFx.Web;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -94,6 +96,36 @@ public class EdgeApp : Application
 
         // start the embedded web server
         EmbedApp.StartAsync(waiton: false);
+
+
+        var jo = new JObj()
+        {
+            { "name", "子安路店" },
+            {
+                "items", new JArr()
+                {
+                    new JObj()
+                    {
+                        { "itemid", 7 },
+                        { "name", "无铅酱油" },
+                        { "unit", "瓶" },
+                        { "price", 12.34M },
+                        { "qty", 3 },
+                    },
+                    new JObj()
+                    {
+                        { "itemid", 8 },
+                        { "name", "大米" },
+                        { "unit", "袋" },
+                        { "price", 2.50M },
+                        { "qty", 1 },
+                    },
+                }
+            }
+        };
+
+        var drv = Profile.GetDriver<ESCPOSSerialPrintDriver>(null);
+        drv.Add<BuyPrintJob>(jo);
 
         // initial test for each & every driver
         Profile.Start();

@@ -2,6 +2,7 @@
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace ChainEdge.Drivers
 {
@@ -15,8 +16,8 @@ namespace ChainEdge.Drivers
             DataBits = 8,
             Parity = Parity.None,
             StopBits = StopBits.One,
-            ReadTimeout = 500,
-            WriteTimeout = 500,
+            ReadTimeout = 200,
+            WriteTimeout = 200,
         };
 
 
@@ -31,23 +32,19 @@ namespace ChainEdge.Drivers
                     port.Open();
 
                     // make a retrieval
-                    TryGetInput(out _, period);
+                    if (TryGetInput(out _, period))
+                    {
+                        return; // keep COM port
+                    }
 
-                    if (status <= STU_VOID)
-                    {
-                        port.Close(); // continue
-                    }
-                    else
-                    {
-                        break; // keep COM port
-                    }
+                    // continue
+                    port.Close();
                 }
                 catch (UnauthorizedAccessException e) // used by other process
                 {
                 }
                 catch (InvalidOperationException e) // port is open
                 {
-                    port.Close();
                 }
                 catch (Exception e)
                 {
@@ -72,7 +69,6 @@ namespace ChainEdge.Drivers
             DC1 = { 0x11 },
             buf = new byte[15];
 
-
         public override bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
         {
             result = default;
@@ -82,16 +78,27 @@ namespace ChainEdge.Drivers
             {
                 Weigh:
 
+                Array.Clear(buf);
+
                 port.Write(ENQ, 0, ENQ.Length);
-                var b = port.ReadByte();
-                if (b != 0x06)
+                var num = port.Read(buf, 0, 1);
+                if (num != 1 || buf[0] != 0x06)
                 {
                     status = STU_ERR;
                     return false;
                 }
 
+                // Thread.Sleep(period);
+
+                Array.Clear(buf);
+
                 port.Write(DC1, 0, DC1.Length);
-                if (port.Read(buf, 0, buf.Length) == 0)
+
+                // must pause for a period
+                Thread.Sleep(period);
+
+                num = port.Read(buf, 0, buf.Length);
+                if (num == 0)
                 {
                     status = STU_ERR;
                     return false;
@@ -101,7 +108,7 @@ namespace ChainEdge.Drivers
                 if (buf[0] != 0x01 || buf[1] != 0x02)
                 {
                     status = STU_ERR;
-                    return false;
+                    return default;
                 }
                 var sta = (char)buf[2];
                 if (sta == 'F' || sta == 'U') // overload or unstable
@@ -136,18 +143,22 @@ namespace ChainEdge.Drivers
                 if (etx != 0x03 || eot != 0x04)
                 {
                     status = STU_ERR;
-                    return false;
+                    return default;
                 }
 
                 if (un1 == 'k' && un0 == 'g')
                 {
                     v *= 1000;
-
-                    result.a = v;
                 }
 
+                result.a = v;
                 status = STU_READY;
                 return true;
+            }
+            catch (Exception e)
+            {
+                status = STU_ERR;
+                return false;
             }
             finally
             {

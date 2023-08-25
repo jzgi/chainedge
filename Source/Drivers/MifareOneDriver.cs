@@ -8,7 +8,7 @@ namespace ChainEdge
     public class MifareOneDriver : Driver
     {
         const int BUFFER = 32;
-        
+
         readonly SemaphoreSlim semaph = new(1);
 
 
@@ -23,7 +23,6 @@ namespace ChainEdge
         };
 
 
-
         public override void Reset()
         {
             foreach (var name in SerialPort.GetPortNames())
@@ -31,22 +30,29 @@ namespace ChainEdge
                 semaph.Wait();
                 try
                 {
-                    port.PortName = name;
-                    port.Open();
-
+                    // port.PortName = name;
+                    // port.Open();
+                    // if (status <= STU_VOID)
+                    // {
+                    //     port.Close(); // continue
+                    // }
+                    // else
+                    // {
+                    //     break; // keep COM port
+                    // }
                 }
                 catch (UnauthorizedAccessException e) // used by other process
                 {
                 }
                 catch (InvalidOperationException e) // port is open
                 {
-                    port.Close();
+                    // port.Close();
                 }
                 catch (Exception e)
                 {
                     if (port.IsOpen)
                     {
-                        port.Close();
+                        // port.Close();
                     }
                 }
                 finally

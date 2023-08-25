@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO.Ports;
 using System.Threading;
 using System.Windows.Controls;
 using ChainFx;
@@ -16,8 +14,8 @@ namespace ChainEdge;
 public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, INotifyCollectionChanged
 {
     public const short
-        STU_VOID = 0,
         STU_ERR = -1,
+        STU_VOID = 0,
         STU_READY = 1,
         STU_WORKING = 2;
 
@@ -29,24 +27,6 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
         { STU_WORKING, "运行" },
     };
 
-    static Driver()
-    {
-        // close all pending ports
-        foreach (var name in SerialPort.GetPortNames())
-        {
-            try
-            {
-                var port = new SerialPort()
-                {
-                    PortName = name
-                };
-                port.Close();
-            }
-            catch (Exception e)
-            {
-            }
-        }
-    }
 
     readonly ConcurrentQueue<Job> queue;
 
@@ -58,14 +38,14 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
 
     protected readonly int period;
 
-    protected short status;
+    protected volatile short status;
 
     // ui
     //
     ListView lstview;
 
 
-    protected Driver(int period = 500)
+    protected Driver(int period = 200)
     {
         coll = new(queue = new ConcurrentQueue<Job>());
 
@@ -76,6 +56,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
 
         this.period = period;
     }
+
 
     public void Add<J>(JObj data, int repeats = 1) where J : Job, new()
     {
@@ -130,7 +111,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
                     bool eq = ret == last;
                     last = ret;
 
-                    if (!eq)
+                    if (!eq && ret != default) // a change triggered
                     {
                         var jo = new JObj
                         {
@@ -145,15 +126,13 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
                 // take output job and render
                 if (coll.TryTake(out var job, period))
                 {
-                    job.Perform();
+                    job.CarryOut();
                 }
             }
-        })
-        {
-            Name = Key + " Driver"
-        };
+        }) { Name = Key };
 
 
+        // start the doer thread
         doer.Start();
     }
 

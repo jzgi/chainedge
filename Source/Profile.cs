@@ -68,9 +68,7 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public virtual void Dispatch(Driver from, JObj data)
-    {
-    }
+    public abstract void Dispatch(Driver from, JObj data);
 
     public abstract void Dispatch(IGateway from, JObj data);
 

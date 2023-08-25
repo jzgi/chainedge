@@ -10,11 +10,11 @@ public class RetailProfile : Profile
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT");
 
-        CreateDriver<CASSerialScaleDriver>("SCALE");
+        // CreateDriver<CASSerialScaleDriver>("SCALE");
 
-        CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
-
-        CreateDriver<LedBoardDriver>("LEDBRD");
+        // CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
+        //
+        // CreateDriver<LedBoardDriver>("LEDBRD");
     }
 
     public override void Dispatch(Driver from, JObj data)

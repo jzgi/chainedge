@@ -8,13 +8,13 @@ public class RetailPlusProfile : RetailProfile
 {
     public RetailPlusProfile(string name) : base(name)
     {
-        CreateDriver<ESCPSerialPrintDriver>("PRINT");
-
-        CreateDriver<MifareOneDriver>("MCARD");
-
-        CreateDriver<SpeechDriver>("SPEECH");
-
-        CreateDriver<GiantLedBoardDriver>("GIANT-LEDBRD");
+        // CreateDriver<ESCPSerialPrintDriver>("PRINT");
+        //
+        // CreateDriver<MifareOneDriver>("MCARD");
+        //
+        // CreateDriver<SpeechDriver>("SPEECH");
+        //
+        // CreateDriver<GiantLedBoardDriver>("GIANT-LEDBRD");
     }
 
 
