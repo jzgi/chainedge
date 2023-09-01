@@ -12,15 +12,15 @@ public class BuyPrintJob : Job
         buy.Read(Data);
     }
 
-    protected internal override void CarryOut()
+    protected internal override void Perform()
     {
         if (Driver is ESCPOSSerialPrintDriver drv)
         {
-            drv.T(buy.name);
+            drv.TT(buy.name).LF();
             for (int i = 0; i < buy.items?.Length; i++)
             {
                 var it = buy.items[i];
-                drv.T(it.name).HT().T(it.SubTotal);
+                drv.TT(it.name).HT().HT().T(it.qty).T(" ").TT(it.unit).HT().T(it.SubTotal).LF();
             }
         }
     }

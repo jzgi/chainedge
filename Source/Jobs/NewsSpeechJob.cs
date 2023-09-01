@@ -11,7 +11,7 @@ public class NewsSpeechJob : Job
         Data.Get(nameof(news), ref news);
     }
 
-    protected internal override void CarryOut()
+    protected internal override void Perform()
     {
         while (Repeats > 0)
         {

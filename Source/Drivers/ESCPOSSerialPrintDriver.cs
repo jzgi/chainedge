@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
@@ -31,6 +31,8 @@ public class ESCPOSSerialPrintDriver : Driver
 
 
     const string ZhOn = FS + "&";
+    const string ZhOff = FS + ".";
+    const string ZhCharset = FS + "!" + "\u0001";
 
 
     public override void Reset()
@@ -48,13 +50,11 @@ public class ESCPOSSerialPrintDriver : Driver
                 if (TryGetStatus(out var v, period))
                 {
                     port.Write(InitializePrinter);
-                    port.WriteLine("Here is some normal text.");
-                    port.WriteLine(BoldOn + "Here is some bold text." + BoldOff);
-                    port.Write(ZhOn);
-                    var b = GetGBKEncode("大字体测试");
-                    port.Write(b, 0, b.Length);
+                    // port.WriteLine("As a result");
+                    // var b = ToGbk("这是一个核心");
+                    // port.Write(b, 0, b.Length);
+                    // port.WriteLine("");
 
-                    port.WriteLine(ZhOn + unicodetogb("大字体测试"));
                     return; // keep COM port
                 }
 
@@ -87,6 +87,8 @@ public class ESCPOSSerialPrintDriver : Driver
 
     static readonly byte[] DLE_EOT_1 = { 0x10, 0x04, 1 };
 
+    static readonly byte[] LF_BYTES = { 0x0A };
+
     static readonly byte[] buf = new byte[1024];
 
     public bool TryGetStatus(out byte result, int milliseconds)
@@ -111,7 +113,7 @@ public class ESCPOSSerialPrintDriver : Driver
                 return false;
             }
 
-            if ((buf[0] & 0x12) != 0x12)
+            if ((buf[0] & 0x08) == 0x08) // offline
             {
                 status = STU_ERR;
                 return false;
@@ -145,10 +147,10 @@ public class ESCPOSSerialPrintDriver : Driver
     }
 
 
-    public ESCPOSSerialPrintDriver TT()
+    public ESCPOSSerialPrintDriver TT(string v)
     {
-        port.Write(FSS, 0, FSS.Length);
-
+        var b = ToGbk(v);
+        port.Write(b, 0, b.Length);
         return this;
     }
 
@@ -156,6 +158,13 @@ public class ESCPOSSerialPrintDriver : Driver
     public ESCPOSSerialPrintDriver HT()
     {
         port.Write("\t");
+
+        return this;
+    }
+
+    public ESCPOSSerialPrintDriver LF()
+    {
+        port.Write("\n");
 
         return this;
     }
@@ -174,60 +183,10 @@ public class ESCPOSSerialPrintDriver : Driver
         return this;
     }
 
-    public static byte[] GetGBKEncode(string unicodeString)
+
+    public byte[] ToGbk(string text)
     {
-        Encoding unicode = Encoding.Unicode;
-
-        Encoding gbk = Encoding.GetEncoding(936);
-
-        byte[] unicodeBytes = unicode.GetBytes(unicodeString);
-
-        byte[] gbkBytes = Encoding.Convert(unicode, gbk, unicodeBytes);
-
-        return gbkBytes;
-
-        // int i = 0;
-        // string result = "";
-        //
-        // while (i < gbkBytes.Length)
-        // {
-        //
-        //     if (gbkBytes[i] <= 127)
-        //     {
-        //         result += (char)gbkBytes[i];
-        //
-        //     }
-        //     else
-        //     {
-        //         result += "%" + gbkBytes[i].ToString("X");
-        //
-        //     }
-        //     i++;
-        // }
-        // return result;
-    }
-    
-    public string unicodetogb(string text)
-    {
-        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(text, "\\\\u([\\w]{4})");
-        if (mc != null && mc.Count > 0)
-        {
-            foreach (System.Text.RegularExpressions.Match m2 in mc)
-            {
-                string v = m2.Value;
-                string word = v.Substring(2);
-                byte[] codes = new byte[2];
-                int code = Convert.ToInt32(word.Substring(0, 2), 16);
-                int code2 = Convert.ToInt32(word.Substring(2), 16);
-                codes[0] = (byte)code2;
-                codes[1] = (byte)code;
-                text = text.Replace(v, Encoding.Unicode.GetString(codes));
-            }
-        }
-        else
-        {
-
-        }
-        return text;
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        return Encoding.GetEncoding("GBK").GetBytes(text);
     }
 }

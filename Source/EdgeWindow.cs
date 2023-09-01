@@ -58,7 +58,7 @@ public class EdgeWindow : Window
         }
 
         var settings = webvw.CoreWebView2.Settings;
-        settings.AreDevToolsEnabled = false;
+        // settings.AreDevToolsEnabled = false;
         settings.IsZoomControlEnabled = false;
         settings.AreDefaultContextMenusEnabled = false;
 

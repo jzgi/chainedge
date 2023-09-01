@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
@@ -61,7 +61,7 @@ namespace ChainEdge.Drivers
         }
 
 
-        public override string Label => "台秤";
+        public override string Label => "̨��";
 
 
         private static readonly byte[]

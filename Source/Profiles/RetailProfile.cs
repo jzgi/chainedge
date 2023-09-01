@@ -10,7 +10,7 @@ public class RetailProfile : Profile
     {
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT");
 
-        // CreateDriver<CASSerialScaleDriver>("SCALE");
+        CreateDriver<CASSerialScaleDriver>("SCALE");
 
         // CreateDriver<ObjectDetectorDriver>("OBJ-DETECT");
         //

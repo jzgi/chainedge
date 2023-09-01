@@ -19,7 +19,7 @@ public class FactSpeechJob : Job
         Data.Get(nameof(oker), ref oker);
     }
 
-    protected internal override void CarryOut()
+    protected internal override void Perform()
     {
         if (Driver is SpeechDriver drv)
         {
