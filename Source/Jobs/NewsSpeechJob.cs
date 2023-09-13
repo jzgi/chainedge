@@ -13,9 +13,11 @@ public class NewsSpeechJob : Job
 
     protected internal override void Perform()
     {
-        while (Repeats > 0)
+        if (news == null || news.Length == 0) return;
+
+        if (Driver is SpeechDriver drv)
         {
-            if (Driver is SpeechDriver drv)
+            while (Repeat > 0)
             {
                 if (news.Length >= 2)
                 {
@@ -32,8 +34,14 @@ public class NewsSpeechJob : Job
                         drv.Speak(v);
                     }
                 }
+
+                if (Repeat == 1)
+                {
+                    drv.Speak("请及时处理");
+                }
+
+                Repeat--;
             }
-            Repeats--;
         }
     }
 

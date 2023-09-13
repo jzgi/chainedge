@@ -13,7 +13,7 @@ public abstract class Job
 
     public JObj Data { get; set; }
 
-    public int Repeats { get; set; } = 1;
+    public int Repeat { get; set; } = 1;
 
     public Driver Driver { get; internal set; }
 

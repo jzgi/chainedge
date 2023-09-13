@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Speech.Synthesis;
-using System.Text;
 
 namespace ChainEdge.Drivers;
 
@@ -14,6 +13,8 @@ public class SpeechDriver : Driver
         synth.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Adult, 1, CultureInfo.CurrentCulture);
         synth.SetOutputToDefaultAudioDevice();
         synth.Volume = 100;
+
+        status = STU_READY;
     }
 
     public override void Reset()

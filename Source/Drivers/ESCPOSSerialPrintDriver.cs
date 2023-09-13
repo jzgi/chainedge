@@ -3,6 +3,8 @@ using System.IO.Ports;
 using System.Text;
 using System.Threading;
 
+// ReSharper disable SpecifyACultureInStringConversionExplicitly
+
 namespace ChainEdge.Drivers;
 
 public class ESCPOSSerialPrintDriver : Driver
@@ -20,21 +22,6 @@ public class ESCPOSSerialPrintDriver : Driver
     };
 
 
-    const string ESC = "\u001B";
-    const string GS = "\u001D";
-    const string FS = "\u001C";
-
-    const string InitializePrinter = ESC + "@";
-    const string BoldOn = ESC + "E" + "\u0001";
-    const string BoldOff = ESC + "E" + "\0";
-    const string DoubleOn = GS + "!" + "\u0011";
-
-
-    const string ZhOn = FS + "&";
-    const string ZhOff = FS + ".";
-    const string ZhCharset = FS + "!" + "\u0001";
-
-
     public override void Reset()
     {
         var names = SerialPort.GetPortNames();
@@ -49,11 +36,10 @@ public class ESCPOSSerialPrintDriver : Driver
                 // make a retrieval
                 if (TryGetStatus(out var v, period))
                 {
-                    port.Write(InitializePrinter);
-                    // port.WriteLine("As a result");
-                    // var b = ToGbk("这是一个核心");
-                    // port.Write(b, 0, b.Length);
-                    // port.WriteLine("");
+                    if ((v & 0x08) == 0x08) // offline
+                    {
+                        status = STU_VOID;
+                    }
 
                     return; // keep COM port
                 }
@@ -83,8 +69,6 @@ public class ESCPOSSerialPrintDriver : Driver
 
     public override string Label => "票据打印";
 
-    const string DoubleOff = GS + "!" + "\0";
-
     static readonly byte[] DLE_EOT_1 = { 0x10, 0x04, 1 };
 
     static readonly byte[] LF_BYTES = { 0x0A };
@@ -98,8 +82,6 @@ public class ESCPOSSerialPrintDriver : Driver
         semaph.Wait(milliseconds);
         try
         {
-            Weigh:
-
             Array.Clear(buf);
 
             port.Write(DLE_EOT_1, 0, DLE_EOT_1.Length);
@@ -113,14 +95,7 @@ public class ESCPOSSerialPrintDriver : Driver
                 return false;
             }
 
-            if ((buf[0] & 0x08) == 0x08) // offline
-            {
-                status = STU_ERR;
-                return false;
-            }
-
             result = buf[0];
-
             status = STU_READY;
             return true;
         }
@@ -135,13 +110,17 @@ public class ESCPOSSerialPrintDriver : Driver
         }
     }
 
-    private static readonly byte[]
-        FS_A = { 0x1c, 0x26 }, // FS &
-        FSS = { 0x1c, 0x21, 0 };
 
-    public ESCPOSSerialPrintDriver SetFS_A()
+    public ESCPOSSerialPrintDriver INIT()
     {
-        port.Write(FS_A, 0, FS_A.Length);
+        port.Write("\u001B@");
+
+        return this;
+    }
+
+    public ESCPOSSerialPrintDriver CUT()
+    {
+        port.Write("\u001Bi");
 
         return this;
     }
@@ -153,7 +132,6 @@ public class ESCPOSSerialPrintDriver : Driver
         port.Write(b, 0, b.Length);
         return this;
     }
-
 
     public ESCPOSSerialPrintDriver HT()
     {
@@ -171,22 +149,35 @@ public class ESCPOSSerialPrintDriver : Driver
 
     public ESCPOSSerialPrintDriver T(string v)
     {
-        port.Write(v);
+        if (v != null)
+        {
+            port.Write(v);
+        }
 
         return this;
     }
 
-    public ESCPOSSerialPrintDriver T(decimal v)
+
+    private static readonly string[] PlaceHolder = { "0.00", "00.00", "000.00", "0000.00", "00000.00", "000000.00", "0000000.00", "00000000.00", "000000000.00", };
+
+    public ESCPOSSerialPrintDriver T(decimal v, bool money = false)
     {
-        port.Write(v.ToString());
+        port.Write(v.ToString("C"));
 
         return this;
     }
 
+    //
+    // static context
+    //
 
-    public byte[] ToGbk(string text)
+    static ESCPOSSerialPrintDriver()
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+    }
+
+    public static byte[] ToGbk(string text)
+    {
         return Encoding.GetEncoding("GBK").GetBytes(text);
     }
 }

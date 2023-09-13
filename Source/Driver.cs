@@ -62,7 +62,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
     {
         var job = new J()
         {
-            Repeats = repeats,
+            Repeat = repeats,
             Data = data,
             Driver = this
         };
