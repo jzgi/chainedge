@@ -27,10 +27,10 @@ public class RetailPlusProfile : RetailProfile
         }
 
         // print order
-        if (data.Contains("num"))
+        if (data.Contains("content"))
         {
             var drv = GetDriver<SpeechDriver>();
-            drv?.Add<FactSpeechJob>(data);
+            drv?.Add<MsgSpeechJob>(data);
         }
     }
 }
