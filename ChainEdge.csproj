@@ -4,7 +4,7 @@
         <OutputType>WinExe</OutputType>
         <PackageVersion>1.0</PackageVersion>
         <Platform>x64</Platform>
-        <TargetFramework>net7.0-windows</TargetFramework>
+        <TargetFramework>net7.0-windows10.0.18362.0</TargetFramework>
         <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
         <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
         <AssemblyVersion>1.0</AssemblyVersion>
@@ -30,12 +30,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="FlashCap" Version="1.6.0" />
         <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
         <PackageReference Include="Iot.Device.Bindings" Version="3.0.0" />
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1901.177" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40" />
         <PackageReference Include="Microsoft.ML" Version="2.0.1" />
-        <PackageReference Include="NAudio" Version="2.1.0" />
+        <PackageReference Include="NAudio" Version="2.2.1" />
+        <PackageReference Include="SIPSorcery" Version="6.0.12" />
         <PackageReference Include="System.Device.Gpio" Version="3.0.0" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
         <PackageReference Include="System.IO.Ports" Version="7.0.0" />
