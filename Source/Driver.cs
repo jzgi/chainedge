@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Concurrent;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
-using ChainFx;
+using ChainFX;
 
 namespace ChainEdge;
 
 /// <summary>
 /// An abstract device driver, for input or output, or both.
 /// </summary>
-public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, INotifyCollectionChanged
+public abstract class Driver : DockPanel, IKeyable<string>
 {
     public const short
         STU_ERR = -1,
@@ -33,8 +31,8 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
     // job queue that is normally put by dispatcher
     readonly BlockingCollection<Job> coll;
 
-    // job runner
-    private Thread doer;
+    // thread that performs jobs
+    private Thread runner;
 
     protected readonly int period;
 
@@ -42,27 +40,28 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
 
     // ui
     //
-    ListView lstview;
+    readonly ListBox lstbox;
 
 
     protected Driver(int period = 200)
     {
-        coll = new(queue = new ConcurrentQueue<Job>());
+        coll = new(
+            queue = new ConcurrentQueue<Job>()
+        );
 
-        lstview = new ListView()
+        Children.Add(lstbox = new ListBox
         {
-        };
-        lstview.ItemsSource = this;
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+        });
 
         this.period = period;
     }
 
 
-    public void Add<J>(JObj data, int repeats = 1) where J : Job, new()
+    public void Add<J>(JObj data) where J : Job, new()
     {
-        var job = new J()
+        var job = new J
         {
-            Repeat = repeats,
             Data = data,
             Driver = this
         };
@@ -73,7 +72,33 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
         // add to queue
         coll.Add(job);
 
-        // CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
+        DockPanel rowp;
+        var item = new ListBoxItem()
+        {
+            Content = rowp = new DockPanel
+            {
+                LastChildFill = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            },
+            Height = 48
+        };
+
+        UIElement prg;
+        rowp.Children.Add(prg = new ProgressBar
+        {
+            Value = 0,
+            Width = 32,
+            Height = 24,
+        });
+        SetDock(prg, Dock.Right);
+
+        rowp.Children.Add(new TextBlock
+        {
+            Text = job.ToString(),
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        });
+
+        lstbox.Items.Add(item);
     }
 
 
@@ -85,12 +110,17 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
 
     public abstract void Reset();
 
-    public void Start()
+    /// <summary>
+    /// 
+    /// </summary>
+    public void StartToRun()
     {
-        if (period <= 0) return;
+        if (period <= 0)
+        {
+            return;
+        }
 
-
-        doer = new Thread(() =>
+        runner = new Thread(() =>
         {
             (decimal a, decimal b) last = default;
 
@@ -105,7 +135,8 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
                     Thread.Sleep(period);
                 }
 
-                // check & post input 
+                // check if there is an updated input 
+                //
                 if (TryGetInput(out var ret, period))
                 {
                     bool eq = ret == last;
@@ -116,24 +147,37 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
                         var jo = new JObj
                         {
                             { "$", Key },
-                            { "a", ret.a },
-                            { "b", ret.b },
+                            { nameof(ret.a), ret.a },
+                            { nameof(ret.b), ret.b },
                         };
-                        EdgeApp.Profile.Dispatch(this, jo);
+                        EdgeApp.Profile.Upstream(this, jo);
                     }
                 }
 
-                // take output job and render
+                // take an output job and perform
+                //
                 if (coll.TryTake(out var job, period))
                 {
+                    Dispatcher.Invoke(() =>
+                    {
+                        // set focus
+                        lstbox.SelectedIndex = 0;
+                    });
+
                     job.Perform();
+
+                    Dispatcher.Invoke(() =>
+                    {
+                        // dequeue
+                        lstbox.Items.RemoveAt(0);
+                    });
                 }
             }
         }) { Name = Key };
 
 
         // start the doer thread
-        doer.Start();
+        runner.Start();
     }
 
     public virtual void Stop()
@@ -141,7 +185,7 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
         coll.CompleteAdding();
     }
 
-    public virtual JObj CallToPerform(JObj jo)
+    public virtual JObj Perform(JObj jo)
     {
         return null;
     }
@@ -155,17 +199,4 @@ public abstract class Driver : DockPanel, IKeyable<string>, IEnumerable<Job>, IN
     public string ClassName => GetType().Name;
 
     public string Key { get; set; }
-
-
-    public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return queue.GetEnumerator();
-    }
-
-    public IEnumerator<Job> GetEnumerator()
-    {
-        return queue.GetEnumerator();
-    }
 }

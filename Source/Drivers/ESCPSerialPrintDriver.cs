@@ -6,7 +6,7 @@
         {
         }
 
-        public override string Label => "行打印";
+        public override string Label => "页打印";
 
 
         public void printBizlabel()

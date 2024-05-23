@@ -1,5 +1,5 @@
 ﻿using ChainEdge.Profiles;
-using ChainFx;
+using ChainFX;
 
 namespace ChainEdge;
 
@@ -7,9 +7,9 @@ public abstract class Profile : IKeyable<string>
 {
     static Map<string, Profile> all = new()
     {
-        new RetailPlusProfile("RETAIL-PLUS"),
+        new PosPlusProfile("POS-PLUS"),
 
-        new RetailProfile("RETAIL"),
+        new PosProfile("POS"),
 
         new WorkstnProfile("WORKSTN"),
 
@@ -43,7 +43,7 @@ public abstract class Profile : IKeyable<string>
         {
             var drv = drivers.ValueAt(i);
 
-            drv.Start();
+            drv.StartToRun();
         }
     }
 
@@ -68,9 +68,9 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public abstract void Dispatch(Driver from, JObj data);
+    public abstract void Upstream(Driver from, JObj data);
 
-    public abstract void Dispatch(IGateway from, JObj data);
+    public abstract void Downstream(IGateway from, JObj data);
 
 
     public string Key => name;

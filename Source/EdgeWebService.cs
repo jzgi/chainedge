@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ChainFx;
-using ChainFx.Web;
+using ChainFX;
+using ChainFX.Web;
 using Microsoft.AspNetCore.Http;
 
 namespace ChainEdge;
 
-public class EmbedService : WebService, IGateway
+public class EdgeWebService : WebService, IGateway
 {
     #region IGateway
 
-    public void SubmitData(JObj v)
+    public void AddData(JObj v)
     {
         throw new NotImplementedException();
     }
@@ -36,13 +36,16 @@ public class EmbedService : WebService, IGateway
                     return;
                 }
 
-
                 // try from cache
+                if (!Service.TryGiveFromCache(wc))
+                {
+                    // get remote
+                    var (status, cnt) = await EdgeApp.Connect.GetRawAsync(uri);
 
-                // get remote
-                var (status, cnt) = await EdgeApp.Connect.GetRawAsync(uri);
+                    wc.Give(status, cnt);
 
-                wc.Give(status, cnt);
+                    TryAddToCache(wc);
+                }
             }
             else // POST
             {

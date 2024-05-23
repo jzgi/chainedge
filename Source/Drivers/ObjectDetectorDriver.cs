@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using ChainFx;
+using ChainFX;
 using Image = System.Drawing.Image;
 
 namespace ChainEdge.Drivers
@@ -91,7 +91,7 @@ namespace ChainEdge.Drivers
         }
 
 
-        public override JObj CallToPerform(JObj jo)
+        public override JObj Perform(JObj jo)
         {
             return new JObj();
         }

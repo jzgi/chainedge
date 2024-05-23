@@ -1,4 +1,4 @@
-﻿using ChainFx;
+﻿using ChainFX;
 
 namespace ChainEdge;
 
@@ -7,17 +7,20 @@ namespace ChainEdge;
 /// </summary>
 public abstract class Job
 {
-    short status;
+    public const short
+        STU_VOID = 0,
+        STU_HALF = 50,
+        STU_COMPLETED = 100;
 
-    public short Status => status;
+    short progress;
+
+    public short Progress => progress;
 
     public JObj Data { get; set; }
 
-    public int Repeat { get; set; } = 1;
-
     public Driver Driver { get; internal set; }
 
-    protected internal abstract void OnInitialize();
+    public abstract void OnInitialize();
 
-    protected internal abstract void Perform();
+    public abstract void Perform();
 }

@@ -5,12 +5,16 @@ namespace ChainEdge.Jobs;
 public class MsgSpeechJob : Job
 {
     short typ;
+
     string name;
+
     string content;
+
     string tip;
+
     string oker;
 
-    protected internal override void OnInitialize()
+    public override void OnInitialize()
     {
         Data.Get(nameof(typ), ref typ);
         Data.Get(nameof(name), ref name);
@@ -19,7 +23,7 @@ public class MsgSpeechJob : Job
         Data.Get(nameof(oker), ref oker);
     }
 
-    protected internal override void Perform()
+    public override void Perform()
     {
         if (Driver is SpeechDriver drv)
         {

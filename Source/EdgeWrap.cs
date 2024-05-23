@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using ChainFx;
+﻿using System.Runtime.InteropServices;
+using ChainFX;
 
 namespace ChainEdge;
 
@@ -13,7 +12,7 @@ public class EdgeWrap : IGateway
         return null;
     }
 
-    public void SubmitData(JObj v)
+    public void AddData(JObj v)
     {
         // post a message to javascript side
         EdgeApp.Win.PostMessage(v);
@@ -24,7 +23,7 @@ public class EdgeWrap : IGateway
         var drv = EdgeApp.Profile.GetDriver(drvKey);
         if (drv != null)
         {
-            var ret = drv.CallToPerform(v);
+            var ret = drv.Perform(v);
 
             if (ret != null)
             {

@@ -2,8 +2,8 @@
   "logging": 2,
   "name": "中惠农通",
   "secret": "ef748c683274e",
-  "url": "http://mgt.zhnt-x.com/rtlly//",
-  "profile": "RETAIL-PLUS",
+  "url": "http://mgt.zhnt-x.com/mktly//",
+  "profile": "POS-PLUS",
   "service-embed": {
     "address": "http://0.0.0.0",
     "cache": true

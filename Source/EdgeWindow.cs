@@ -1,13 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using ChainFx;
+using ChainFX;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
@@ -18,33 +16,32 @@ namespace ChainEdge;
 /// </summary>
 public class EdgeWindow : Window
 {
-    WebView2 webvw;
+    readonly DockPanel dockp;
 
-    Grid grid;
+    readonly WebView2 webvw;
+
+    readonly DriverTabControl tabctl;
 
     public EdgeWindow()
     {
-        grid = new Grid();
-
-        Content = grid;
-
         Loaded += OnLoaded;
         Closing += OnClosing;
+        Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
+        Content = dockp = new()
+        {
+            LastChildFill = true,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+
+        dockp.Children.Add(tabctl = new());
+        dockp.Children.Add(webvw = new());
+
+        DockPanel.SetDock(tabctl, Dock.Right);
     }
 
     async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
-
-        webvw = new WebView2
-        {
-            VerticalAlignment = VerticalAlignment.Stretch,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
-
-        grid.Children.Add(webvw);
-
-
         if (webvw != null && webvw.CoreWebView2 == null)
         {
             var env = await CoreWebView2Environment.CreateAsync(null, "data");
@@ -53,14 +50,14 @@ public class EdgeWindow : Window
         }
         if (webvw.CoreWebView2 == null)
         {
-            MessageBox.Show("获取 CoreWebView2 失败");
+            MessageBox.Show("failed to obtain CoreWebView2");
             return;
         }
 
-        var settings = webvw.CoreWebView2.Settings;
+        var setgs = webvw.CoreWebView2.Settings;
         // settings.AreDevToolsEnabled = false;
-        settings.IsZoomControlEnabled = false;
-        settings.AreDefaultContextMenusEnabled = false;
+        setgs.IsZoomControlEnabled = false;
+        setgs.AreDefaultContextMenusEnabled = false;
 
         string url = EdgeApp.AppConf[nameof(url)];
         webvw.CoreWebView2.Navigate(url);
@@ -72,9 +69,18 @@ public class EdgeWindow : Window
             args.Handled = true;
         };
 
+        //
+        // handling
+
+        webvw.CoreWebView2.WebMessageReceived += (sender, args) => { };
+
         webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.Wrap);
 
         webvw.NavigationCompleted += OnNavigationCompleted;
+
+
+        // load tabs
+        tabctl.Load();
     }
 
     volatile string token;
@@ -106,79 +112,9 @@ public class EdgeWindow : Window
         Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
     }
 
-    //
-    // hotkey impl
-    //
-
-    [DllImport("user32.dll")]
-    private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-
-    [DllImport("user32.dll")]
-    private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-    private const int HOTKEY_ID = 9000;
-
-    // modifiers:
-    private const uint MOD_NONE = 0x0000; //(none)
-    private const uint MOD_ALT = 0x0001; //ALT
-    private const uint MOD_CONTROL = 0x0002; //CTRL
-    private const uint MOD_SHIFT = 0x0004; //SHIFT
-
-
-    private IntPtr _windowHandle;
-    private HwndSource _source;
-
-    protected override void OnSourceInitialized(EventArgs e)
-    {
-        base.OnSourceInitialized(e);
-
-        _windowHandle = new WindowInteropHelper(this).Handle;
-        _source = HwndSource.FromHwnd(_windowHandle);
-        if (_source != null)
-        {
-            _source.AddHook(HwndHook);
-        }
-
-        RegisterHotKey(_windowHandle, HOTKEY_ID, MOD_ALT | MOD_CONTROL, 0x44); //CTRL + CAPS_LOCK
-    }
-
-    private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-    {
-        const int WM_HOTKEY = 0x0312;
-        switch (msg)
-        {
-            case WM_HOTKEY:
-                switch (wParam.ToInt32())
-                {
-                    case HOTKEY_ID:
-                        int vkey = (((int)lParam >> 16) & 0xFFFF);
-                        if (vkey == 0x44)
-                        {
-                            // set visiblity of the device manager window
-
-                            var vis = EdgeApp.DriverWin.Visibility;
-
-                            EdgeApp.DriverWin.Visibility = vis == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
-                        }
-                        handled = true;
-                        break;
-                }
-                break;
-        }
-        return IntPtr.Zero;
-    }
-
     protected void OnClosing(object sender, CancelEventArgs e)
     {
         e.Cancel = true;
         Hide();
-    }
-
-    protected override void OnClosed(EventArgs e)
-    {
-        _source.RemoveHook(HwndHook);
-        UnregisterHotKey(_windowHandle, HOTKEY_ID);
-
-        base.OnClosed(e);
     }
 }

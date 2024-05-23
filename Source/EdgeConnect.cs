@@ -4,14 +4,17 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using ChainFx;
-using ChainFx.Web;
+using ChainFX;
+using ChainFX.Source;
+using ChainFX.Web;
 using Microsoft.Extensions.Logging;
 
 namespace ChainEdge;
 
 public class EdgeConnect : WebConnect, IGateway
 {
+    public const int POLLING_INTEVAL = 60 * 1000;
+
     readonly ConcurrentQueue<JObj> queue;
 
     readonly BlockingCollection<JObj> coll;
@@ -24,13 +27,13 @@ public class EdgeConnect : WebConnect, IGateway
         // set up queue
         coll = new(queue = new());
 
-        // create thread
+        // create the poller thread
+        //
         puller = new Thread(async () =>
         {
             while (!coll.IsCompleted)
             {
-                // at an interval
-                Thread.Sleep(1000 * 12);
+                Thread.Sleep(POLLING_INTEVAL);
 
                 // ensure token
                 //
@@ -62,25 +65,25 @@ public class EdgeConnect : WebConnect, IGateway
                 }
 
 
+                // send event request amd handle the response
+                //
                 try
                 {
-                    // send and handle response
-                    //
                     (short status, JArr ja) ret;
                     if (bdr != null)
                     {
-                        ret = await PostAsync<JArr>("event", bdr, token: token);
+                        ret = await PostAsync<JArr>(nameof(IExternable.@extern), bdr, token: token);
                     }
                     else
                     {
-                        ret = await GetAsync<JArr>("event", token: token);
+                        ret = await GetAsync<JArr>(nameof(IExternable.@extern), token: token);
                     }
                     if (ret.status == 200)
                     {
                         for (int i = 0; i < ret.ja.Count; i++)
                         {
                             JObj jo = ret.ja[i];
-                            EdgeApp.Profile.Dispatch(this, jo);
+                            EdgeApp.Profile.Downstream(this, jo);
                         }
                     }
                 }
@@ -96,7 +99,7 @@ public class EdgeConnect : WebConnect, IGateway
         puller.Start();
     }
 
-    public void SubmitData(JObj v)
+    public void AddData(JObj v)
     {
         if (v != null)
         {
@@ -121,6 +124,37 @@ public class EdgeConnect : WebConnect, IGateway
                 string ctyp = rsp.Content.Headers.GetValue(CONTENT_TYPE);
 
                 return (200, new WebStaticContent(bytea, ctyp));
+            }
+        }
+        catch (Exception e)
+        {
+            Application.Err(e.Message);
+        }
+        return (404, null);
+    }
+
+    public async Task<(short, IContent)> GetAndProxyAsync(string uri, WebContext wc)
+    {
+        var token = EdgeApp.Win.Token;
+        try
+        {
+            var req = new HttpRequestMessage(HttpMethod.Get, uri);
+            if (token != null)
+            {
+                req.Headers.TryAddWithoutValidation(COOKIE, "token=" + token);
+            }
+            var rsp = await client.SendAsync(req, HttpCompletionOption.ResponseContentRead);
+            if (rsp.StatusCode == HttpStatusCode.OK)
+            {
+                var bytea = await rsp.Content.ReadAsByteArrayAsync();
+                string ctyp = rsp.Content.Headers.GetValue(CONTENT_TYPE);
+
+                // headers
+                foreach (var h in rsp.Headers)
+                {
+                    wc.SetHeader(h.Key, h.ToString());
+                }
+                wc.Give(200, new WebStaticContent(bytea, ctyp));
             }
         }
         catch (Exception e)

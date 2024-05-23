@@ -1,4 +1,4 @@
-﻿using ChainFx;
+﻿using ChainFX;
 
 namespace ChainEdge;
 
@@ -11,5 +11,5 @@ public interface IGateway
     /// To submit an event data into the dateway.
     /// </summary>
     /// <param name="v">the event data to submit</param>
-    void SubmitData(JObj v);
+    void AddData(JObj v);
 }

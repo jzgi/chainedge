@@ -1,6 +1,6 @@
 ﻿namespace ChainEdge.Drivers
 {
-    public class GiantLedBoardDriver : Driver
+    public class BarcodeScannerDriver : Driver
     {
         MediaPlayWindow sidewin;
 
@@ -9,7 +9,7 @@
         {
         }
 
-        public override string Label => "电子看板";
+        public override string Label => "条形码";
 
         public void show(string uri)
         {

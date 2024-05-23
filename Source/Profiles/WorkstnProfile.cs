@@ -1,5 +1,5 @@
 ﻿using ChainEdge.Drivers;
-using ChainFx;
+using ChainFX;
 
 namespace ChainEdge.Profiles;
 
@@ -16,11 +16,11 @@ public class WorkstnProfile : Profile
         CreateDriver<SpeechDriver>("SPEECH");
     }
 
-    public override void Dispatch(Driver from, JObj data)
+    public override void Upstream(Driver from, JObj data)
     {
     }
 
-    public override void Dispatch(IGateway from, JObj data)
+    public override void Downstream(IGateway from, JObj data)
     {
     }
 }

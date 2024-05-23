@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using System.Speech.Synthesis;
+using ChainEdge.Jobs;
+using ChainFX;
 
 namespace ChainEdge.Drivers;
 
@@ -15,6 +17,10 @@ public class SpeechDriver : Driver
         synth.Volume = 100;
 
         status = STU_READY;
+        
+        Add<NewOrderSpeechJob>(new JObj());
+        Add<NewOrderSpeechJob>(new JObj());
+        Add<NewOrderSpeechJob>(new JObj());
     }
 
     public override void Reset()
@@ -25,6 +31,6 @@ public class SpeechDriver : Driver
 
     public void Speak(string v)
     {
-        synth.SpeakAsync(v);
+        synth.Speak(v);
     }
 }

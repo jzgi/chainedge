@@ -111,16 +111,79 @@ public class ESCPOSSerialPrintDriver : Driver
     }
 
 
-    public ESCPOSSerialPrintDriver INIT()
+    public ESCPOSSerialPrintDriver Init()
     {
         port.Write("\u001B@");
 
         return this;
     }
 
-    public ESCPOSSerialPrintDriver CUT()
+    static readonly byte[]
+        CHAR_0 = { 0x1d, 0x21, 0x00 },
+        CHAR_1 = { 0x1d, 0x21, 0x11 },
+        CHAR_2 = { 0x1d, 0x21, 0x22 },
+        CHAR_3 = { 0x1d, 0x21, 0x33 },
+        CHAR_4 = { 0x1d, 0x21, 0x44 };
+
+    public ESCPOSSerialPrintDriver CHARSIZE(short n = 0)
+    {
+        switch (n)
+        {
+            case 0:
+                port.Write(CHAR_0, 0, CHAR_0.Length);
+                break;
+            case 1:
+                port.Write(CHAR_1, 0, CHAR_1.Length);
+                break;
+            case 2:
+                port.Write(CHAR_2, 0, CHAR_2.Length);
+                break;
+            case 3:
+                port.Write(CHAR_3, 0, CHAR_3.Length);
+                break;
+            case 4:
+                port.Write(CHAR_4, 0, CHAR_4.Length);
+                break;
+        }
+
+        return this;
+    }
+
+
+    static readonly byte[]
+        JUST_0 = { 0x1b, 0x61, 0 },
+        JUST_1 = { 0x1b, 0x61, 1 },
+        JUST_2 = { 0x1b, 0x61, 2 };
+
+
+    public ESCPOSSerialPrintDriver JUSTIFY(short n = 0)
+    {
+        switch (n)
+        {
+            case 0:
+                port.Write(JUST_0, 0, JUST_0.Length);
+                break;
+            case 1:
+                port.Write(JUST_1, 0, JUST_1.Length);
+                break;
+            case 2:
+                port.Write(JUST_2, 0, JUST_2.Length);
+                break;
+        }
+
+        return this;
+    }
+
+    public ESCPOSSerialPrintDriver FullCut()
     {
         port.Write("\u001Bi");
+
+        return this;
+    }
+
+    public ESCPOSSerialPrintDriver PartialCut()
+    {
+        port.Write("\u001Bm");
 
         return this;
     }
@@ -143,6 +206,13 @@ public class ESCPOSSerialPrintDriver : Driver
     public ESCPOSSerialPrintDriver LF()
     {
         port.Write("\n");
+
+        return this;
+    }
+
+    public ESCPOSSerialPrintDriver CR()
+    {
+        port.Write("\r");
 
         return this;
     }

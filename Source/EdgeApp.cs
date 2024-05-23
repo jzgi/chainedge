@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows;
-using ChainFx;
-using ChainFx.Web;
+using ChainEdge.Drivers;
+using ChainEdge.Jobs;
+using ChainFX;
+using ChainFX.Web;
 using Microsoft.Extensions.Logging;
-using NAudio.Midi;
 using Application = System.Windows.Application;
 
 #pragma warning disable CS4014
@@ -18,25 +19,19 @@ namespace ChainEdge;
 public class EdgeApp : Application
 {
     // use the embedded logger
-    internal static FileLogger Logger => EmbedApp.Logger;
+    internal static FileLogger Logger => EdgeWebProxy.Logger;
 
     // use the embedded configure
-    internal static JObj AppConf => EmbedApp.AppConf;
+    internal static JObj AppConf => EdgeWebProxy.Config;
 
     // use the embedded configure
-    internal static string Name => EmbedApp.Name;
+    internal static string Name => EdgeWebProxy.Nodal.name;
 
 
     internal static readonly EdgeWindow Win = new()
     {
         WindowStyle = WindowStyle.SingleBorderWindow,
         WindowState = WindowState.Maximized,
-    };
-
-    internal static readonly EdgeDriverWindow DriverWin = new()
-    {
-        WindowStyle = WindowStyle.None,
-        WindowState = WindowState.Normal,
     };
 
     // connector to the cloud
@@ -57,70 +52,70 @@ public class EdgeApp : Application
 
     static EdgeApp()
     {
-        EmbedApp.Initialize();
-
         // create client
+        //
         string url = AppConf[nameof(url)];
         if (url == null)
         {
-            Logger.LogError("Wrong url in app.json");
+            Logger.LogError("missing 'url' in application.json");
             return;
         }
         Connect = new(url);
 
         // resolve current profile
+        //
         string profile = AppConf[nameof(profile)];
         Profile = Profile.GetProfile(profile);
         if (Profile == null)
         {
-            Logger.LogError("Wrong profile in app.json");
+            Logger.LogError("unsupported profile in application.json");
             return;
         }
-
-        DriverWin.AddChildren();
     }
 
     [STAThread]
     public static void Main(string[] args)
     {
-        MidiOut midiOut = new MidiOut(0);
-        midiOut.Send(MidiMessage.StartNote(80, 112, 2).RawData);
-        midiOut.Send(MidiMessage.StopNote(60, 127, 1).RawData);
-
         TaskbarIconUtility.Do();
 
         // start the embedded web server
-        EmbedApp.StartAsync(waiton: false);
-
-
-        // var jo = new JObj()
-        // {
-        //     { "name", "子安路店" },
-        //     {
-        //         "items", new JArr()
-        //         {
-        //             new JObj()
-        //             {
-        //                 { "itemid", 7 },
-        //                 { "name", "无铅酱油" },
-        //                 { "unit", "瓶" },
-        //                 { "price", 12.34M },
-        //                 { "qty", 3 },
-        //             },
-        //             new JObj()
-        //             {
-        //                 { "itemid", 8 },
-        //                 { "name", "大米" },
-        //                 { "unit", "袋" },
-        //                 { "price", 2.50M },
-        //                 { "qty", 1 },
-        //             },
-        //         }
-        //     }
-        // };
         //
-        // var drv = Profile.GetDriver<ESCPOSSerialPrintDriver>(null);
-        // drv.Add<BuyPrintJob>(jo);
+        if (Profile is IProxiable)
+        {
+            EdgeWebProxy.Initialize();
+
+            EdgeWebProxy.StartAsync(waiton: false);
+        }
+
+
+        var jo = new JObj
+        {
+            { "1", "万载百合广场" },
+            { "2", "2024-04-02" },
+            { "3", "中惠体验中心" },
+            { "4", "刘青云" },
+            { "5", "北京西城区玉渊潭102号" },
+            {
+                "@", new JArr()
+                {
+                    new JObj()
+                    {
+                        { "1", "无铅酱油" },
+                        { "2", "1瓶" },
+                        { "3", "￥23.0" },
+                    },
+                    new JObj()
+                    {
+                        { "1", "百合粉" },
+                        { "2", "1包" },
+                        { "3", "￥80.0" },
+                    },
+                }
+            }
+        };
+
+        var drv = Profile.GetDriver<ESCPOSSerialPrintDriver>(null);
+        drv.Add<BuyPrintJob>(jo);
 
         // initial test for each & every driver
         Profile.Start();
