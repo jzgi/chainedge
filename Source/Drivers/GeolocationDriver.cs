@@ -10,7 +10,7 @@ namespace ChainEdge.Drivers
         private SerialPort port = new SerialPort();
 
 
-        public override void Reset()
+        public override void Rebind()
         {
             var names = SerialPort.GetPortNames();
             foreach (var name in names)

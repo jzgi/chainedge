@@ -23,7 +23,7 @@ public class SpeechDriver : Driver
         Add<NewOrderSpeechJob>(new JObj());
     }
 
-    public override void Reset()
+    public override void Rebind()
     {
     }
 

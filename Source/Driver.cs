@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using ChainFX;
 
 namespace ChainEdge;
@@ -80,7 +81,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
                 LastChildFill = true,
                 HorizontalAlignment = HorizontalAlignment.Stretch
             },
-            Height = 48
+            Height = 48,
         };
 
         UIElement prg;
@@ -108,7 +109,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
 
     public short Status => status;
 
-    public abstract void Reset();
+    public abstract void Rebind();
 
     /// <summary>
     /// 
@@ -130,14 +131,14 @@ public abstract class Driver : DockPanel, IKeyable<string>
                 while (status < STU_READY)
                 {
                     // reset and rebind
-                    Reset();
+                    Rebind();
 
                     Thread.Sleep(period);
                 }
 
                 // check if there is an updated input 
                 //
-                if (TryGetInput(out var ret, period))
+                if (TryObtain(out var ret, period))
                 {
                     bool eq = ret == last;
                     last = ret;
@@ -172,6 +173,8 @@ public abstract class Driver : DockPanel, IKeyable<string>
                         lstbox.Items.RemoveAt(0);
                     });
                 }
+
+                Thread.Sleep(period);
             }
         }) { Name = Key };
 
@@ -190,7 +193,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
         return null;
     }
 
-    public virtual bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
+    public virtual bool TryObtain(out (decimal a, decimal b) result, int milliseconds)
     {
         result = default;
         return false;

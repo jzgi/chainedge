@@ -91,10 +91,10 @@ public class EdgeApp : Application
         var jo = new JObj
         {
             { "1", "万载百合广场" },
-            { "2", "2024-04-02" },
-            { "3", "中惠体验中心" },
-            { "4", "刘青云" },
-            { "5", "北京西城区玉渊潭102号" },
+            { "created", "2024-04-02" },
+            { "orgname", "中惠体验中心" },
+            { "uname", "刘青云" },
+            { "uaddr", "北京西城区玉渊潭102号" },
             {
                 "@", new JArr()
                 {
@@ -115,7 +115,7 @@ public class EdgeApp : Application
         };
 
         var drv = Profile.GetDriver<ESCPOSSerialPrintDriver>(null);
-        drv.Add<BuyPrintJob>(jo);
+        drv.Add<NewOrderPrintJob>(jo);
 
         // initial test for each & every driver
         Profile.Start();

@@ -2,7 +2,6 @@ using System;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
-using Microsoft.Extensions.Logging;
 
 namespace ChainEdge.Drivers
 {
@@ -21,7 +20,7 @@ namespace ChainEdge.Drivers
         };
 
 
-        public override void Reset()
+        public override void Rebind()
         {
             foreach (var name in SerialPort.GetPortNames())
             {
@@ -32,7 +31,7 @@ namespace ChainEdge.Drivers
                     port.Open();
 
                     // make a retrieval
-                    if (TryGetInput(out _, period))
+                    if (TryObtain(out _, period))
                     {
                         return; // keep COM port
                     }
@@ -69,7 +68,7 @@ namespace ChainEdge.Drivers
             DC1 = { 0x11 },
             buf = new byte[15];
 
-        public override bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
+        public override bool TryObtain(out (decimal a, decimal b) result, int milliseconds)
         {
             result = default;
 
@@ -78,11 +77,14 @@ namespace ChainEdge.Drivers
             {
                 Weigh:
 
-                Array.Clear(buf);
 
                 port.Write(ENQ, 0, ENQ.Length);
-                var num = port.Read(buf, 0, 1);
-                if (num != 1 || buf[0] != 0x06)
+
+                Thread.Sleep(period);
+
+                Array.Clear(buf);
+                var num = port.Read(buf, 0, 4);
+                if (num <= 0 || buf[0] != 0x06)
                 {
                     status = STU_ERR;
                     return false;

@@ -42,7 +42,7 @@ public class PosProfile : Profile
         if (data.Contains(nameof(created)))
         {
             var drv = GetDriver<ESCPOSSerialPrintDriver>();
-            drv?.Add<BuyPrintJob>(data);
+            drv?.Add<NewOrderPrintJob>(data);
         }
     }
 }

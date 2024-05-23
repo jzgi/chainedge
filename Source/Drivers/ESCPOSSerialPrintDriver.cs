@@ -1,5 +1,6 @@
 using System;
 using System.IO.Ports;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -22,7 +23,7 @@ public class ESCPOSSerialPrintDriver : Driver
     };
 
 
-    public override void Reset()
+    public override void Rebind()
     {
         var names = SerialPort.GetPortNames();
         foreach (var name in names)
@@ -36,11 +37,6 @@ public class ESCPOSSerialPrintDriver : Driver
                 // make a retrieval
                 if (TryGetStatus(out var v, period))
                 {
-                    if ((v & 0x08) == 0x08) // offline
-                    {
-                        status = STU_VOID;
-                    }
-
                     return; // keep COM port
                 }
 
@@ -71,9 +67,9 @@ public class ESCPOSSerialPrintDriver : Driver
 
     static readonly byte[] DLE_EOT_1 = { 0x10, 0x04, 1 };
 
-    static readonly byte[] LF_BYTES = { 0x0A };
+    static readonly byte[] ESC_at = { 0x1B, 0x40 };
 
-    static readonly byte[] buf = new byte[1024];
+    static readonly byte[] buf = new byte[128];
 
     public bool TryGetStatus(out byte result, int milliseconds)
     {
@@ -82,21 +78,32 @@ public class ESCPOSSerialPrintDriver : Driver
         semaph.Wait(milliseconds);
         try
         {
-            Array.Clear(buf);
+            INIT();
+
+            Thread.Sleep(period);
 
             port.Write(DLE_EOT_1, 0, DLE_EOT_1.Length);
 
             Thread.Sleep(period);
 
-            var num = port.Read(buf, 0, 1);
-            if (num != 1)
+            Array.Clear(buf);
+            var num = port.Read(buf, 0, 8);
+            if (num <= 0)
             {
                 status = STU_ERR;
                 return false;
             }
 
             result = buf[0];
-            status = STU_READY;
+            if ((result & 0x08) == 0x08) // offline
+            {
+                status = STU_VOID;
+                return false;
+            }
+            else
+            {
+                status = STU_READY;
+            }
             return true;
         }
         catch (Exception e)
@@ -111,9 +118,9 @@ public class ESCPOSSerialPrintDriver : Driver
     }
 
 
-    public ESCPOSSerialPrintDriver Init()
+    public ESCPOSSerialPrintDriver INIT()
     {
-        port.Write("\u001B@");
+        port.Write(ESC_at, 0, ESC_at.Length);
 
         return this;
     }

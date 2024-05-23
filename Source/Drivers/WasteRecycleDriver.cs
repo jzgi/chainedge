@@ -11,7 +11,7 @@ namespace ChainEdge.Drivers
     {
         SideWindow sidewin;
 
-        public override void Reset()
+        public override void Rebind()
         {
         }
 

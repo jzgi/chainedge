@@ -1,6 +1,4 @@
-﻿using ChainEdge.Drivers;
-using ChainEdge.Jobs;
-using ChainFX;
+﻿using ChainFX;
 
 namespace ChainEdge.Profiles;
 
@@ -9,8 +7,6 @@ public class PosPlusProfile : PosProfile, IProxiable
     public PosPlusProfile(string name) : base(name)
     {
         CreateDriver<MifareOneDriver>("MCARD");
-
-        CreateDriver<ESCPSerialPrintDriver>("PRINT");
     }
 
 

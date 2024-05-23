@@ -3,7 +3,7 @@ using ChainFX;
 
 namespace ChainEdge.Jobs;
 
-public class BuyPrintJob : Job
+public class NewOrderPrintJob : Job
 {
     public override void OnInitialize()
     {
@@ -15,12 +15,12 @@ public class BuyPrintJob : Job
 
         if (Driver is ESCPOSSerialPrintDriver drv)
         {
-            drv.Init();
+            drv.INIT();
 
-            drv.CHARSIZE(1).JUSTIFY(1).TT(dat["1"]).JUSTIFY().CHARSIZE().LF().LF().JUSTIFY(1).TT(dat["2"]).JUSTIFY();
+            drv.CHARSIZE(1).JUSTIFY(1).TT(dat["1"]).JUSTIFY().CHARSIZE().LF().LF().JUSTIFY(1).TT(dat["created"]).JUSTIFY();
             drv.LF().LF();
-            drv.TT(dat["3"]).HT().HT().TT(dat["4"]).LF();
-            drv.HT().HT().HT().TT(dat["5"]).LF();
+            drv.TT(dat["orgname"]).HT().HT().TT(dat["uname"]).LF();
+            drv.HT().HT().HT().TT(dat["uaddr"]).LF();
 
             drv.T("-----------------------------------------------").LF();
 

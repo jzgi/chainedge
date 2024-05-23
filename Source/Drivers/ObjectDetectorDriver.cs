@@ -20,7 +20,7 @@ namespace ChainEdge.Drivers
         private ComboBox devices;
 
 
-        public override void Reset()
+        public override void Rebind()
         {
             // Capture device enumeration:
         }

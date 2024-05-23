@@ -2,7 +2,7 @@
 {
     public class ESCPSerialPrintDriver : Driver
     {
-        public override void Reset()
+        public override void Rebind()
         {
         }
 

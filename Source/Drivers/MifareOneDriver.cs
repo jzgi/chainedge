@@ -23,7 +23,7 @@ namespace ChainEdge
         };
 
 
-        public override void Reset()
+        public override void Rebind()
         {
             foreach (var name in SerialPort.GetPortNames())
             {
