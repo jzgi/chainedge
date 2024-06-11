@@ -10,9 +10,9 @@ public class PosPlusProfile : PosProfile, IProxiable
     }
 
 
-    public override void Downstream(IGateway from, JObj data)
+    public override void HandDown(IGateway from, JObj data)
     {
-        base.Downstream(from, data);
+        base.HandDown(from, data);
 
         //
     }

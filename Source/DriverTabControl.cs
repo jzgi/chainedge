@@ -7,9 +7,9 @@ namespace ChainEdge;
 /// </summary>
 public class DriverTabControl : TabControl
 {
-    internal void Load()
+    internal void LoadTabs()
     {
-        var map = EdgeApp.Profile.Drivers;
+        var map = EdgeApplication.Profile.Drivers;
 
         for (int i = 0; i < map.Count; i++)
         {

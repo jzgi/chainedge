@@ -40,7 +40,7 @@ public class EdgeWebService : WebService, IGateway
                 if (!Service.TryGiveFromCache(wc))
                 {
                     // get remote
-                    var (status, cnt) = await EdgeApp.Connect.GetRawAsync(uri);
+                    var (status, cnt) = await EdgeApplication.Connector.GetRawAsync(uri);
 
                     wc.Give(status, cnt);
 
@@ -50,7 +50,7 @@ public class EdgeWebService : WebService, IGateway
             else // POST
             {
                 var uri = wc.Uri;
-                await EdgeApp.Connect.GetRawAsync(uri);
+                await EdgeApplication.Connector.GetRawAsync(uri);
             }
         }
         finally

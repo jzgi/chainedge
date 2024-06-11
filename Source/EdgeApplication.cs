@@ -5,7 +5,6 @@ using ChainEdge.Jobs;
 using ChainFX;
 using ChainFX.Web;
 using Microsoft.Extensions.Logging;
-using Application = System.Windows.Application;
 
 #pragma warning disable CS4014
 
@@ -16,7 +15,7 @@ namespace ChainEdge;
 /// <summary>
 /// The main WPF application that hosts all relevant resources.
 /// </summary>
-public class EdgeApp : Application
+public class EdgeApplication
 {
     // use the embedded logger
     internal static FileLogger Logger => EdgeWebProxy.Logger;
@@ -30,27 +29,33 @@ public class EdgeApp : Application
 
     internal static readonly EdgeWindow Win = new()
     {
-        WindowStyle = WindowStyle.SingleBorderWindow,
-        WindowState = WindowState.Maximized,
+        // WindowStyle = WindowStyle.SingleBorderWindow,
+        // WindowState = WindowState.Maximized,
     };
 
     // connector to the cloud
-    internal static readonly EdgeConnect Connect;
+    internal static readonly EdgeConnector Connector;
 
     internal static readonly Profile Profile;
 
 
-    // the main application instance
-    static readonly EdgeApp App = new()
-    {
-        MainWindow = Win,
-        ShutdownMode = ShutdownMode.OnMainWindowClose,
-    };
+#if !_WINDOWS
+    static System.Windows.Application KitApp;
+#else
+    static Gtk.Application KitApp;
+#endif
+
+    // // the main application instance
+    // static readonly EdgeApp App = new()
+    // {
+    //     MainWindow = Win,
+    //     ShutdownMode = ShutdownMode.OnMainWindowClose,
+    // };
 
     public static readonly EdgeWrap Wrap = new();
 
 
-    static EdgeApp()
+    static EdgeApplication()
     {
         // create client
         //
@@ -60,7 +65,7 @@ public class EdgeApp : Application
             Logger.LogError("missing 'url' in application.json");
             return;
         }
-        Connect = new(url);
+        Connector = new(url);
 
         // resolve current profile
         //
@@ -76,8 +81,6 @@ public class EdgeApp : Application
     [STAThread]
     public static void Main(string[] args)
     {
-        TaskbarIconUtility.Do();
-
         // start the embedded web server
         //
         if (Profile is IProxiable)
@@ -120,8 +123,29 @@ public class EdgeApp : Application
         // initial test for each & every driver
         Profile.Start();
 
+#if !_WINDOWS
+        TaskbarIconUtility.Do();
+
+        KitApp = new System.Windows.Application
+        {
+            MainWindow = Win,
+            ShutdownMode = ShutdownMode.OnMainWindowClose,
+        };
         // win.Show();
-        App.Run(Win);
+        KitApp.Run(Win);
+
+#else
+        Gtk.Application.Init();
+
+
+        KitApp = new Gtk.Application(nameof(EdgeApplication), GLib.ApplicationFlags.None);
+        KitApp.Register(GLib.Cancellable.Current);
+
+        Gtk.Application.Run();
+
+#endif
+
+
         //
         // // ReSharper disable once AccessToStaticMemberViaDerivedType
         // EmbedApp.StopAsync().RunSynchronously();

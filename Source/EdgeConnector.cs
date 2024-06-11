@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ChainEdge;
 
-public class EdgeConnect : WebConnect, IGateway
+public class EdgeConnector : WebConnector, IGateway
 {
     public const int POLLING_INTEVAL = 60 * 1000;
 
@@ -22,7 +22,7 @@ public class EdgeConnect : WebConnect, IGateway
     readonly Thread puller;
 
 
-    public EdgeConnect(string baseUri) : base(baseUri)
+    public EdgeConnector(string baseUri) : base(baseUri)
     {
         // set up queue
         coll = new(queue = new());
@@ -37,7 +37,7 @@ public class EdgeConnect : WebConnect, IGateway
 
                 // ensure token
                 //
-                var token = EdgeApp.Win.Token;
+                var token = EdgeApplication.Win.Token;
                 if (token == null) continue;
 
                 // collect outgoing events
@@ -83,13 +83,13 @@ public class EdgeConnect : WebConnect, IGateway
                         for (int i = 0; i < ret.ja.Count; i++)
                         {
                             JObj jo = ret.ja[i];
-                            EdgeApp.Profile.Downstream(this, jo);
+                            EdgeApplication.Profile.HandDown(this, jo);
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    EdgeApp.Logger.LogWarning(e.Message);
+                    EdgeApplication.Logger.LogWarning(e.Message);
                 }
             }
         })
@@ -109,7 +109,7 @@ public class EdgeConnect : WebConnect, IGateway
 
     public async Task<(short, IContent)> GetRawAsync(string uri)
     {
-        var token = EdgeApp.Win.Token;
+        var token = EdgeApplication.Win.Token;
         try
         {
             var req = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -135,7 +135,7 @@ public class EdgeConnect : WebConnect, IGateway
 
     public async Task<(short, IContent)> GetAndProxyAsync(string uri, WebContext wc)
     {
-        var token = EdgeApp.Win.Token;
+        var token = EdgeApplication.Win.Token;
         try
         {
             var req = new HttpRequestMessage(HttpMethod.Get, uri);

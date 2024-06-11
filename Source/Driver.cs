@@ -43,6 +43,9 @@ public abstract class Driver : DockPanel, IKeyable<string>
     //
     readonly ListBox lstbox;
 
+    // the governing profile 
+    public Profile Profile { get; internal set; }
+
 
     protected Driver(int period = 200)
     {
@@ -151,7 +154,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
                             { nameof(ret.a), ret.a },
                             { nameof(ret.b), ret.b },
                         };
-                        EdgeApp.Profile.Upstream(this, jo);
+                        EdgeApplication.Profile.HandUp(this, jo);
                     }
                 }
 

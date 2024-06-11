@@ -16,17 +16,17 @@ public class PosProfile : Profile
         CreateDriver<BarcodeScannerDriver>("BARCODE-SCAN");
     }
 
-    public override void Upstream(Driver from, JObj data)
+    public override void HandUp(Driver from, JObj data)
     {
         if (from.Key == "SCALE")
         {
-            EdgeApp.Wrap.AddData(data);
+            EdgeApplication.Wrap.AddData(data);
         }
     }
 
     DateTime last;
 
-    public override void Downstream(IGateway from, JObj data)
+    public override void HandDown(IGateway from, JObj data)
     {
         DateTime created = data[nameof(created)];
 

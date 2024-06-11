@@ -18,6 +18,9 @@ public abstract class Job
 
     public JObj Data { get; set; }
 
+    /// <summary>
+    /// The hosting driver of this job.
+    /// </summary>
     public Driver Driver { get; internal set; }
 
     public abstract void OnInitialize();

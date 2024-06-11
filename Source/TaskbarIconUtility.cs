@@ -11,21 +11,16 @@ public class TaskbarIconUtility
     public static void Do()
     {
         //Note: XAML is suggested for all but the simplest scenarios
-        TaskbarIcon tbi = new TaskbarIcon()
+        var tbi = new TaskbarIcon()
         {
             Icon = new Icon("./static/favicon.ico"),
-            ToolTipText = EdgeApp.Name
+            ToolTipText = EdgeApplication.Name
         };
-        tbi.DoubleClickCommand = new Abc();
-    }
-
-    static void Adb()
-    {
-        
+        tbi.DoubleClickCommand = new ToggleCommand();
     }
 }
 
-class Abc : ICommand
+internal class ToggleCommand : ICommand
 {
     public bool CanExecute(object parameter)
     {
@@ -34,8 +29,8 @@ class Abc : ICommand
 
     public void Execute(object parameter)
     {
-        EdgeApp.Win.Visibility = Visibility.Visible;
-        EdgeApp.Win.Activate();
+        // EdgeApplication.Win.Visibility = Visibility.Visible;
+        // EdgeApplication.Win.Activate();
     }
 
     public event EventHandler CanExecuteChanged;

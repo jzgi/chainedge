@@ -15,12 +15,12 @@ public class EdgeWrap : IGateway
     public void AddData(JObj v)
     {
         // post a message to javascript side
-        EdgeApp.Win.PostMessage(v);
+        EdgeApplication.Win.PostMessage(v);
     }
 
     public string CallDriverPerform(string drvKey, JObj v)
     {
-        var drv = EdgeApp.Profile.GetDriver(drvKey);
+        var drv = EdgeApplication.Profile.GetDriver(drvKey);
         if (drv != null)
         {
             var ret = drv.Perform(v);

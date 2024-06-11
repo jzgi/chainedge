@@ -41,6 +41,13 @@ public class NewOrderPrintJob : Job
 
     public override string ToString()
     {
-        return "Buy Print";
+        if (Driver.Profile is IProxiable)
+        {
+            return Data["orgname"];
+        }
+        else
+        {
+            return Data["uname"];
+        }
     }
 }

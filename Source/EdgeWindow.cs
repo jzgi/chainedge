@@ -14,20 +14,31 @@ namespace ChainEdge;
 /// <summary>
 /// The main window that hosts WebView2.
 /// </summary>
-public class EdgeWindow : Window
+public class EdgeWindow
 {
-    readonly DockPanel dockp;
+#if _WINDOWS
+    System.Windows.Window KitWin;
 
     readonly WebView2 webvw;
+#else
+    Gtk.Window KitWin;
+
+    readonly WebKit.WebView webvw;
+#endif
+
+    readonly DockPanel dockp;
+
 
     readonly DriverTabControl tabctl;
 
     public EdgeWindow()
     {
-        Loaded += OnLoaded;
-        Closing += OnClosing;
-        Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
-        Content = dockp = new()
+#if _WINDOWS
+
+        KitWin.Loaded += OnLoaded;
+        KitWin.Closing += OnClosing;
+        KitWin.Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
+        KitWin.Content = dockp = new()
         {
             LastChildFill = true,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -38,6 +49,9 @@ public class EdgeWindow : Window
         dockp.Children.Add(webvw = new());
 
         DockPanel.SetDock(tabctl, Dock.Right);
+
+#else
+#endif
     }
 
     async void OnLoaded(object sender, RoutedEventArgs e)
@@ -59,7 +73,7 @@ public class EdgeWindow : Window
         setgs.IsZoomControlEnabled = false;
         setgs.AreDefaultContextMenusEnabled = false;
 
-        string url = EdgeApp.AppConf[nameof(url)];
+        string url = EdgeApplication.AppConf[nameof(url)];
         webvw.CoreWebView2.Navigate(url);
 
         // suppress new window being opened
@@ -74,13 +88,13 @@ public class EdgeWindow : Window
 
         webvw.CoreWebView2.WebMessageReceived += (sender, args) => { };
 
-        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.Wrap);
+        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApplication.Wrap);
 
         webvw.NavigationCompleted += OnNavigationCompleted;
 
 
         // load tabs
-        tabctl.Load();
+        tabctl.LoadTabs();
     }
 
     volatile string token;
@@ -89,7 +103,7 @@ public class EdgeWindow : Window
 
     async void OnNavigationCompleted(object target, CoreWebView2NavigationCompletedEventArgs e)
     {
-        Title = webvw.CoreWebView2.DocumentTitle;
+        // Title = webvw.CoreWebView2.DocumentTitle;
 
         var mgr = webvw.CoreWebView2.CookieManager;
         var cookies = await mgr.GetCookiesAsync(null); // get all cookie
@@ -109,12 +123,15 @@ public class EdgeWindow : Window
     public void PostMessage(JObj v)
     {
         var str = v.ToString();
-        Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
+
+#if _WINDOWS
+        KitWin.Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
+#endif
     }
 
     protected void OnClosing(object sender, CancelEventArgs e)
     {
         e.Cancel = true;
-        Hide();
+        KitWin.Hide();
     }
 }

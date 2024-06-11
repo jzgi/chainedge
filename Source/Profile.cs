@@ -30,7 +30,8 @@ public abstract class Profile : IKeyable<string>
     {
         var drv = new D()
         {
-            Key = drvKey
+            Key = drvKey,
+            Profile = this,
         };
         drivers.Add(drv);
     }
@@ -68,9 +69,9 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public abstract void Upstream(Driver from, JObj data);
+    public abstract void HandUp(Driver from, JObj data);
 
-    public abstract void Downstream(IGateway from, JObj data);
+    public abstract void HandDown(IGateway from, JObj data);
 
 
     public string Key => name;
