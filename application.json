@@ -1,9 +1,10 @@
 {
   "logging": 2,
   "name": "中惠农通",
+  "tip": "万载城东现代农贸市场",
   "secret": "ef748c683274e",
   "url": "http://mgt.zhnt-x.com/mktly//",
-  "profile": "POS-PLUS",
+  "profile": "POS",
   "service-embed": {
     "address": "http://0.0.0.0",
     "cache": true

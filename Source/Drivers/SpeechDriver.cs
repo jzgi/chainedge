@@ -7,9 +7,9 @@ namespace ChainEdge.Drivers;
 
 public class SpeechDriver : Driver
 {
-    readonly SpeechSynthesizer synth;
+    SpeechSynthesizer synth;
 
-    public SpeechDriver()
+    protected internal override void OnCreate(object state)
     {
         synth = new SpeechSynthesizer();
         synth.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Adult, 1, CultureInfo.CurrentCulture);
@@ -17,10 +17,6 @@ public class SpeechDriver : Driver
         synth.Volume = 100;
 
         status = STU_READY;
-        
-        Add<NewOrderSpeechJob>(new JObj());
-        Add<NewOrderSpeechJob>(new JObj());
-        Add<NewOrderSpeechJob>(new JObj());
     }
 
     public override void Rebind()

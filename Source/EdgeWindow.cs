@@ -14,17 +14,11 @@ namespace ChainEdge;
 /// <summary>
 /// The main window that hosts WebView2.
 /// </summary>
-public class EdgeWindow
+public class EdgeWindow : IGateway
 {
-#if _WINDOWS
-    System.Windows.Window KitWin;
+    internal readonly Window Win;
 
     readonly WebView2 webvw;
-#else
-    Gtk.Window KitWin;
-
-    readonly WebKit.WebView webvw;
-#endif
 
     readonly DockPanel dockp;
 
@@ -33,25 +27,27 @@ public class EdgeWindow
 
     public EdgeWindow()
     {
-#if _WINDOWS
+        Win = new();
 
-        KitWin.Loaded += OnLoaded;
-        KitWin.Closing += OnClosing;
-        KitWin.Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
-        KitWin.Content = dockp = new()
+        Win.Loaded += OnLoaded;
+        Win.Closing += OnClosing;
+        Win.Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
+        Win.Content = dockp = new()
         {
             LastChildFill = true,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        dockp.Children.Add(tabctl = new());
-        dockp.Children.Add(webvw = new());
+        dockp.Children.Add(tabctl = new()
+        {
+            TabStripPlacement = Dock.Bottom
+        });
+        dockp.Children.Add(webvw = new()
+        {
+        });
 
         DockPanel.SetDock(tabctl, Dock.Right);
-
-#else
-#endif
     }
 
     async void OnLoaded(object sender, RoutedEventArgs e)
@@ -67,11 +63,12 @@ public class EdgeWindow
             MessageBox.Show("failed to obtain CoreWebView2");
             return;
         }
-
+        
         var setgs = webvw.CoreWebView2.Settings;
-        // settings.AreDevToolsEnabled = false;
+        setgs.AreDevToolsEnabled = true;
         setgs.IsZoomControlEnabled = false;
         setgs.AreDefaultContextMenusEnabled = false;
+        setgs.IsWebMessageEnabled = true;
 
         string url = EdgeApplication.AppConf[nameof(url)];
         webvw.CoreWebView2.Navigate(url);
@@ -86,7 +83,21 @@ public class EdgeWindow
         //
         // handling
 
-        webvw.CoreWebView2.WebMessageReceived += (sender, args) => { };
+        webvw.CoreWebView2.WebMessageReceived += (sender, args) =>
+        {
+            var str = args.TryGetWebMessageAsString();
+            if (str == null) return;
+
+            try
+            {
+                // jobj or jarr
+                var jo = (JObj)new JsonParser(str).Parse();
+                EdgeApplication.Profile.DispatchDown(this, jo);
+            }
+            catch (Exception e)
+            {
+            }
+        };
 
         webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApplication.Wrap);
 
@@ -112,6 +123,13 @@ public class EdgeWindow
         token = cookie?.Value;
     }
 
+    public void PostData(JObj v)
+    {
+        var str = v.ToString();
+
+        Win.Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
+    }
+
     public async Task<string> GetTokenAsync()
     {
         var mgr = webvw.CoreWebView2.CookieManager;
@@ -120,18 +138,9 @@ public class EdgeWindow
         return token?.Value;
     }
 
-    public void PostMessage(JObj v)
-    {
-        var str = v.ToString();
-
-#if _WINDOWS
-        KitWin.Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
-#endif
-    }
-
     protected void OnClosing(object sender, CancelEventArgs e)
     {
         e.Cancel = true;
-        KitWin.Hide();
+        Win.Hide();
     }
 }

@@ -7,6 +7,10 @@ namespace ChainEdge.Drivers
         MediaPlayWindow sidewin;
 
 
+        protected internal override void OnCreate(object state)
+        {
+        }
+
         public override void Rebind()
         {
         }

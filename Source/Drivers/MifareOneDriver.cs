@@ -11,17 +11,20 @@ namespace ChainEdge
 
         readonly SemaphoreSlim semaph = new(1);
 
+        SerialPort port;
 
-        readonly SerialPort port = new()
+        protected internal override void OnCreate(object state)
         {
-            BaudRate = 9600,
-            DataBits = 8,
-            Parity = Parity.None,
-            StopBits = StopBits.One,
-            ReadTimeout = 100,
-            WriteTimeout = 100
-        };
-
+            port = new()
+            {
+                BaudRate = 9600,
+                DataBits = 8,
+                Parity = Parity.None,
+                StopBits = StopBits.One,
+                ReadTimeout = 100,
+                WriteTimeout = 100
+            };
+        }
 
         public override void Rebind()
         {

@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace ChainEdge;
 
-public class EdgeWebService : WebService, IGateway
+public class EmbedService : WebService, IGateway
 {
     #region IGateway
 
-    public void AddData(JObj v)
+    public void PostData(JObj v)
     {
         throw new NotImplementedException();
     }

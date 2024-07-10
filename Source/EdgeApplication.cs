@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
-using ChainEdge.Drivers;
-using ChainEdge.Jobs;
 using ChainFX;
 using ChainFX.Web;
 using Microsoft.Extensions.Logging;
+using Application = System.Windows.Application;
 
 #pragma warning disable CS4014
 
@@ -18,14 +17,15 @@ namespace ChainEdge;
 public class EdgeApplication
 {
     // use the embedded logger
-    internal static FileLogger Logger => EdgeWebProxy.Logger;
+    internal static FileLogger Logger => EmbedProxy.Logger;
 
     // use the embedded configure
-    internal static JObj AppConf => EdgeWebProxy.Config;
+    internal static JObj AppConf => EmbedProxy.Config;
 
     // use the embedded configure
-    internal static string Name => EdgeWebProxy.Nodal.name;
+    public static string Name => EmbedProxy.Nodal.name;
 
+    public static string Tip => EmbedProxy.Nodal.tip;
 
     internal static readonly EdgeWindow Win = new()
     {
@@ -38,12 +38,7 @@ public class EdgeApplication
 
     internal static readonly Profile Profile;
 
-
-#if !_WINDOWS
-    static System.Windows.Application KitApp;
-#else
-    static Gtk.Application KitApp;
-#endif
+    static Application Kit;
 
     // // the main application instance
     // static readonly EdgeApp App = new()
@@ -65,7 +60,9 @@ public class EdgeApplication
             Logger.LogError("missing 'url' in application.json");
             return;
         }
-        Connector = new(url);
+        Connector = new EdgeConnector(url)
+        {
+        };
 
         // resolve current profile
         //
@@ -85,65 +82,55 @@ public class EdgeApplication
         //
         if (Profile is IProxiable)
         {
-            EdgeWebProxy.Initialize();
+            EmbedProxy.Initialize();
 
-            EdgeWebProxy.StartAsync(waiton: false);
+            EmbedProxy.StartAsync(waiton: false);
         }
 
 
-        var jo = new JObj
-        {
-            { "1", "万载百合广场" },
-            { "created", "2024-04-02" },
-            { "orgname", "中惠体验中心" },
-            { "uname", "刘青云" },
-            { "uaddr", "北京西城区玉渊潭102号" },
-            {
-                "@", new JArr()
-                {
-                    new JObj()
-                    {
-                        { "1", "无铅酱油" },
-                        { "2", "1瓶" },
-                        { "3", "￥23.0" },
-                    },
-                    new JObj()
-                    {
-                        { "1", "百合粉" },
-                        { "2", "1包" },
-                        { "3", "￥80.0" },
-                    },
-                }
-            }
-        };
+        // var jo = new JObj
+        // {
+        //     { "1", "万载百合广场" },
+        //     { "created", "2024-04-02" },
+        //     { "orgname", "中惠体验中心" },
+        //     { "uname", "刘青云" },
+        //     { "uaddr", "北京西城区玉渊潭102号" },
+        //     {
+        //         "@", new JArr()
+        //         {
+        //             new JObj()
+        //             {
+        //                 { "1", "无铅酱油" },
+        //                 { "2", "1瓶" },
+        //                 { "3", "￥23.0" },
+        //             },
+        //             new JObj()
+        //             {
+        //                 { "1", "百合粉" },
+        //                 { "2", "1包" },
+        //                 { "3", "￥80.0" },
+        //             },
+        //         }
+        //     }
+        // };
+        //
+        // var drv = Profile.GetDriver<ESCPOSSerialPrintDriver>(null);
+        // drv.Add<NewOrderPrintJob>(jo);
+        //
 
-        var drv = Profile.GetDriver<ESCPOSSerialPrintDriver>(null);
-        drv.Add<NewOrderPrintJob>(jo);
 
         // initial test for each & every driver
         Profile.Start();
 
-#if !_WINDOWS
         TaskbarIconUtility.Do();
 
-        KitApp = new System.Windows.Application
+        Kit = new Application
         {
-            MainWindow = Win,
+            MainWindow = Win.Win,
             ShutdownMode = ShutdownMode.OnMainWindowClose,
         };
         // win.Show();
-        KitApp.Run(Win);
-
-#else
-        Gtk.Application.Init();
-
-
-        KitApp = new Gtk.Application(nameof(EdgeApplication), GLib.ApplicationFlags.None);
-        KitApp.Register(GLib.Cancellable.Current);
-
-        Gtk.Application.Run();
-
-#endif
+        Kit.Run(Win.Win);
 
 
         //

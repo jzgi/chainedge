@@ -2,10 +2,15 @@
 {
     public class ESCPSerialPrintDriver : Driver
     {
+        protected internal override void OnCreate(object state)
+        {
+        }
+
         public override void Rebind()
         {
         }
 
+        
         public override string Label => "页打印";
 
 

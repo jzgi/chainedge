@@ -20,6 +20,10 @@ namespace ChainEdge.Drivers
         private ComboBox devices;
 
 
+        protected internal override void OnCreate(object state)
+        {
+        }
+
         public override void Rebind()
         {
             // Capture device enumeration:

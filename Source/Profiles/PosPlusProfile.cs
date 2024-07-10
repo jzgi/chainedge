@@ -1,4 +1,5 @@
-﻿using ChainFX;
+﻿using ChainEdge.Drivers;
+using ChainFX;
 
 namespace ChainEdge.Profiles;
 
@@ -6,13 +7,15 @@ public class PosPlusProfile : PosProfile, IProxiable
 {
     public PosPlusProfile(string name) : base(name)
     {
-        CreateDriver<MifareOneDriver>("MCARD");
+        CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT-IN", 9600); // inner printer
+
+        CreateDriver<CASSerialScaleDriver>("SCALE");
     }
 
 
-    public override void HandDown(IGateway from, JObj data)
+    public override void DispatchDown(IGateway from, JObj data)
     {
-        base.HandDown(from, data);
+        base.DispatchDown(from, data);
 
         //
     }

@@ -9,24 +9,26 @@ public class PosProfile : Profile
 {
     public PosProfile(string name) : base(name)
     {
-        CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT");
-
         CreateDriver<SpeechDriver>("SPEECH");
 
-        CreateDriver<BarcodeScannerDriver>("BARCODE-SCAN");
+        CreateDriver<BarcodeScannerDriver>("BARCODE");
+
+        CreateDriver<MifareOneDriver>("MCARD");
+
+        CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT", 19200); // external printer
     }
 
-    public override void HandUp(Driver from, JObj data)
+    public override void DispatchUp(Driver from, JObj data)
     {
         if (from.Key == "SCALE")
         {
-            EdgeApplication.Wrap.AddData(data);
+            EdgeApplication.Wrap.PostData(data);
         }
     }
 
     DateTime last;
 
-    public override void HandDown(IGateway from, JObj data)
+    public override void DispatchDown(IGateway from, JObj data)
     {
         DateTime created = data[nameof(created)];
 
@@ -42,7 +44,7 @@ public class PosProfile : Profile
         if (data.Contains(nameof(created)))
         {
             var drv = GetDriver<ESCPOSSerialPrintDriver>();
-            drv?.Add<NewOrderPrintJob>(data);
+            drv?.Add<OrderPrintJob>(data);
         }
     }
 }

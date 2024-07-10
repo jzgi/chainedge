@@ -4,14 +4,14 @@ using ChainFX;
 namespace ChainEdge;
 
 /// <summary>
-/// The embedded web application.
+/// The embedded web proxy particularly for LAN clients.
 /// </summary>
-public class EdgeWebProxy : Application
+public class EmbedProxy : Application
 {
     public static void Initialize()
     {
         const string STATIC_ROOT = "static";
 
-        CreateService<EdgeWebService>("embed", STATIC_ROOT);
+        CreateService<EmbedService>("embed", STATIC_ROOT);
     }
 }

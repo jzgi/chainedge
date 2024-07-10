@@ -12,10 +12,10 @@ public class EdgeWrap : IGateway
         return null;
     }
 
-    public void AddData(JObj v)
+    public void PostData(JObj v)
     {
         // post a message to javascript side
-        EdgeApplication.Win.PostMessage(v);
+        EdgeApplication.Win.PostData(v);
     }
 
     public string CallDriverPerform(string drvKey, JObj v)

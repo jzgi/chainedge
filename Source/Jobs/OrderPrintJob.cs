@@ -3,7 +3,7 @@ using ChainFX;
 
 namespace ChainEdge.Jobs;
 
-public class NewOrderPrintJob : Job
+public class OrderPrintJob : Job
 {
     public override void OnInitialize()
     {
@@ -17,19 +17,22 @@ public class NewOrderPrintJob : Job
         {
             drv.INIT();
 
-            drv.CHARSIZE(1).JUSTIFY(1).TT(dat["1"]).JUSTIFY().CHARSIZE().LF().LF().JUSTIFY(1).TT(dat["created"]).JUSTIFY();
+            drv.CHARSIZE(0x01).JUSTIFY(1).TT(EdgeApplication.Name).LF().T(" - ").TT(EdgeApplication.Tip).LF().LF();
+            drv.CHARSIZE(0x11).JUSTIFY(1).TT(dat["name"]);
+            drv.CHARSIZE(0x00).JUSTIFY(1).TT(dat["created"]).JUSTIFY();
             drv.LF().LF();
-            drv.TT(dat["orgname"]).HT().HT().TT(dat["uname"]).LF();
-            drv.HT().HT().HT().TT(dat["uaddr"]).LF();
+            drv.JUSTIFY(0);
+            drv.TT(dat["uname"]).T(" ").TT(dat["utel"]).LF();
+            drv.TT(dat["uaddr"]).LF();
 
             drv.T("-----------------------------------------------").LF();
 
-            var dtl = (JArr)dat["@"];
+            var lns = (JArr)dat["lns"];
 
-            for (int i = 0; i < dtl?.Count; i++)
+            for (int i = 0; i < lns?.Count; i++)
             {
-                var it = (JObj)dtl[i];
-                drv.TT(it["1"]).HT().HT().HT().TT(it["2"]).T(" ").HT().TT(it["3"]).LF();
+                var ln = (JObj)lns[i];
+                drv.TT(ln["name"]).HT().HT().HT().TT(ln["price"]).HT().TT(ln["qty"]).T(' ').TT(ln["unit"]).LF();
             }
             drv.T("-----------------------------------------------").LF();
 

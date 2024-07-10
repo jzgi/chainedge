@@ -1,6 +1,5 @@
 using System;
 using System.IO.Ports;
-using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -12,16 +11,26 @@ public class ESCPOSSerialPrintDriver : Driver
 {
     readonly SemaphoreSlim semaph = new(1);
 
-    readonly SerialPort port = new()
-    {
-        BaudRate = 19200,
-        Parity = Parity.None,
-        DataBits = 8,
-        StopBits = StopBits.One,
-        ReadTimeout = 200,
-        WriteTimeout = 200,
-    };
+    SerialPort port;
 
+    protected internal override void OnCreate(object state)
+    {
+        int baudrate = 9600;
+
+        if (state is int v)
+        {
+            baudrate = v;
+        }
+        port = new()
+        {
+            BaudRate = baudrate,
+            Parity = Parity.None,
+            DataBits = 8,
+            StopBits = StopBits.One,
+            ReadTimeout = 200,
+            WriteTimeout = 200,
+        };
+    }
 
     public override void Rebind()
     {
@@ -125,31 +134,48 @@ public class ESCPOSSerialPrintDriver : Driver
         return this;
     }
 
-    static readonly byte[]
-        CHAR_0 = { 0x1d, 0x21, 0x00 },
-        CHAR_1 = { 0x1d, 0x21, 0x11 },
-        CHAR_2 = { 0x1d, 0x21, 0x22 },
-        CHAR_3 = { 0x1d, 0x21, 0x33 },
-        CHAR_4 = { 0x1d, 0x21, 0x44 };
+    private static readonly byte[]
+        CHAR_00 = { 0x1d, 0x21, 0x00 },
+        CHAR_01 = { 0x1d, 0x21, 0x01 },
+        CHAR_02 = { 0x1d, 0x21, 0x02 },
+        CHAR_10 = { 0x1d, 0x21, 0x10 },
+        CHAR_11 = { 0x1d, 0x21, 0x11 },
+        CHAR_12 = { 0x1d, 0x21, 0x12 },
+        CHAR_20 = { 0x1d, 0x21, 0x20 },
+        CHAR_21 = { 0x1d, 0x21, 0x21 },
+        CHAR_22 = { 0x1d, 0x21, 0x22 };
+
 
     public ESCPOSSerialPrintDriver CHARSIZE(short n = 0)
     {
         switch (n)
         {
-            case 0:
-                port.Write(CHAR_0, 0, CHAR_0.Length);
+            case 0x00:
+                port.Write(CHAR_00, 0, CHAR_00.Length);
                 break;
-            case 1:
-                port.Write(CHAR_1, 0, CHAR_1.Length);
+            case 0x01:
+                port.Write(CHAR_01, 0, CHAR_01.Length);
                 break;
-            case 2:
-                port.Write(CHAR_2, 0, CHAR_2.Length);
+            case 0x02:
+                port.Write(CHAR_02, 0, CHAR_02.Length);
                 break;
-            case 3:
-                port.Write(CHAR_3, 0, CHAR_3.Length);
+            case 0x10:
+                port.Write(CHAR_10, 0, CHAR_10.Length);
                 break;
-            case 4:
-                port.Write(CHAR_4, 0, CHAR_4.Length);
+            case 0x11:
+                port.Write(CHAR_11, 0, CHAR_11.Length);
+                break;
+            case 0x12:
+                port.Write(CHAR_12, 0, CHAR_12.Length);
+                break;
+            case 0x20:
+                port.Write(CHAR_20, 0, CHAR_20.Length);
+                break;
+            case 0x21:
+                port.Write(CHAR_21, 0, CHAR_21.Length);
+                break;
+            case 0x22:
+                port.Write(CHAR_22, 0, CHAR_22.Length);
                 break;
         }
 
@@ -199,7 +225,10 @@ public class ESCPOSSerialPrintDriver : Driver
     public ESCPOSSerialPrintDriver TT(string v)
     {
         var b = ToGbk(v);
-        port.Write(b, 0, b.Length);
+        if (b != null)
+        {
+            port.Write(b, 0, b.Length);
+        }
         return this;
     }
 
@@ -255,6 +284,11 @@ public class ESCPOSSerialPrintDriver : Driver
 
     public static byte[] ToGbk(string text)
     {
+        if (text == null)
+        {
+            return null;
+        }
+
         return Encoding.GetEncoding("GBK").GetBytes(text);
     }
 }

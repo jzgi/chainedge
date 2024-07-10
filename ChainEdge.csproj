@@ -25,27 +25,20 @@
         <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
-        <DefineConstants>_WINDOWS</DefineConstants>
-    </PropertyGroup>
-    
     <ItemGroup>
         <ApplicationDefinition Remove="App.xaml" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="GtkSharp" Version="3.24.24.95" />
         <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-        <PackageReference Include="Iot.Device.Bindings" Version="3.1.0" />
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35" />
+        <PackageReference Include="Iot.Device.Bindings" Version="3.2.0" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
         <PackageReference Include="Microsoft.ML" Version="3.0.1" />
         <PackageReference Include="NAudio" Version="2.2.1" />
-        <PackageReference Include="SIPSorcery" Version="6.2.4" />
-        <PackageReference Include="System.Device.Gpio" Version="3.1.0" />
-        <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
+        <PackageReference Include="System.Device.Gpio" Version="3.2.0" />
+        <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
         <PackageReference Include="System.IO.Ports" Version="8.0.0" />
         <PackageReference Include="System.Speech" Version="8.0.0" />
-        <PackageReference Include="WebkitGtkSharp" Version="3.24.24.95" />
     </ItemGroup>
 
     <ItemGroup>

@@ -26,13 +26,18 @@ public abstract class Profile : IKeyable<string>
         this.name = name;
     }
 
-    public void CreateDriver<D>(string drvKey) where D : Driver, new()
+    public void CreateDriver<D>(string drvKey, object state = null) where D : Driver, new()
     {
-        var drv = new D()
+        var drv = new D
         {
             Key = drvKey,
             Profile = this,
         };
+
+        // init the instance
+        drv.OnCreate(state);
+
+        // add to the collection
         drivers.Add(drv);
     }
 
@@ -69,9 +74,9 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public abstract void HandUp(Driver from, JObj data);
+    public abstract void DispatchUp(Driver from, JObj data);
 
-    public abstract void HandDown(IGateway from, JObj data);
+    public abstract void DispatchDown(IGateway from, JObj data);
 
 
     public string Key => name;

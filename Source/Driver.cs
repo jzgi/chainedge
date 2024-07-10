@@ -61,6 +61,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
         this.period = period;
     }
 
+    protected internal abstract void OnCreate(object state);
 
     public void Add<J>(JObj data) where J : Job, new()
     {
@@ -154,7 +155,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
                             { nameof(ret.a), ret.a },
                             { nameof(ret.b), ret.b },
                         };
-                        EdgeApplication.Profile.HandUp(this, jo);
+                        EdgeApplication.Profile.DispatchUp(this, jo);
                     }
                 }
 

@@ -83,7 +83,7 @@ public class EdgeConnector : WebConnector, IGateway
                         for (int i = 0; i < ret.ja.Count; i++)
                         {
                             JObj jo = ret.ja[i];
-                            EdgeApplication.Profile.HandDown(this, jo);
+                            EdgeApplication.Profile.DispatchDown(this, jo);
                         }
                     }
                 }
@@ -99,7 +99,7 @@ public class EdgeConnector : WebConnector, IGateway
         puller.Start();
     }
 
-    public void AddData(JObj v)
+    public void PostData(JObj v)
     {
         if (v != null)
         {
