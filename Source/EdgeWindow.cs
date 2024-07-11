@@ -14,10 +14,8 @@ namespace ChainEdge;
 /// <summary>
 /// The main window that hosts WebView2.
 /// </summary>
-public class EdgeWindow : IGateway
+public class EdgeWindow : Window, IGateway
 {
-    internal readonly Window Win;
-
     readonly WebView2 webvw;
 
     readonly DockPanel dockp;
@@ -27,12 +25,10 @@ public class EdgeWindow : IGateway
 
     public EdgeWindow()
     {
-        Win = new();
-
-        Win.Loaded += OnLoaded;
-        Win.Closing += OnClosing;
-        Win.Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
-        Win.Content = dockp = new()
+        Loaded += OnLoaded;
+        Closing += OnClosing;
+        Icon = BitmapFrame.Create(new Uri("./static/favicon.ico", UriKind.Relative));
+        Content = dockp = new()
         {
             LastChildFill = true,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -54,7 +50,10 @@ public class EdgeWindow : IGateway
     {
         if (webvw != null && webvw.CoreWebView2 == null)
         {
-            var env = await CoreWebView2Environment.CreateAsync(null, "data");
+            var env = await CoreWebView2Environment.CreateAsync(null, "data", new CoreWebView2EnvironmentOptions()
+            {
+                ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
+            });
 
             await webvw.EnsureCoreWebView2Async(env);
         }
@@ -63,14 +62,14 @@ public class EdgeWindow : IGateway
             MessageBox.Show("failed to obtain CoreWebView2");
             return;
         }
-        
+
         var setgs = webvw.CoreWebView2.Settings;
         setgs.AreDevToolsEnabled = true;
         setgs.IsZoomControlEnabled = false;
         setgs.AreDefaultContextMenusEnabled = false;
         setgs.IsWebMessageEnabled = true;
 
-        string url = EdgeApplication.AppConf[nameof(url)];
+        string url = EdgeApplication.Config[nameof(url)];
         webvw.CoreWebView2.Navigate(url);
 
         // suppress new window being opened
@@ -80,6 +79,7 @@ public class EdgeWindow : IGateway
             args.Handled = true;
         };
 
+        webvw.CoreWebView2.NavigationCompleted += OnNavigationCompleted;
         //
         // handling
 
@@ -101,21 +101,24 @@ public class EdgeWindow : IGateway
 
         webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApplication.Wrap);
 
-        webvw.NavigationCompleted += OnNavigationCompleted;
-
-
         // load tabs
         tabctl.LoadTabs();
     }
 
     volatile string token;
 
+    public string TitleContext { get; internal set; }
+
     public string Token => token;
 
     async void OnNavigationCompleted(object target, CoreWebView2NavigationCompletedEventArgs e)
     {
-        // Title = webvw.CoreWebView2.DocumentTitle;
+        // set windows title
+        Title = webvw.CoreWebView2.DocumentTitle;
 
+        TitleContext = Title.Split('-')[0];
+
+        // get access token to the platform services
         var mgr = webvw.CoreWebView2.CookieManager;
         var cookies = await mgr.GetCookiesAsync(null); // get all cookie
         var cookie = cookies.Find(x => x.Name == "token");
@@ -127,7 +130,7 @@ public class EdgeWindow : IGateway
     {
         var str = v.ToString();
 
-        Win.Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
+        Dispatcher.Invoke(() => webvw.CoreWebView2.PostWebMessageAsJson(str));
     }
 
     public async Task<string> GetTokenAsync()
@@ -141,6 +144,7 @@ public class EdgeWindow : IGateway
     protected void OnClosing(object sender, CancelEventArgs e)
     {
         e.Cancel = true;
-        Win.Hide();
+
+        Hide();
     }
 }

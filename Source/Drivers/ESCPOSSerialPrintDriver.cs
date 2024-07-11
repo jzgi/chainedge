@@ -232,6 +232,16 @@ public class ESCPOSSerialPrintDriver : Driver
         return this;
     }
 
+    public ESCPOSSerialPrintDriver HTPOS(byte p1, byte p2, byte p3, byte p4)
+    {
+        byte[] dat = { 0x1b, 0x44, p1, p2, p3, p4, 0 };
+
+        port.Write(dat, 0, dat.Length);
+
+        return this;
+    }
+
+
     public ESCPOSSerialPrintDriver HT()
     {
         port.Write("\t");
@@ -268,7 +278,14 @@ public class ESCPOSSerialPrintDriver : Driver
 
     public ESCPOSSerialPrintDriver T(decimal v, bool money = false)
     {
-        port.Write(v.ToString("C"));
+        if (money)
+        {
+            port.Write(v.ToString("F2"));
+        }
+        else
+        {
+            port.Write(v.ToString());
+        }
 
         return this;
     }

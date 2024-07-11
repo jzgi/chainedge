@@ -3,7 +3,6 @@ using System.Windows;
 using ChainFX;
 using ChainFX.Web;
 using Microsoft.Extensions.Logging;
-using Application = System.Windows.Application;
 
 #pragma warning disable CS4014
 
@@ -14,31 +13,26 @@ namespace ChainEdge;
 /// <summary>
 /// The main WPF application that hosts all relevant resources.
 /// </summary>
-public class EdgeApplication
+public class EdgeApplication : System.Windows.Application
 {
     // use the embedded logger
     internal static FileLogger Logger => EmbedProxy.Logger;
 
     // use the embedded configure
-    internal static JObj AppConf => EmbedProxy.Config;
+    internal static JObj Config => EmbedProxy.Config;
 
     // use the embedded configure
     public static string Name => EmbedProxy.Nodal.name;
 
     public static string Tip => EmbedProxy.Nodal.tip;
 
-    internal static readonly EdgeWindow Win = new()
-    {
-        // WindowStyle = WindowStyle.SingleBorderWindow,
-        // WindowState = WindowState.Maximized,
-    };
+    internal static readonly EdgeWindow Win;
 
     // connector to the cloud
     internal static readonly EdgeConnector Connector;
 
     internal static readonly Profile Profile;
 
-    static Application Kit;
 
     // // the main application instance
     // static readonly EdgeApp App = new()
@@ -50,11 +44,28 @@ public class EdgeApplication
     public static readonly EdgeWrap Wrap = new();
 
 
+    // the main application instance
+    static readonly EdgeApplication App;
+
+
     static EdgeApplication()
     {
+        Win = new()
+        {
+            WindowStyle = WindowStyle.SingleBorderWindow,
+            WindowState = WindowState.Maximized,
+        };
+
+
+        App = new()
+        {
+            MainWindow = Win,
+            ShutdownMode = ShutdownMode.OnMainWindowClose,
+        };
+
         // create client
         //
-        string url = AppConf[nameof(url)];
+        string url = Config[nameof(url)];
         if (url == null)
         {
             Logger.LogError("missing 'url' in application.json");
@@ -66,7 +77,7 @@ public class EdgeApplication
 
         // resolve current profile
         //
-        string profile = AppConf[nameof(profile)];
+        string profile = Config[nameof(profile)];
         Profile = Profile.GetProfile(profile);
         if (Profile == null)
         {
@@ -124,17 +135,10 @@ public class EdgeApplication
 
         TaskbarIconUtility.Do();
 
-        Kit = new Application
-        {
-            MainWindow = Win.Win,
-            ShutdownMode = ShutdownMode.OnMainWindowClose,
-        };
-        // win.Show();
-        Kit.Run(Win.Win);
-
+        // start the app and open the main windows
+        App.Run(Win);
 
         //
-        // // ReSharper disable once AccessToStaticMemberViaDerivedType
         // EmbedApp.StopAsync().RunSynchronously();
     }
 }

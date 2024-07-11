@@ -29,8 +29,8 @@ internal class ToggleCommand : ICommand
 
     public void Execute(object parameter)
     {
-        // EdgeApplication.Win.Visibility = Visibility.Visible;
-        // EdgeApplication.Win.Activate();
+        EdgeApplication.Win.Visibility = Visibility.Visible;
+        EdgeApplication.Win.Activate();
     }
 
     public event EventHandler CanExecuteChanged;
