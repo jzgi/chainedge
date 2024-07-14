@@ -20,7 +20,7 @@ public class EdgeWrap : IGateway
 
     public string CallDriverPerform(string drvKey, JObj v)
     {
-        var drv = EdgeApplication.Profile.GetDriver(drvKey);
+        var drv = EdgeApplication.CurrentProfile.GetDriver(drvKey);
         if (drv != null)
         {
             var ret = drv.Perform(v);

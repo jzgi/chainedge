@@ -3,6 +3,7 @@ using System.Windows;
 using ChainFX;
 using ChainFX.Web;
 using Microsoft.Extensions.Logging;
+using Application = System.Windows.Application;
 
 #pragma warning disable CS4014
 
@@ -13,7 +14,7 @@ namespace ChainEdge;
 /// <summary>
 /// The main WPF application that hosts all relevant resources.
 /// </summary>
-public class EdgeApplication : System.Windows.Application
+public class EdgeApplication : Application
 {
     // use the embedded logger
     internal static FileLogger Logger => EmbedProxy.Logger;
@@ -31,15 +32,7 @@ public class EdgeApplication : System.Windows.Application
     // connector to the cloud
     internal static readonly EdgeConnector Connector;
 
-    internal static readonly Profile Profile;
-
-
-    // // the main application instance
-    // static readonly EdgeApp App = new()
-    // {
-    //     MainWindow = Win,
-    //     ShutdownMode = ShutdownMode.OnMainWindowClose,
-    // };
+    internal static readonly Profile CurrentProfile;
 
     public static readonly EdgeWrap Wrap = new();
 
@@ -78,12 +71,13 @@ public class EdgeApplication : System.Windows.Application
         // resolve current profile
         //
         string profile = Config[nameof(profile)];
-        Profile = Profile.GetProfile(profile);
-        if (Profile == null)
+        var prof = Profile.All[profile];
+        if (prof == null)
         {
             Logger.LogError("unsupported profile in application.json");
             return;
         }
+        CurrentProfile = prof;
     }
 
     [STAThread]
@@ -91,7 +85,7 @@ public class EdgeApplication : System.Windows.Application
     {
         // start the embedded web server
         //
-        if (Profile is IProxiable)
+        if (CurrentProfile is IProxiable)
         {
             EmbedProxy.Initialize();
 
@@ -131,7 +125,7 @@ public class EdgeApplication : System.Windows.Application
 
 
         // initial test for each & every driver
-        Profile.Start();
+        CurrentProfile.Start();
 
         TaskbarIconUtility.Do();
 

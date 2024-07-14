@@ -9,20 +9,20 @@ public class PosProfile : Profile
 {
     public PosProfile(string name) : base(name)
     {
+        CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT"); // built-in / external external printer
+
+        CreateDriver<CASSerialScaleDriver>("SCALE");
+
         CreateDriver<SpeechDriver>("SPEECH");
 
         CreateDriver<BarcodeScannerDriver>("BARCODE");
-
-        CreateDriver<MifareOneDriver>("MCARD");
-
-        CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT", 19200); // external printer
     }
 
     public override void DispatchUp(Driver from, JObj data)
     {
         if (from.Key == "SCALE")
         {
-            EdgeApplication.Wrap.PostData(data);
+            EdgeApplication.Win.PostData(data);
         }
     }
 
@@ -32,7 +32,7 @@ public class PosProfile : Profile
     {
         DateTime created = data[nameof(created)];
 
-        if (created - last > TimeSpan.FromMinutes(1))
+        if (from is EdgeConnector)
         {
             var drv = GetDriver<SpeechDriver>();
             drv?.Add<NewOrderSpeechJob>(data);

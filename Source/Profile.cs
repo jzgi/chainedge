@@ -5,10 +5,8 @@ namespace ChainEdge;
 
 public abstract class Profile : IKeyable<string>
 {
-    static Map<string, Profile> all = new()
+    public static readonly Map<string, Profile> All = new()
     {
-        new PosPlusProfile("POS-PLUS"),
-
         new PosProfile("POS"),
 
         new WorkstnProfile("WORKSTN"),
@@ -49,7 +47,7 @@ public abstract class Profile : IKeyable<string>
         {
             var drv = drivers.ValueAt(i);
 
-            drv.StartToRun();
+            drv.StartRun();
         }
     }
 
@@ -80,6 +78,4 @@ public abstract class Profile : IKeyable<string>
 
 
     public string Key => name;
-
-    public static Profile GetProfile(string name) => all[name];
 }

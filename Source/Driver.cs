@@ -1,8 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using ChainFX;
 
 namespace ChainEdge;
@@ -35,8 +35,6 @@ public abstract class Driver : DockPanel, IKeyable<string>
     // thread that performs jobs
     private Thread runner;
 
-    protected readonly int period;
-
     protected volatile short status;
 
     // ui
@@ -46,8 +44,9 @@ public abstract class Driver : DockPanel, IKeyable<string>
     // the governing profile 
     public Profile Profile { get; internal set; }
 
+    public int Period { get; internal set; }
 
-    protected Driver(int period = 200)
+    protected Driver(int period = 250)
     {
         coll = new(
             queue = new ConcurrentQueue<Job>()
@@ -58,10 +57,16 @@ public abstract class Driver : DockPanel, IKeyable<string>
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
         });
 
-        this.period = period;
+        Period = Math.Max(period, 100);
     }
 
+
+    /// <summary>
+    /// Called after an instance is created.
+    /// </summary>
+    /// <param name="state">state object passed for driver initialization</param>
     protected internal abstract void OnCreate(object state);
+
 
     public void Add<J>(JObj data) where J : Job, new()
     {
@@ -77,33 +82,39 @@ public abstract class Driver : DockPanel, IKeyable<string>
         // add to queue
         coll.Add(job);
 
-        DockPanel rowp;
-        var item = new ListBoxItem()
+
+        //
+        // update UI elements
+        Dispatcher.Invoke(() =>
         {
-            Content = rowp = new DockPanel
+            DockPanel rowp;
+            var item = new ListBoxItem()
             {
-                LastChildFill = true,
+                Content = rowp = new DockPanel
+                {
+                    LastChildFill = true,
+                    HorizontalAlignment = HorizontalAlignment.Stretch
+                },
+                Height = 48,
+            };
+
+            UIElement prg;
+            rowp.Children.Add(prg = new ProgressBar
+            {
+                Value = 0,
+                Width = 32,
+                Height = 24,
+            });
+            SetDock(prg, Dock.Right);
+
+            rowp.Children.Add(new TextBlock
+            {
+                Text = job.ToString(),
                 HorizontalAlignment = HorizontalAlignment.Stretch
-            },
-            Height = 48,
-        };
+            });
 
-        UIElement prg;
-        rowp.Children.Add(prg = new ProgressBar
-        {
-            Value = 0,
-            Width = 32,
-            Height = 24,
+            lstbox.Items.Add(item);
         });
-        SetDock(prg, Dock.Right);
-
-        rowp.Children.Add(new TextBlock
-        {
-            Text = job.ToString(),
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        });
-
-        lstbox.Items.Add(item);
     }
 
 
@@ -118,13 +129,8 @@ public abstract class Driver : DockPanel, IKeyable<string>
     /// <summary>
     /// 
     /// </summary>
-    public void StartToRun()
+    public void StartRun()
     {
-        if (period <= 0)
-        {
-            return;
-        }
-
         runner = new Thread(() =>
         {
             (decimal a, decimal b) last = default;
@@ -137,17 +143,14 @@ public abstract class Driver : DockPanel, IKeyable<string>
                     // reset and rebind
                     Rebind();
 
-                    Thread.Sleep(period);
+                    Thread.Sleep(Period);
                 }
 
                 // check if there is an updated input 
                 //
-                if (TryObtain(out var ret, period))
+                if (TryObtain(out var ret, Period))
                 {
-                    bool eq = ret == last;
-                    last = ret;
-
-                    if (!eq && ret != default) // a change triggered
+                    if (ret != default || (ret == default && last != default)) // trigger
                     {
                         var jo = new JObj
                         {
@@ -155,13 +158,16 @@ public abstract class Driver : DockPanel, IKeyable<string>
                             { nameof(ret.a), ret.a },
                             { nameof(ret.b), ret.b },
                         };
-                        EdgeApplication.Profile.DispatchUp(this, jo);
+                        EdgeApplication.CurrentProfile.DispatchUp(this, jo);
                     }
+
+                    // adjust last
+                    last = ret;
                 }
 
                 // take an output job and perform
                 //
-                if (coll.TryTake(out var job, period))
+                if (coll.TryTake(out var job, Period))
                 {
                     Dispatcher.Invoke(() =>
                     {
@@ -178,10 +184,12 @@ public abstract class Driver : DockPanel, IKeyable<string>
                     });
                 }
 
-                Thread.Sleep(period);
+                Thread.Sleep(Period);
             }
-        }) { Name = Key };
-
+        })
+        {
+            Name = Key
+        };
 
         // start the doer thread
         runner.Start();

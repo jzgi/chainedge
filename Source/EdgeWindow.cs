@@ -20,7 +20,6 @@ public class EdgeWindow : Window, IGateway
 
     readonly DockPanel dockp;
 
-
     readonly DriverTabControl tabctl;
 
     public EdgeWindow()
@@ -92,7 +91,7 @@ public class EdgeWindow : Window, IGateway
             {
                 // jobj or jarr
                 var jo = (JObj)new JsonParser(str).Parse();
-                EdgeApplication.Profile.DispatchDown(this, jo);
+                EdgeApplication.CurrentProfile.DispatchDown(this, jo);
             }
             catch (Exception e)
             {
@@ -105,9 +104,10 @@ public class EdgeWindow : Window, IGateway
         tabctl.LoadTabs();
     }
 
+
     volatile string token;
 
-    public string TitleContext { get; internal set; }
+    public string ForeTitle { get; internal set; }
 
     public string Token => token;
 
@@ -116,7 +116,7 @@ public class EdgeWindow : Window, IGateway
         // set windows title
         Title = webvw.CoreWebView2.DocumentTitle;
 
-        TitleContext = Title.Split('-')[0];
+        ForeTitle = Title.Split('-')[0];
 
         // get access token to the platform services
         var mgr = webvw.CoreWebView2.CookieManager;

@@ -13,7 +13,7 @@ public class OrderPrintJob : Job
     {
         var dat = Data;
 
-        var ctx = EdgeApplication.Win.TitleContext;
+        var ctx = EdgeApplication.Win.ForeTitle;
 
         if (Driver is ESCPOSSerialPrintDriver drv)
         {
@@ -42,7 +42,7 @@ public class OrderPrintJob : Job
             var lns = (JArr)dat["lns"];
 
             // set HT positions
-            drv.HTPOS(20, 32, 48, 60);
+            drv.HTPOS(20, 36, 52, 60);
 
             drv.TT("商品").HT().TT("价格").HT().TT("数量").LF().LF();
             for (int i = 0; i < lns?.Count; i++)
@@ -52,7 +52,8 @@ public class OrderPrintJob : Job
             }
             drv.T("-----------------------------------------------").LF();
 
-            drv.HT().TT("派运：").T(dat["fee"], true).HT().TT("总计：").T(dat["topay"], true).LF();
+            int mode = dat["mode"];
+            drv.TT("模式：").TT(mode == 0 ? "自行派发" : "统一派发").HT().TT("运费：").T(dat["fee"], true).HT().TT("总计：").T(dat["topay"], true).LF();
 
             drv.LF().LF();
             drv.LF().LF();

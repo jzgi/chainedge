@@ -13,7 +13,7 @@ namespace ChainEdge;
 
 public class EdgeConnector : WebConnector, IGateway
 {
-    public const int POLLING_INTEVAL = 60 * 1000;
+    public const int POLLING_INTEVAL = 24 * 1000;
 
     readonly ConcurrentQueue<JObj> queue;
 
@@ -38,7 +38,10 @@ public class EdgeConnector : WebConnector, IGateway
                 // ensure token
                 //
                 var token = EdgeApplication.Win.Token;
-                if (token == null) continue;
+                if (string.IsNullOrEmpty(token))
+                {
+                    continue;
+                }
 
                 // collect outgoing events
                 //
@@ -83,7 +86,7 @@ public class EdgeConnector : WebConnector, IGateway
                         for (int i = 0; i < ret.ja.Count; i++)
                         {
                             JObj jo = ret.ja[i];
-                            EdgeApplication.Profile.DispatchDown(this, jo);
+                            EdgeApplication.CurrentProfile.DispatchDown(this, jo);
                         }
                     }
                 }
@@ -94,7 +97,7 @@ public class EdgeConnector : WebConnector, IGateway
             }
         })
         {
-            Name = "Edge Connect"
+            Name = "Edge Connector"
         };
         puller.Start();
     }

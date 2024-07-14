@@ -9,21 +9,18 @@ namespace ChainEdge.Drivers;
 
 public class ESCPOSSerialPrintDriver : Driver
 {
+    static readonly int[] MODES = { 9600, 19200 };
+
     readonly SemaphoreSlim semaph = new(1);
 
     SerialPort port;
 
+    int cur;
+
     protected internal override void OnCreate(object state)
     {
-        int baudrate = 9600;
-
-        if (state is int v)
-        {
-            baudrate = v;
-        }
         port = new()
         {
-            BaudRate = baudrate,
             Parity = Parity.None,
             DataBits = 8,
             StopBits = StopBits.One,
@@ -32,8 +29,16 @@ public class ESCPOSSerialPrintDriver : Driver
         };
     }
 
+    void ShiftMode()
+    {
+        cur = (cur + 1) % MODES.Length;
+    }
+
     public override void Rebind()
     {
+        ShiftMode();
+        port.BaudRate = MODES[cur];
+
         var names = SerialPort.GetPortNames();
         foreach (var name in names)
         {
@@ -43,14 +48,11 @@ public class ESCPOSSerialPrintDriver : Driver
                 port.PortName = name;
                 port.Open();
 
-                // make a retrieval
-                if (TryGetStatus(out var v, period))
+                // close COM port if inaccessible
+                if (!TryGetStatus(out var v, Period))
                 {
-                    return; // keep COM port
+                    port.Close();
                 }
-
-                // continue
-                port.Close();
             }
             catch (UnauthorizedAccessException e) // used by other process
             {
@@ -89,11 +91,11 @@ public class ESCPOSSerialPrintDriver : Driver
         {
             INIT();
 
-            Thread.Sleep(period);
+            Thread.Sleep(Period);
 
             port.Write(DLE_EOT_1, 0, DLE_EOT_1.Length);
 
-            Thread.Sleep(period);
+            Thread.Sleep(Period);
 
             Array.Clear(buf);
             var num = port.Read(buf, 0, 8);

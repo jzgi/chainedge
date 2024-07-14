@@ -35,14 +35,11 @@ namespace ChainEdge.Drivers
                     port.PortName = name;
                     port.Open();
 
-                    // make a retrieval
-                    if (TryObtain(out _, period))
+                    // try a retrieval
+                    if (!TryObtain(out _, Period))
                     {
-                        return; // keep COM port
+                        port.Close();
                     }
-
-                    // continue
-                    port.Close();
                 }
                 catch (UnauthorizedAccessException e) // used by other process
                 {
@@ -85,7 +82,7 @@ namespace ChainEdge.Drivers
 
                 port.Write(ENQ, 0, ENQ.Length);
 
-                Thread.Sleep(period);
+                Thread.Sleep(Period);
 
                 Array.Clear(buf);
                 var num = port.Read(buf, 0, 4);
@@ -102,7 +99,7 @@ namespace ChainEdge.Drivers
                 port.Write(DC1, 0, DC1.Length);
 
                 // must pause for a period
-                Thread.Sleep(period);
+                Thread.Sleep(Period);
 
                 num = port.Read(buf, 0, buf.Length);
                 if (num == 0)
