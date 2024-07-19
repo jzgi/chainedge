@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using ChainFX;
 using Microsoft.Web.WebView2.Core;
@@ -91,7 +93,7 @@ public class EdgeWindow : Window, IGateway
             {
                 // jobj or jarr
                 var jo = (JObj)new JsonParser(str).Parse();
-                EdgeApplication.CurrentProfile.DispatchDown(this, jo);
+                EdgeApplication.CurrentProfile.Downward(this, jo);
             }
             catch (Exception e)
             {
@@ -100,6 +102,7 @@ public class EdgeWindow : Window, IGateway
 
         webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApplication.Wrap);
 
+        tabctl.BorderThickness = new Thickness(0);
         // load tabs
         tabctl.LoadTabs();
     }

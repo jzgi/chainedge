@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
+using ChainFX;
 
 namespace ChainEdge.Drivers
 {
@@ -14,9 +15,9 @@ namespace ChainEdge.Drivers
         {
         }
 
-        public override void Rebind()
+        public override void Bind()
         {
-            var names = SerialPort.GetPortNames();
+            var names = SerialPort.GetPortNames().AddOf("COM1", "COM2");
             foreach (var name in names)
             {
                 port.PortName = name;

@@ -16,11 +16,11 @@ public class WorkstnProfile : Profile
         CreateDriver<SpeechDriver>("SPEECH");
     }
 
-    public override void DispatchUp(Driver from, JObj data)
+    public override void Upward(Driver from, JObj dat)
     {
     }
 
-    public override void DispatchDown(IGateway from, JObj data)
+    public override void Downward(IGateway from, JObj dat)
     {
     }
 }

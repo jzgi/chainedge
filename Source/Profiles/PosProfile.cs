@@ -12,39 +12,39 @@ public class PosProfile : Profile
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT"); // built-in / external external printer
 
         CreateDriver<CASSerialScaleDriver>("SCALE");
-
-        CreateDriver<SpeechDriver>("SPEECH");
-
+        
         CreateDriver<BarcodeScannerDriver>("BARCODE");
+        
+        CreateDriver<SpeechDriver>("SPEECH");
     }
 
-    public override void DispatchUp(Driver from, JObj data)
+    public override void Upward(Driver from, JObj dat)
     {
         if (from.Key == "SCALE")
         {
-            EdgeApplication.Win.PostData(data);
+            EdgeApplication.Win.PostData(dat);
         }
     }
 
     DateTime last;
 
-    public override void DispatchDown(IGateway from, JObj data)
+    public override void Downward(IGateway from, JObj dat)
     {
-        DateTime created = data[nameof(created)];
+        DateTime created = dat[nameof(created)];
 
         if (from is EdgeConnector)
         {
             var drv = GetDriver<SpeechDriver>();
-            drv?.Add<NewOrderSpeechJob>(data);
+            drv?.AddJob<NewOrderSpeechJob>(dat);
         }
 
         last = created;
 
         // print order
-        if (data.Contains(nameof(created)))
+        if (dat.Contains(nameof(created)))
         {
             var drv = GetDriver<ESCPOSSerialPrintDriver>();
-            drv?.Add<OrderPrintJob>(data);
+            drv?.AddJob<OrderPrintJob>(dat);
         }
     }
 }

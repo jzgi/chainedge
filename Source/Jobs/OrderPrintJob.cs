@@ -5,11 +5,11 @@ namespace ChainEdge.Jobs;
 
 public class OrderPrintJob : Job
 {
-    public override void OnInitialize()
+    public override void OnInit()
     {
     }
 
-    public override void Perform()
+    public override void Run()
     {
         var dat = Data;
 

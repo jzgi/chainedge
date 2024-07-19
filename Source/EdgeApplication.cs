@@ -125,7 +125,7 @@ public class EdgeApplication : Application
 
 
         // initial test for each & every driver
-        CurrentProfile.Start();
+        CurrentProfile.StartAll();
 
         TaskbarIconUtility.Do();
 
@@ -134,5 +134,46 @@ public class EdgeApplication : Application
 
         //
         // EmbedApp.StopAsync().RunSynchronously();
+    }
+
+
+    public static void Trc(string msg, Exception ex = null)
+    {
+        if (msg != null)
+        {
+            Logger.Log(LogLevel.Trace, 0, msg, ex, null);
+        }
+    }
+
+    public static void Dbg(string msg, Exception ex = null)
+    {
+        if (msg != null)
+        {
+            Logger.Log(LogLevel.Debug, 0, msg, ex, null);
+        }
+    }
+
+    public static void Inf(string msg, Exception ex = null)
+    {
+        if (msg != null)
+        {
+            Logger.Log(LogLevel.Information, 0, msg, ex, null);
+        }
+    }
+
+    public static void War(string msg, Exception ex = null)
+    {
+        if (msg != null)
+        {
+            Logger.Log(LogLevel.Warning, 0, msg, ex, null);
+        }
+    }
+
+    public static void Err(string msg, Exception ex = null)
+    {
+        if (msg != null)
+        {
+            Logger.Log(LogLevel.Error, 0, msg, ex, null);
+        }
     }
 }

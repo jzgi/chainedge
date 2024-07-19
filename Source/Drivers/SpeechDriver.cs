@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
 using System.Speech.Synthesis;
-using ChainEdge.Jobs;
-using ChainFX;
 
 namespace ChainEdge.Drivers;
 
@@ -16,10 +14,10 @@ public class SpeechDriver : Driver
         synth.SetOutputToDefaultAudioDevice();
         synth.Volume = 100;
 
-        status = STU_READY;
+        bound = true;
     }
 
-    public override void Rebind()
+    public override void Bind()
     {
     }
 

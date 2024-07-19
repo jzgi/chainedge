@@ -6,7 +6,7 @@
         {
         }
 
-        public override void Rebind()
+        public override void Bind()
         {
         }
 

@@ -86,7 +86,7 @@ public class EdgeConnector : WebConnector, IGateway
                         for (int i = 0; i < ret.ja.Count; i++)
                         {
                             JObj jo = ret.ja[i];
-                            EdgeApplication.CurrentProfile.DispatchDown(this, jo);
+                            EdgeApplication.CurrentProfile.Downward(this, jo);
                         }
                     }
                 }

@@ -2,11 +2,11 @@
 
 public class NumberDisplayJob : Job
 {
-    public override void OnInitialize()
+    public override void OnInit()
     {
     }
 
-    public override void Perform()
+    public override void Run()
     {
     }
 }

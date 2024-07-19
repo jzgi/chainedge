@@ -15,15 +15,13 @@ public abstract class Driver : DockPanel, IKeyable<string>
     public const short
         STU_ERR = -1,
         STU_VOID = 0,
-        STU_READY = 1,
-        STU_WORKING = 2;
+        STU_BOUND = 1;
 
     public static readonly Map<short, string> Statuses = new()
     {
         { STU_ERR, "错误" },
         { STU_VOID, "未知" },
-        { STU_READY, "就绪" },
-        { STU_WORKING, "运行" },
+        { STU_BOUND, "就绪" },
     };
 
 
@@ -32,14 +30,17 @@ public abstract class Driver : DockPanel, IKeyable<string>
     // job queue that is normally put by dispatcher
     readonly BlockingCollection<Job> coll;
 
-    // thread that performs jobs
-    private Thread runner;
+    // thread that handles cycles and performs jobs
+    private Thread cycler;
 
-    protected volatile short status;
+    protected volatile bool bound;
 
     // ui
     //
     readonly ListBox lstbox;
+
+    internal TabItem TabItem { get; set; }
+
 
     // the governing profile 
     public Profile Profile { get; internal set; }
@@ -68,7 +69,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
     protected internal abstract void OnCreate(object state);
 
 
-    public void Add<J>(JObj data) where J : Job, new()
+    public void AddJob<J>(JObj data) where J : Job, new()
     {
         var job = new J
         {
@@ -77,7 +78,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
         };
 
         // init
-        job.OnInitialize();
+        job.OnInit();
 
         // add to queue
         coll.Add(job);
@@ -122,33 +123,36 @@ public abstract class Driver : DockPanel, IKeyable<string>
 
     public abstract string Label { get; }
 
-    public short Status => status;
+    public virtual bool IsBound => bound;
 
-    public abstract void Rebind();
+    public abstract void Bind();
 
     /// <summary>
-    /// 
+    /// Starts the driver and its handling process.
     /// </summary>
-    public void StartRun()
+    public void Start()
     {
-        runner = new Thread(() =>
+        cycler = new Thread(() =>
         {
             (decimal a, decimal b) last = default;
 
-            while (!coll.IsCompleted)
+            while (!coll.IsCompleted) // in fact never completed 
             {
                 // check status
-                while (status < STU_READY)
+                while (!IsBound)
                 {
-                    // reset and rebind
-                    Rebind();
+                    Thread.Sleep(Period * 4);
 
-                    Thread.Sleep(Period);
+                    Bind();
+
+                    Dispatcher.Invoke(() =>
+                    {
+                        TabItem.IsEnabled = IsBound;
+                    });
                 }
 
                 // check if there is an updated input 
-                //
-                if (TryObtain(out var ret, Period))
+                if (TryGetInput(out var ret, Period))
                 {
                     if (ret != default || (ret == default && last != default)) // trigger
                     {
@@ -158,15 +162,14 @@ public abstract class Driver : DockPanel, IKeyable<string>
                             { nameof(ret.a), ret.a },
                             { nameof(ret.b), ret.b },
                         };
-                        EdgeApplication.CurrentProfile.DispatchUp(this, jo);
+                        EdgeApplication.CurrentProfile.Upward(this, jo);
                     }
 
                     // adjust last
                     last = ret;
                 }
 
-                // take an output job and perform
-                //
+                // try to take & run a job
                 if (coll.TryTake(out var job, Period))
                 {
                     Dispatcher.Invoke(() =>
@@ -175,7 +178,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
                         lstbox.SelectedIndex = 0;
                     });
 
-                    job.Perform();
+                    job.Run();
 
                     Dispatcher.Invoke(() =>
                     {
@@ -183,8 +186,6 @@ public abstract class Driver : DockPanel, IKeyable<string>
                         lstbox.Items.RemoveAt(0);
                     });
                 }
-
-                Thread.Sleep(Period);
             }
         })
         {
@@ -192,7 +193,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
         };
 
         // start the doer thread
-        runner.Start();
+        cycler.Start();
     }
 
     public virtual void Stop()
@@ -200,12 +201,12 @@ public abstract class Driver : DockPanel, IKeyable<string>
         coll.CompleteAdding();
     }
 
-    public virtual JObj Perform(JObj jo)
+    public virtual JObj CallToRun(JObj jo)
     {
         return null;
     }
 
-    public virtual bool TryObtain(out (decimal a, decimal b) result, int milliseconds)
+    public virtual bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
     {
         result = default;
         return false;

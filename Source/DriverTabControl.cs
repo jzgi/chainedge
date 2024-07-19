@@ -16,11 +16,15 @@ public class DriverTabControl : TabControl
             var drv = map.ValueAt(i);
 
             // tabs.Items.Add(drv.Label);
-            Items.Add(new TabItem()
+            var tabitem = new TabItem()
             {
                 Header = drv.Label,
+
+                Style = FocusVisualStyle,
                 Content = drv
-            });
+            };
+            Items.Add(tabitem);
+            drv.TabItem = tabitem;
         }
     }
 }

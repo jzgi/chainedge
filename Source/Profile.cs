@@ -41,13 +41,17 @@ public abstract class Profile : IKeyable<string>
 
     public Map<string, Driver> Drivers => drivers;
 
-    public void Start()
+
+    /// <summary>
+    /// Starts all drivers defined & contained in this profile.
+    /// </summary>
+    public void StartAll()
     {
         for (int i = 0; i < drivers.Count; i++)
         {
             var drv = drivers.ValueAt(i);
 
-            drv.StartRun();
+            drv.Start();
         }
     }
 
@@ -72,10 +76,9 @@ public abstract class Profile : IKeyable<string>
         return null;
     }
 
-    public abstract void DispatchUp(Driver from, JObj data);
+    public abstract void Upward(Driver from, JObj dat);
 
-    public abstract void DispatchDown(IGateway from, JObj data);
-
+    public abstract void Downward(IGateway from, JObj dat);
 
     public string Key => name;
 }

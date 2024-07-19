@@ -14,7 +14,7 @@ public class MsgSpeechJob : Job
 
     string oker;
 
-    public override void OnInitialize()
+    public override void OnInit()
     {
         Data.Get(nameof(typ), ref typ);
         Data.Get(nameof(name), ref name);
@@ -23,7 +23,7 @@ public class MsgSpeechJob : Job
         Data.Get(nameof(oker), ref oker);
     }
 
-    public override void Perform()
+    public override void Run()
     {
         if (Driver is SpeechDriver drv)
         {

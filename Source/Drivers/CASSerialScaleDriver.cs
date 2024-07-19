@@ -20,14 +20,34 @@ namespace ChainEdge.Drivers
                 DataBits = 8,
                 Parity = Parity.None,
                 StopBits = StopBits.One,
-                ReadTimeout = 200,
-                WriteTimeout = 200,
+                ReadTimeout = Period,
+                WriteTimeout = Period,
             };
         }
 
-        public override void Rebind()
+
+        public override bool IsBound => port.IsOpen && bound;
+
+        public override void Bind()
         {
-            foreach (var name in SerialPort.GetPortNames())
+            // try to clear current states
+            try
+            {
+                bound = false;
+
+                if (port.IsOpen)
+                {
+                    port.Close();
+                }
+            }
+            catch (Exception e)
+            {
+            }
+
+            // try each of the port names
+            //
+            var names = SerialPort.GetPortNames();
+            foreach (var name in names)
             {
                 semaph.Wait();
                 try
@@ -36,12 +56,15 @@ namespace ChainEdge.Drivers
                     port.Open();
 
                     // try a retrieval
-                    if (!TryObtain(out _, Period))
+                    if (TryGetInput(out _, Period))
                     {
-                        port.Close();
+                        bound = true;
+                        return;
                     }
+
+                    port.Close();
                 }
-                catch (UnauthorizedAccessException e) // used by other process
+                catch (UnauthorizedAccessException e) // occupied by other process
                 {
                 }
                 catch (InvalidOperationException e) // port is open
@@ -70,7 +93,7 @@ namespace ChainEdge.Drivers
             DC1 = { 0x11 },
             buf = new byte[15];
 
-        public override bool TryObtain(out (decimal a, decimal b) result, int milliseconds)
+        public override bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
         {
             result = default;
 
@@ -78,7 +101,6 @@ namespace ChainEdge.Drivers
             try
             {
                 Weigh:
-
 
                 port.Write(ENQ, 0, ENQ.Length);
 
@@ -88,11 +110,9 @@ namespace ChainEdge.Drivers
                 var num = port.Read(buf, 0, 4);
                 if (num <= 0 || buf[0] != 0x06)
                 {
-                    status = STU_ERR;
+                    bound = false;
                     return false;
                 }
-
-                // Thread.Sleep(period);
 
                 Array.Clear(buf);
 
@@ -104,15 +124,15 @@ namespace ChainEdge.Drivers
                 num = port.Read(buf, 0, buf.Length);
                 if (num == 0)
                 {
-                    status = STU_ERR;
+                    bound = false;
                     return false;
                 }
 
                 // SOH STX
                 if (buf[0] != 0x01 || buf[1] != 0x02)
                 {
-                    status = STU_ERR;
-                    return default;
+                    bound = false;
+                    return false;
                 }
                 var sta = (char)buf[2];
                 if (sta == 'F' || sta == 'U') // overload or unstable
@@ -121,7 +141,6 @@ namespace ChainEdge.Drivers
                     {
                         port.Write("<ZK>\t");
                     }
-                    status = STU_VOID;
                     goto Weigh;
                 }
 
@@ -146,8 +165,8 @@ namespace ChainEdge.Drivers
 
                 if (etx != 0x03 || eot != 0x04)
                 {
-                    status = STU_ERR;
-                    return default;
+                    bound = false;
+                    return false;
                 }
 
                 if (un1 == 'k' && un0 == 'g')
@@ -156,12 +175,11 @@ namespace ChainEdge.Drivers
                 }
 
                 result.a = v;
-                status = STU_READY;
                 return true;
             }
             catch (Exception e)
             {
-                status = STU_ERR;
+                bound = false;
                 return false;
             }
             finally

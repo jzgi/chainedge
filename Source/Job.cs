@@ -23,7 +23,7 @@ public abstract class Job
     /// </summary>
     public Driver Driver { get; internal set; }
 
-    public abstract void OnInitialize();
+    public abstract void OnInit();
 
-    public abstract void Perform();
+    public abstract void Run();
 }

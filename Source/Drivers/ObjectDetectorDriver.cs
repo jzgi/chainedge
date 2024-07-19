@@ -24,9 +24,8 @@ namespace ChainEdge.Drivers
         {
         }
 
-        public override void Rebind()
+        public override void Bind()
         {
-            // Capture device enumeration:
         }
 
         public override string Label => "智能识别";
@@ -50,6 +49,12 @@ namespace ChainEdge.Drivers
             //     }
             // }
             return 0;
+        }
+
+        public override bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
+        {
+            result = default;
+            return false;
         }
 
         public float Derivative(float output, float label)
@@ -92,12 +97,6 @@ namespace ChainEdge.Drivers
         public int GetNumberByScan()
         {
             throw new NotImplementedException();
-        }
-
-
-        public override JObj Perform(JObj jo)
-        {
-            return new JObj();
         }
     }
 }

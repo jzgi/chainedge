@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
 
@@ -26,9 +25,10 @@ namespace ChainEdge
             };
         }
 
-        public override void Rebind()
+        public override void Bind()
         {
-            foreach (var name in SerialPort.GetPortNames())
+            var names = SerialPort.GetPortNames();
+            foreach (var name in names)
             {
                 semaph.Wait();
                 try
@@ -63,6 +63,12 @@ namespace ChainEdge
                     semaph.Release();
                 }
             }
+        }
+
+        public override bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
+        {
+            result = default;
+            return false;
         }
 
         public override string Label => "智能卡";

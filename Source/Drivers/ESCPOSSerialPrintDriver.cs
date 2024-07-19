@@ -9,7 +9,7 @@ namespace ChainEdge.Drivers;
 
 public class ESCPOSSerialPrintDriver : Driver
 {
-    static readonly int[] MODES = { 9600, 19200 };
+    static readonly int[] BaudRates = { 9600, 19200 };
 
     readonly SemaphoreSlim semaph = new(1);
 
@@ -24,52 +24,69 @@ public class ESCPOSSerialPrintDriver : Driver
             Parity = Parity.None,
             DataBits = 8,
             StopBits = StopBits.One,
-            ReadTimeout = 200,
-            WriteTimeout = 200,
+            ReadTimeout = Period,
+            WriteTimeout = Period,
         };
     }
 
-    void ShiftMode()
-    {
-        cur = (cur + 1) % MODES.Length;
-    }
+    public override bool IsBound => port.IsOpen && bound;
 
-    public override void Rebind()
+    public override void Bind()
     {
-        ShiftMode();
-        port.BaudRate = MODES[cur];
+        // try to clear current states
+        try
+        {
+            bound = false;
 
+            if (port.IsOpen)
+            {
+                port.Close();
+            }
+        }
+        catch (Exception e)
+        {
+        }
+
+        // try each of the port names and baudrates
+        //
         var names = SerialPort.GetPortNames();
         foreach (var name in names)
         {
-            semaph.Wait();
-            try
+            foreach (var rate in BaudRates)
             {
-                port.PortName = name;
-                port.Open();
+                semaph.Wait();
+                try
+                {
+                    port.PortName = name;
+                    port.BaudRate = rate;
+                    port.Open();
 
-                // close COM port if inaccessible
-                if (!TryGetStatus(out var v, Period))
-                {
+                    // check the status
+                    if (TryGetInput(out _, Period))
+                    {
+                        bound = true;
+                        return;
+                    }
+
                     port.Close();
                 }
-            }
-            catch (UnauthorizedAccessException e) // used by other process
-            {
-            }
-            catch (InvalidOperationException e) // port is open
-            {
-            }
-            catch (Exception e)
-            {
-                if (port.IsOpen)
+                catch (UnauthorizedAccessException e) // used by other process
                 {
-                    port.Close();
                 }
-            }
-            finally
-            {
-                semaph.Release();
+                catch (InvalidOperationException e) // port is open
+                {
+                }
+                catch (Exception e)
+                {
+                    if (port.IsOpen)
+                    {
+                        port.Close();
+                    }
+                }
+                finally
+                {
+                    semaph.Release();
+                }
             }
         }
     }
@@ -82,7 +99,7 @@ public class ESCPOSSerialPrintDriver : Driver
 
     static readonly byte[] buf = new byte[128];
 
-    public bool TryGetStatus(out byte result, int milliseconds)
+    public override bool TryGetInput(out (decimal a, decimal b) result, int milliseconds)
     {
         result = default;
 
@@ -101,25 +118,25 @@ public class ESCPOSSerialPrintDriver : Driver
             var num = port.Read(buf, 0, 8);
             if (num <= 0)
             {
-                status = STU_ERR;
+                bound = false;
                 return false;
             }
 
-            result = buf[0];
-            if ((result & 0x08) == 0x08) // offline
+            byte a = buf[0];
+            if ((a & 0x08) == 0x08) // offline
             {
-                status = STU_VOID;
+                bound = false;
                 return false;
             }
             else
             {
-                status = STU_READY;
+                result.a = 0;
+                return true;
             }
-            return true;
         }
         catch (Exception e)
         {
-            status = STU_ERR;
+            bound = false;
             return false;
         }
         finally

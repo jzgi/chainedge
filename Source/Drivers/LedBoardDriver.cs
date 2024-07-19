@@ -11,9 +11,10 @@ namespace ChainEdge.Drivers
         {
         }
 
-        public override void Rebind()
+        public override void Bind()
         {
         }
+
         public override string Label => "微屏";
 
         public void show(string uri)

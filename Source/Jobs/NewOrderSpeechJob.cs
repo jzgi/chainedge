@@ -4,11 +4,11 @@ namespace ChainEdge.Jobs;
 
 public class NewOrderSpeechJob : Job
 {
-    public override void OnInitialize()
+    public override void OnInit()
     {
     }
 
-    public override void Perform()
+    public override void Run()
     {
         if (Driver is SpeechDriver drv)
         {
