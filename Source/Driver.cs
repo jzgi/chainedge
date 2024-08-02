@@ -147,7 +147,10 @@ public abstract class Driver : DockPanel, IKeyable<string>
 
                     Dispatcher.Invoke(() =>
                     {
-                        TabItem.IsEnabled = IsBound;
+                        if (TabItem != null)
+                        {
+                            TabItem.IsEnabled = IsBound;
+                        }
                     });
                 }
 
@@ -168,6 +171,9 @@ public abstract class Driver : DockPanel, IKeyable<string>
                     // adjust last
                     last = ret;
                 }
+
+                // a period of suspending
+                Thread.Sleep(Period);
 
                 // try to take & run a job
                 if (coll.TryTake(out var job, Period))

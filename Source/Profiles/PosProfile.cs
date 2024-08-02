@@ -1,6 +1,7 @@
 ﻿using System;
 using ChainEdge.Drivers;
 using ChainEdge.Jobs;
+using ChainEdge.Source.Drivers;
 using ChainFX;
 
 namespace ChainEdge.Profiles;
@@ -9,12 +10,12 @@ public class PosProfile : Profile
 {
     public PosProfile(string name) : base(name)
     {
+        CreateDriver<VideoCallDriver>("VCALL");
+
         CreateDriver<ESCPOSSerialPrintDriver>("RECEIPT"); // built-in / external external printer
 
         CreateDriver<CASSerialScaleDriver>("SCALE");
-        
-        CreateDriver<BarcodeScannerDriver>("BARCODE");
-        
+
         CreateDriver<SpeechDriver>("SPEECH");
     }
 

@@ -91,7 +91,7 @@ public class ESCPOSSerialPrintDriver : Driver
         }
     }
 
-    public override string Label => "票据打印";
+    public override string Label => "打印";
 
     static readonly byte[] DLE_EOT_1 = { 0x10, 0x04, 1 };
 

@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using static ChainEdge.EdgeApplication;
 
 namespace ChainEdge;
 
@@ -9,7 +11,8 @@ public class DriverTabControl : TabControl
 {
     internal void LoadTabs()
     {
-        var map = EdgeApplication.CurrentProfile.Drivers;
+        var map = CurrentProfile.Drivers;
+
 
         for (int i = 0; i < map.Count; i++)
         {
@@ -18,13 +21,19 @@ public class DriverTabControl : TabControl
             // tabs.Items.Add(drv.Label);
             var tabitem = new TabItem()
             {
-                Header = drv.Label,
-
+                Header = new Label
+                {
+                    Content = drv.Label,
+                    Height = 38,
+                    VerticalAlignment = VerticalAlignment.Center,
+                },
+                IsEnabled = drv.IsBound,
                 Style = FocusVisualStyle,
                 Content = drv
             };
-            Items.Add(tabitem);
+
             drv.TabItem = tabitem;
+            Items.Add(tabitem);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Hardcodet.Wpf.TaskbarNotification;
 
@@ -14,13 +15,36 @@ public class TaskbarIconUtility
         var tbi = new TaskbarIcon()
         {
             Icon = new Icon("./static/favicon.ico"),
-            ToolTipText = EdgeApplication.Name
+            ToolTipText = EdgeApplication.Name,
+            ContextMenu = new ContextMenu
+            {
+                Items = { new MenuItem
+                {
+                    Header = "切换用户"
+                }, new MenuItem { Header = "关闭" }, }
+            },
         };
-        tbi.DoubleClickCommand = new ToggleCommand();
+        tbi.DoubleClickCommand = new SetVisibleCommand();
     }
 }
 
-internal class ToggleCommand : ICommand
+internal class SetVisibleCommand : ICommand
+{
+    public bool CanExecute(object parameter)
+    {
+        return true;
+    }
+
+    public void Execute(object parameter)
+    {
+        EdgeApplication.Win.Visibility = Visibility.Visible;
+        EdgeApplication.Win.Activate();
+    }
+
+    public event EventHandler CanExecuteChanged;
+}
+
+internal class SwitchSignInCommand : ICommand
 {
     public bool CanExecute(object parameter)
     {

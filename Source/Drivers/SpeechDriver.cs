@@ -21,7 +21,7 @@ public class SpeechDriver : Driver
     {
     }
 
-    public override string Label => "语音";
+    public override string Label => "播报";
 
     public void Speak(string v)
     {
