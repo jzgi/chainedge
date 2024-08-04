@@ -20,7 +20,7 @@ public class WorkstnProfile : Profile
     {
     }
 
-    public override void Downward(IGateway from, JObj dat)
+    public override void Downward(IPipe from, JObj dat)
     {
     }
 }

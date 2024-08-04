@@ -13,13 +13,13 @@ public class OrderPrintJob : Job
     {
         var dat = Data;
 
-        var ctx = EdgeApplication.Win.ForeTitle;
+        var ctx = EdgeApp.Win.ForeTitle;
 
         if (Driver is ESCPOSSerialPrintDriver drv)
         {
             drv.INIT();
 
-            drv.JUSTIFY(1).CHARSIZE(0x00).TT(EdgeApplication.Name + " " + ctx).LF().LF();
+            drv.JUSTIFY(1).CHARSIZE(0x00).TT(EdgeApp.Name + " " + ctx).LF().LF();
 
             string name = dat["name"];
             string addr = dat["addr"];

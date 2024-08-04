@@ -18,7 +18,7 @@ public class KioskProfile : Profile
     {
     }
 
-    public override void Downward(IGateway from, JObj dat)
+    public override void Downward(IPipe from, JObj dat)
     {
         throw new System.NotImplementedException();
     }

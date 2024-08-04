@@ -15,7 +15,7 @@ public class TaskbarIconUtility
         var tbi = new TaskbarIcon()
         {
             Icon = new Icon("./static/favicon.ico"),
-            ToolTipText = EdgeApplication.Name,
+            ToolTipText = EdgeApp.Name,
             ContextMenu = new ContextMenu
             {
                 Items = { new MenuItem
@@ -37,8 +37,8 @@ internal class SetVisibleCommand : ICommand
 
     public void Execute(object parameter)
     {
-        EdgeApplication.Win.Visibility = Visibility.Visible;
-        EdgeApplication.Win.Activate();
+        EdgeApp.Win.Visibility = Visibility.Visible;
+        EdgeApp.Win.Activate();
     }
 
     public event EventHandler CanExecuteChanged;
@@ -53,8 +53,8 @@ internal class SwitchSignInCommand : ICommand
 
     public void Execute(object parameter)
     {
-        EdgeApplication.Win.Visibility = Visibility.Visible;
-        EdgeApplication.Win.Activate();
+        EdgeApp.Win.Visibility = Visibility.Visible;
+        EdgeApp.Win.Activate();
     }
 
     public event EventHandler CanExecuteChanged;

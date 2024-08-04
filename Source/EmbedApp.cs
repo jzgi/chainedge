@@ -1,12 +1,11 @@
-﻿using System.Drawing;
-using ChainFX;
+﻿using ChainFX;
 
 namespace ChainEdge;
 
 /// <summary>
 /// The embedded web proxy particularly for LAN clients.
 /// </summary>
-public class EmbedProxy : Application
+public class EmbedApp : Application
 {
     public static void Initialize()
     {

@@ -14,23 +14,23 @@ namespace ChainEdge;
 /// <summary>
 /// The main WPF application that hosts all relevant resources.
 /// </summary>
-public class EdgeApplication : Application
+public class EdgeApp : Application
 {
     // use the embedded logger
-    internal static FileLogger Logger => EmbedProxy.Logger;
+    internal static FileLogger Logger => EmbedApp.Logger;
 
     // use the embedded configure
-    internal static JObj Config => EmbedProxy.Config;
+    internal static JObj Config => EmbedApp.Config;
 
     // use the embedded configure
-    public static string Name => EmbedProxy.Nodal.name;
+    public static string Name => EmbedApp.Nodal.name;
 
-    public static string Tip => EmbedProxy.Nodal.tip;
+    public static string Tip => EmbedApp.Nodal.tip;
 
     internal static readonly EdgeWindow Win;
 
     // connector to the cloud
-    internal static readonly EdgeConnector Connector;
+    internal static readonly EdgeConnect Connect;
 
     internal static readonly Profile CurrentProfile;
 
@@ -38,10 +38,10 @@ public class EdgeApplication : Application
 
 
     // the main application instance
-    static readonly EdgeApplication App;
+    static readonly EdgeApp App;
 
 
-    static EdgeApplication()
+    static EdgeApp()
     {
         Win = new()
         {
@@ -64,7 +64,7 @@ public class EdgeApplication : Application
             Logger.LogError("missing 'url' in application.json");
             return;
         }
-        Connector = new EdgeConnector(url)
+        Connect = new EdgeConnect(url)
         {
         };
 
@@ -87,9 +87,9 @@ public class EdgeApplication : Application
         //
         if (CurrentProfile is IProxiable)
         {
-            EmbedProxy.Initialize();
+            EmbedApp.Initialize();
 
-            EmbedProxy.StartAsync(waiton: false);
+            EmbedApp.StartAsync(waiton: false);
         }
 
 

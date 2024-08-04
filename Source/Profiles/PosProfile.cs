@@ -16,6 +16,10 @@ public class PosProfile : Profile
 
         CreateDriver<CASSerialScaleDriver>("SCALE");
 
+        CreateDriver<PlayDriver>("PLAY");
+        
+        CreateDriver<MicroLedDriver>("MLED");
+
         CreateDriver<SpeechDriver>("SPEECH");
     }
 
@@ -23,17 +27,17 @@ public class PosProfile : Profile
     {
         if (from.Key == "SCALE")
         {
-            EdgeApplication.Win.PostData(dat);
+            EdgeApp.Win.PostData(dat);
         }
     }
 
     DateTime last;
 
-    public override void Downward(IGateway from, JObj dat)
+    public override void Downward(IPipe from, JObj dat)
     {
         DateTime created = dat[nameof(created)];
 
-        if (from is EdgeConnector)
+        if (from is EdgeConnect)
         {
             var drv = GetDriver<SpeechDriver>();
             drv?.AddJob<NewOrderSpeechJob>(dat);

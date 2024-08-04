@@ -22,7 +22,10 @@ public class VideoCallDriver : Driver
 
     protected internal override async void OnCreate(object state)
     {
-        _picBox = new Image(){Width = 160};
+        return;
+
+
+        _picBox = new Image() { Width = 160 };
         _picBox.Source = new BitmapImage(new Uri("./static/favicon.ico", UriKind.Relative));
         Children.Add(_picBox);
 
@@ -120,7 +123,7 @@ public class VideoCallDriver : Driver
         bound = true;
     }
 
-    public override string Label => "视频通话";
+    public override string Label => "视聊";
 
     public override void Bind()
     {

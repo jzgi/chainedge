@@ -2,7 +2,7 @@
 
 namespace ChainEdge.Drivers
 {
-    public class LedBoardDriver : Driver
+    public class MicroLedDriver : Driver
     {
         MediaPlayWindow sidewin;
 

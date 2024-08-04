@@ -78,7 +78,7 @@ public abstract class Profile : IKeyable<string>
 
     public abstract void Upward(Driver from, JObj dat);
 
-    public abstract void Downward(IGateway from, JObj dat);
+    public abstract void Downward(IPipe from, JObj dat);
 
     public string Key => name;
 }

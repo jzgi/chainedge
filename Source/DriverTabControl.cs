@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using static ChainEdge.EdgeApplication;
+using static ChainEdge.EdgeApp;
 
 namespace ChainEdge;
 

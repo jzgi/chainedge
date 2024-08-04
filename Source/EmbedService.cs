@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ChainEdge;
 
-public class EmbedService : WebService, IGateway
+public class EmbedService : WebService, IPipe
 {
     #region IGateway
 
@@ -40,7 +40,7 @@ public class EmbedService : WebService, IGateway
                 if (!Service.TryGiveFromCache(wc))
                 {
                     // get remote
-                    var (status, cnt) = await EdgeApplication.Connector.GetRawAsync(uri);
+                    var (status, cnt) = await EdgeApp.Connect.GetRawAsync(uri);
 
                     wc.Give(status, cnt);
 
@@ -50,7 +50,7 @@ public class EmbedService : WebService, IGateway
             else // POST
             {
                 var uri = wc.Uri;
-                await EdgeApplication.Connector.GetRawAsync(uri);
+                await EdgeApp.Connect.GetRawAsync(uri);
             }
         }
         finally

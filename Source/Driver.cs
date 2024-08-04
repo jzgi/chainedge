@@ -165,7 +165,7 @@ public abstract class Driver : DockPanel, IKeyable<string>
                             { nameof(ret.a), ret.a },
                             { nameof(ret.b), ret.b },
                         };
-                        EdgeApplication.CurrentProfile.Upward(this, jo);
+                        EdgeApp.CurrentProfile.Upward(this, jo);
                     }
 
                     // adjust last

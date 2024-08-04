@@ -16,7 +16,7 @@ namespace ChainEdge;
 /// <summary>
 /// The main window that hosts WebView2.
 /// </summary>
-public class EdgeWindow : Window, IGateway
+public class EdgeWindow : Window, IPipe
 {
     readonly WebView2 webvw;
 
@@ -70,7 +70,7 @@ public class EdgeWindow : Window, IGateway
         setgs.AreDefaultContextMenusEnabled = false;
         setgs.IsWebMessageEnabled = true;
 
-        string url = EdgeApplication.Config[nameof(url)];
+        string url = EdgeApp.Config[nameof(url)];
         webvw.CoreWebView2.Navigate(url);
 
         // suppress new window being opened
@@ -93,14 +93,14 @@ public class EdgeWindow : Window, IGateway
             {
                 // jobj or jarr
                 var jo = (JObj)new JsonParser(str).Parse();
-                EdgeApplication.CurrentProfile.Downward(this, jo);
+                EdgeApp.CurrentProfile.Downward(this, jo);
             }
             catch (Exception e)
             {
             }
         };
 
-        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApplication.Wrap);
+        webvw.CoreWebView2.AddHostObjectToScript("wrap", EdgeApp.Wrap);
 
         tabctl.BorderThickness = new Thickness(0);
         // load tabs
